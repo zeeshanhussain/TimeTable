@@ -1,6 +1,8 @@
 package com.nealgosalia.timetable;
 
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -9,10 +11,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +26,7 @@ public class SubjectsActivity extends AppCompatActivity {
     private List<Subject> subjectsList = new ArrayList<>();
     private RecyclerView listSubjects;
     private SubjectsAdapter mSubjectsAdapter;
+    private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,24 @@ public class SubjectsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         listSubjects = (RecyclerView) findViewById(R.id.listSubjects);
+        database = openOrCreateDatabase("Subjects",MODE_PRIVATE,null);
+        database.execSQL("CREATE TABLE IF NOT EXISTS Subjects(Subject VARCHAR);");
+
+        Cursor cursor = database.rawQuery("SELECT * FROM Subjects",null);
+        try {
+            subjectsList.clear();
+            while (cursor.moveToNext()) {
+                String tempSubject=cursor.getString(0);
+                Subject subject=new Subject();
+                subject.setSubjectName(tempSubject);
+                subjectsList.add(subject);
+            }
+        } catch (Exception e){
+            Toast.makeText(SubjectsActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+        finally{
+            cursor.close();
+        }
 
         mSubjectsAdapter = new SubjectsAdapter(subjectsList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -64,7 +85,9 @@ public class SubjectsActivity extends AppCompatActivity {
         dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Subject subject=new Subject();
-                subject.setSubjectName(newSubjectName.getText().toString().trim());
+                String tempSubject=newSubjectName.getText().toString().trim();
+                subject.setSubjectName(tempSubject);
+                database.execSQL("INSERT INTO Subjects VALUES('"+tempSubject+"');");
                 subjectsList.add(subject);
                 Collections.sort(subjectsList,Subject.Comparators.NAME);
                 mSubjectsAdapter.notifyDataSetChanged();
