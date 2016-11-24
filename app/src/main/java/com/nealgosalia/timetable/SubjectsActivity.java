@@ -40,7 +40,7 @@ public class SubjectsActivity extends AppCompatActivity {
         database = openOrCreateDatabase("Subjects",MODE_PRIVATE,null);
         database.execSQL("CREATE TABLE IF NOT EXISTS Subjects(Subject VARCHAR);");
 
-        Cursor cursor = database.rawQuery("SELECT * FROM Subjects",null);
+        Cursor cursor = database.rawQuery("SELECT * FROM Subjects ORDER BY Subject",null);
         try {
             subjectsList.clear();
             while (cursor.moveToNext()) {
