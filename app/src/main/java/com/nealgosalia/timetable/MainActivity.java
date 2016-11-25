@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.nealgosalia.timetable.activities.SubjectsActivity;
+import com.nealgosalia.timetable.activities.TimetableActivity;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnSubjects;
+    private Button btnSubjects,btnTimetable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,SubjectsActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnTimetable = (Button) findViewById(R.id.btnTimetable);
+        btnTimetable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,TimetableActivity.class);
                 startActivity(intent);
             }
         });

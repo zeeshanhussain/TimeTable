@@ -1,4 +1,4 @@
-package com.nealgosalia.timetable;
+package com.nealgosalia.timetable.activities;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -15,6 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.nealgosalia.timetable.utils.DividerItemDecoration;
+import com.nealgosalia.timetable.R;
+import com.nealgosalia.timetable.utils.Subject;
+import com.nealgosalia.timetable.adapters.SubjectsAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.nealgosalia.timetable;
+package com.nealgosalia.timetable.utils;
 
 import java.util.Comparator;
 

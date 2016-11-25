@@ -1,4 +1,4 @@
-package com.nealgosalia.timetable;
+package com.nealgosalia.timetable.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
