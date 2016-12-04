@@ -14,6 +14,7 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
+        getSupportActionBar().setElevation(0);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(),TimetableActivity.this));
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);

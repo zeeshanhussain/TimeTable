@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.fragments.FridayFragment;
 import com.nealgosalia.timetable.fragments.MondayFragment;
+import com.nealgosalia.timetable.fragments.SaturdayFragment;
 import com.nealgosalia.timetable.fragments.ThursdayFragment;
 import com.nealgosalia.timetable.fragments.TuesdayFragment;
 import com.nealgosalia.timetable.fragments.WednesdayFragment;
@@ -31,14 +32,17 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             return new WednesdayFragment();
         } else if (position == 3) {
             return  new ThursdayFragment();
-        } else {
+        } else if (position == 4){
             return  new FridayFragment();
+        }
+        else{
+            return new SaturdayFragment();
         }
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -49,10 +53,12 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             return mContext.getString(R.string.tuesday);
         } else if (position == 2) {
             return mContext.getString(R.string.wednesday);
-        } else if (position == 3){
+        } else if (position == 3) {
             return mContext.getString(R.string.thursday);
+        } else if (position == 4){
+            return mContext.getString(R.string.friday);
         } else {
-            return  mContext.getString(R.string.friday);
+            return  mContext.getString(R.string.saturday);
         }
     }
 

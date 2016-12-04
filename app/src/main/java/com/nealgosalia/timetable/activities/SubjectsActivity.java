@@ -37,6 +37,7 @@ public class SubjectsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
+        //getSupportActionBar().setElevation(0);
         listSubjects=(RecyclerView)findViewById(R.id.listSubjects);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
