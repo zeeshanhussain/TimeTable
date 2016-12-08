@@ -41,7 +41,6 @@ public class SubjectsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listSubjects = (RecyclerView) findViewById(R.id.listSubjects);
         database = openOrCreateDatabase("Subjects",MODE_PRIVATE,null);
         database.execSQL("CREATE TABLE IF NOT EXISTS Subjects(Subject VARCHAR);");
 
