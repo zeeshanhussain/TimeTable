@@ -168,9 +168,9 @@ public class TimetableActivity extends AppCompatActivity {
                         databaseEntry.execSQL("CREATE TABLE IF NOT EXISTS Entry(day INT, subject VARCHAR, startHour INT, startMinute INT, endHour INT, endMinute INT);");
                         databaseEntry.execSQL("INSERT INTO Entry VALUES("+tabLayout.getSelectedTabPosition()+",'"+subjectsList.get(spinnerSubjects.getSelectedItemPosition()).toString()+"',"+startHour+","+startMinute+","+endHour+","+endMinute+");");
                         dialog.dismiss();
-                    }
-                    else{
+                    } else{
                         Toast.makeText(TimetableActivity.this,"End time should be greater than start time!",Toast.LENGTH_LONG);
+                        count--;
                     }
 
                 }
