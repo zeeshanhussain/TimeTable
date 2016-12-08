@@ -169,7 +169,7 @@ public class TimetableActivity extends AppCompatActivity {
                         databaseEntry.execSQL("INSERT INTO Entry VALUES("+tabLayout.getSelectedTabPosition()+",'"+subjectsList.get(spinnerSubjects.getSelectedItemPosition()).toString()+"',"+startHour+","+startMinute+","+endHour+","+endMinute+");");
                         dialog.dismiss();
                     } else{
-                        Toast.makeText(TimetableActivity.this,"End time should be greater than start time!",Toast.LENGTH_LONG);
+                        Toast.makeText(TimetableActivity.this,"End time should be greater than start time!",Toast.LENGTH_LONG).show();
                         count--;
                     }
 
