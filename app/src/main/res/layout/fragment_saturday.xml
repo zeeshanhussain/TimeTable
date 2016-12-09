@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listSaturday"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:scrollbars="vertical"
+        android:layout_marginTop="48dp"/>
 
 </FrameLayout>

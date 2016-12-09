@@ -22,8 +22,16 @@ import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SimpleFragmentPagerAdapter;
+import com.nealgosalia.timetable.fragments.FridayFragment;
+import com.nealgosalia.timetable.fragments.MondayFragment;
+import com.nealgosalia.timetable.fragments.SaturdayFragment;
+import com.nealgosalia.timetable.fragments.ThursdayFragment;
+import com.nealgosalia.timetable.fragments.TuesdayFragment;
+import com.nealgosalia.timetable.fragments.WednesdayFragment;
+import com.nealgosalia.timetable.utils.Lecture;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TimetableActivity extends AppCompatActivity {
@@ -38,6 +46,7 @@ public class TimetableActivity extends AppCompatActivity {
     private TimePicker startTime;
     private TimePicker endTime;
     private int count;
+    private int breakFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +83,15 @@ public class TimetableActivity extends AppCompatActivity {
         database.execSQL("CREATE TABLE IF NOT EXISTS Subjects(Subject VARCHAR);");
         Cursor cursor = database.rawQuery("SELECT * FROM Subjects ORDER BY Subject",null);
         try {
+            breakFlag=0;
             subjectsList.clear();
             subjectsList.add("Select one");
             while (cursor.moveToNext()) {
                 String tempSubject=cursor.getString(0);
+                if(tempSubject.equals("Break")&&breakFlag==0){
+                    subjectsList.add("Break");
+                    breakFlag++;
+                }
                 subjectsList.add(tempSubject);
             }
         } catch (Exception e){
