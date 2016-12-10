@@ -1,7 +1,5 @@
 package com.nealgosalia.timetable.activities;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +22,8 @@ import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SimpleFragmentPagerAdapter;
 import com.nealgosalia.timetable.database.FragmentDatabase;
 import com.nealgosalia.timetable.database.FragmentDetails;
+import com.nealgosalia.timetable.database.SubjectDatabase;
+import com.nealgosalia.timetable.database.SubjectDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,21 +33,22 @@ public class TimetableActivity extends AppCompatActivity {
     private Button btnCancel, btnNext;
     private List<String> subjectsList = new ArrayList<>();
     private Spinner spinnerSubjects;
-    private SQLiteDatabase database;
     private TabLayout tabLayout;
     private TextView textDialog;
     private TimePicker startTime;
     private TimePicker endTime;
     private int count;
     private int breakFlag;
-    private FragmentDatabase fd;
+    private FragmentDatabase fragmentDatabase;
+    private SubjectDatabase subjectDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
         getSupportActionBar().setElevation(0);
-        fd = new FragmentDatabase(this);
+        fragmentDatabase = new FragmentDatabase(this);
+        subjectDatabase = new SubjectDatabase(this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), TimetableActivity.this));
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -73,27 +74,7 @@ public class TimetableActivity extends AppCompatActivity {
         btnNext = (Button) dialogView.findViewById(R.id.btnNext);
         textDialog = (TextView) dialogView.findViewById(R.id.textDialog);
         spinnerSubjects = (Spinner) dialogView.findViewById(R.id.spinnerSubjects);
-
-        database = openOrCreateDatabase("Subjects", MODE_PRIVATE, null);
-        database.execSQL("CREATE TABLE IF NOT EXISTS Subjects(Subject VARCHAR);");
-        Cursor cursor = database.rawQuery("SELECT * FROM Subjects ORDER BY Subject", null);
-        try {
-            breakFlag = 0;
-            subjectsList.clear();
-            subjectsList.add("Select one");
-            while (cursor.moveToNext()) {
-                String tempSubject = cursor.getString(0);
-                if (tempSubject.equals("Break") && breakFlag == 0) {
-                    subjectsList.add("Break");
-                    breakFlag++;
-                }
-                subjectsList.add(tempSubject);
-            }
-        } catch (Exception e) {
-            Toast.makeText(TimetableActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        } finally {
-            cursor.close();
-        }
+        setSubjectList();
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subjectsList) {
             @Override
             public boolean isEnabled(int position) {
@@ -101,8 +82,7 @@ public class TimetableActivity extends AppCompatActivity {
             }
 
             @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
                 if (position == 0) {
@@ -161,7 +141,7 @@ public class TimetableActivity extends AppCompatActivity {
                         endMinute = endTime.getMinute();
                     }
                     if ((endHour > startHour) || ((endHour == startHour) && (endMinute > startMinute))) {
-                        fd.add(new FragmentDetails(tabLayout.getSelectedTabPosition(), subjectsList.get(spinnerSubjects.getSelectedItemPosition()).toString(),
+                        fragmentDatabase.add(new FragmentDetails(tabLayout.getSelectedTabPosition(), subjectsList.get(spinnerSubjects.getSelectedItemPosition()).toString(),
                                 startHour, startMinute, endHour, endMinute));
                         dialog.dismiss();
                     } else {
@@ -172,5 +152,18 @@ public class TimetableActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+
+    private void setSubjectList() {
+        breakFlag = 0;
+        subjectsList.clear();
+        subjectsList.add("Select one");
+        for (SubjectDetails subjectDetails : subjectDatabase.getSubjectDetail()) {
+            if (subjectDetails.getSubject().contains("Break") && breakFlag == 0) {
+                subjectsList.add("Break");
+                breakFlag++;
+            }
+            subjectsList.add(subjectDetails.getSubject());
+        }
     }
 }
