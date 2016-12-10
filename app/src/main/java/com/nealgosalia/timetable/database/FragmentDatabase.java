@@ -64,37 +64,10 @@ public class FragmentDatabase extends SQLiteOpenHelper {
         try {
             lecturesList.clear();
             while (cursor.moveToNext()) {
-                String subjectName = cursor.getString(1);
-                int startH = cursor.getInt(2);
-                int startM = cursor.getInt(3);
-                int endH = cursor.getInt(4);
-                int endM = cursor.getInt(5);
-                String startHour, startMinute, endHour, endMinute;
-
-                if (startH < 10) {
-                    startHour = "0" + startH;
-                } else {
-                    startHour = "" + startH;
-                }
-                if (startM < 10) {
-                    startMinute = "0" + startM;
-                } else {
-                    startMinute = "" + startM;
-                }
-                if (endH < 10) {
-                    endHour = "0" + endH;
-                } else {
-                    endHour = "" + endH;
-                }
-                if (endM < 10) {
-                    endMinute = "0" + endM;
-                } else {
-                    endMinute = "" + endM;
-                }
                 Lecture lecture = new Lecture();
-                lecture.setSubjectName(subjectName);
-                lecture.setStartTime(startHour + ":" + startMinute);
-                lecture.setEndTime(endHour + ":" + endMinute);
+                lecture.setSubjectName(cursor.getString(1));
+                lecture.setStartTime(String.format("%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
+                lecture.setEndTime(String.format("%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
                 lecturesList.add(lecture);
             }
         } catch (Exception e) {
