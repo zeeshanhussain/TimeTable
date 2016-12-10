@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SimpleFragmentPagerAdapter;
+import com.nealgosalia.timetable.database.FragmentDatabase;
+import com.nealgosalia.timetable.database.FragmentDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +34,20 @@ public class TimetableActivity extends AppCompatActivity {
     private List<String> subjectsList = new ArrayList<>();
     private Spinner spinnerSubjects;
     private SQLiteDatabase database;
-    private SQLiteDatabase databaseEntry;
     private TabLayout tabLayout;
     private TextView textDialog;
     private TimePicker startTime;
     private TimePicker endTime;
     private int count;
     private int breakFlag;
+    private FragmentDatabase fd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
         getSupportActionBar().setElevation(0);
+        fd = new FragmentDatabase(this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), TimetableActivity.this));
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -158,9 +161,8 @@ public class TimetableActivity extends AppCompatActivity {
                         endMinute = endTime.getMinute();
                     }
                     if ((endHour > startHour) || ((endHour == startHour) && (endMinute > startMinute))) {
-                        databaseEntry = openOrCreateDatabase("Entries", MODE_PRIVATE, null);
-                        databaseEntry.execSQL("CREATE TABLE IF NOT EXISTS Entry(day INT, subject VARCHAR, startHour INT, startMinute INT, endHour INT, endMinute INT);");
-                        databaseEntry.execSQL("INSERT INTO Entry VALUES(" + tabLayout.getSelectedTabPosition() + ",'" + subjectsList.get(spinnerSubjects.getSelectedItemPosition()).toString() + "'," + startHour + "," + startMinute + "," + endHour + "," + endMinute + ");");
+                        fd.add(new FragmentDetails(tabLayout.getSelectedTabPosition(), subjectsList.get(spinnerSubjects.getSelectedItemPosition()).toString(),
+                                startHour, startMinute, endHour, endMinute));
                         dialog.dismiss();
                     } else {
                         Toast.makeText(TimetableActivity.this, "End time should be greater than start time!", Toast.LENGTH_LONG).show();

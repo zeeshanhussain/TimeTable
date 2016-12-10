@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.LecturesAdapter;
 import com.nealgosalia.timetable.utils.DividerItemDecoration;
-import com.nealgosalia.timetable.utils.FragmentDatabase;
+import com.nealgosalia.timetable.database.FragmentDatabase;
 import com.nealgosalia.timetable.utils.Lecture;
 
 import java.util.ArrayList;
@@ -28,10 +28,9 @@ public class ThursdayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_thursday, container, false);
-        FragmentDatabase fragmentDatabase = new FragmentDatabase();
-        lecturesList = new ArrayList<>(fragmentDatabase.getLectureList(3, getActivity()));
+        FragmentDatabase db = new FragmentDatabase(getActivity());
+        lecturesList = new ArrayList<>(db.getLectureList(3));
         recyclerLectures = (RecyclerView) view.findViewById(R.id.listThursday);
         mLectureAdapter = new LecturesAdapter(lecturesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
