@@ -21,7 +21,9 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".activities.PreferencesActivity" />
-        <activity android:name=".activities.SplashActivity">
+        <activity
+            android:name=".activities.SplashActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
