@@ -26,47 +26,23 @@ public class FragmentDetails {
         return day;
     }
 
-    public void setDay(int day) {
-        this.day = day;
-    }
-
     public String getSubject() {
         return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public int getStartHour() {
         return startHour;
     }
 
-    public void setStartHour(int startHour) {
-        this.startHour = startHour;
-    }
-
     public int getEndHour() {
         return endHour;
-    }
-
-    public void setEndHour(int endHour) {
-        this.endHour = endHour;
     }
 
     public int getStartMinute() {
         return startMinute;
     }
 
-    public void setStartMinute(int startMinute) {
-        this.startMinute = startMinute;
-    }
-
     public int getEndMinute() {
         return endMinute;
-    }
-
-    public void setEndMinute(int endMinute) {
-        this.endMinute = endMinute;
     }
 }
