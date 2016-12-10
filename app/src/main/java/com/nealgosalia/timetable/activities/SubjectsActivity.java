@@ -16,15 +16,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.nealgosalia.timetable.utils.DividerItemDecoration;
 import com.nealgosalia.timetable.R;
-import com.nealgosalia.timetable.utils.Subject;
 import com.nealgosalia.timetable.adapters.SubjectsAdapter;
+import com.nealgosalia.timetable.utils.DividerItemDecoration;
+import com.nealgosalia.timetable.utils.Subject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 public class SubjectsActivity extends AppCompatActivity {
 
@@ -37,26 +36,25 @@ public class SubjectsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
-        listSubjects=(RecyclerView)findViewById(R.id.listSubjects);
+        listSubjects = (RecyclerView) findViewById(R.id.listSubjects);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        database = openOrCreateDatabase("Subjects",MODE_PRIVATE,null);
+        database = openOrCreateDatabase("Subjects", MODE_PRIVATE, null);
         database.execSQL("CREATE TABLE IF NOT EXISTS Subjects(Subject VARCHAR);");
 
-        Cursor cursor = database.rawQuery("SELECT * FROM Subjects ORDER BY Subject",null);
+        Cursor cursor = database.rawQuery("SELECT * FROM Subjects ORDER BY Subject", null);
         try {
             subjectsList.clear();
             while (cursor.moveToNext()) {
-                String tempSubject=cursor.getString(0);
-                Subject subject=new Subject();
+                String tempSubject = cursor.getString(0);
+                Subject subject = new Subject();
                 subject.setSubjectName(tempSubject);
                 subjectsList.add(subject);
             }
-        } catch (Exception e){
-            Toast.makeText(SubjectsActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-        }
-        finally{
+        } catch (Exception e) {
+            Toast.makeText(SubjectsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
             cursor.close();
         }
 
@@ -88,12 +86,12 @@ public class SubjectsActivity extends AppCompatActivity {
         dialogBuilder.setMessage("Enter subject name");
         dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Subject subject=new Subject();
-                String tempSubject=newSubjectName.getText().toString().trim();
+                Subject subject = new Subject();
+                String tempSubject = newSubjectName.getText().toString().trim();
                 subject.setSubjectName(tempSubject);
-                database.execSQL("INSERT INTO Subjects VALUES('"+tempSubject+"');");
+                database.execSQL("INSERT INTO Subjects VALUES('" + tempSubject + "');");
                 subjectsList.add(subject);
-                Collections.sort(subjectsList,Subject.Comparators.NAME);
+                Collections.sort(subjectsList, Subject.Comparators.NAME);
                 mSubjectsAdapter.notifyDataSetChanged();
             }
         });

@@ -9,12 +9,6 @@ import com.nealgosalia.timetable.R;
 
 public class SplashActivity extends Activity {
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
@@ -22,16 +16,20 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    sleep(1000); }
-                catch(Exception e) {
+                    sleep(1000);
+                } catch (Exception e) {
                     e.printStackTrace();
-                }
-                finally{
-                    Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+                } finally {
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
             }
         };
         thread.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

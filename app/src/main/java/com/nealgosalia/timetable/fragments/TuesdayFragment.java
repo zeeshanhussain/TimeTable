@@ -1,9 +1,6 @@
 package com.nealgosalia.timetable.fragments;
 
-
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,35 +18,27 @@ import com.nealgosalia.timetable.utils.Lecture;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class TuesdayFragment extends Fragment {
 
     public static List<Lecture> lecturesList = new ArrayList<>();
     private RecyclerView recyclerLectures;
     public static LecturesAdapter mLectureAdapter;
-    private View v;
-
-    public TuesdayFragment() {
-        // Required empty public constructor
-    }
-
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v= inflater.inflate(R.layout.fragment_tuesday, container, false);
-        FragmentDatabase fragmentDatabase=new FragmentDatabase();
-        lecturesList=new ArrayList<>(fragmentDatabase.getLectureList(1,getActivity()));
-        recyclerLectures=(RecyclerView)v.findViewById(R.id.listTuesday);
+        view = inflater.inflate(R.layout.fragment_tuesday, container, false);
+        FragmentDatabase fragmentDatabase = new FragmentDatabase();
+        lecturesList = new ArrayList<>(fragmentDatabase.getLectureList(1, getActivity()));
+        recyclerLectures = (RecyclerView) view.findViewById(R.id.listTuesday);
         mLectureAdapter = new LecturesAdapter(lecturesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerLectures.setLayoutManager(mLayoutManager);
         recyclerLectures.setItemAnimator(new DefaultItemAnimator());
         recyclerLectures.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerLectures.setAdapter(mLectureAdapter);
-        return v;
+        return view;
     }
-
 }

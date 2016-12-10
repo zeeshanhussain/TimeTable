@@ -2,7 +2,7 @@ package com.nealgosalia.timetable.utils;
 
 import java.util.Comparator;
 
-public class Lecture implements Comparable<Lecture>{
+public class Lecture implements Comparable<Lecture> {
 
     private String subjectName;
     private String startTime;
@@ -36,7 +36,6 @@ public class Lecture implements Comparable<Lecture>{
     public int compareTo(Lecture o) {
         return Lecture.Comparators.NAME.compare(this, o);
     }
-
 
     public static class Comparators {
 

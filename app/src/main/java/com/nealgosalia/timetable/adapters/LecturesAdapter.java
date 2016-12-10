@@ -23,10 +23,8 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyView
             super(view);
             lectureName = (TextView) view.findViewById(R.id.lectureName);
             lectureTime = (TextView) view.findViewById(R.id.lectureTime);
-
         }
     }
-
 
     public LecturesAdapter(List<Lecture> lectureList) {
         this.lectureList = lectureList;
@@ -42,9 +40,9 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Lecture lecture =lectureList.get(position);
+        Lecture lecture = lectureList.get(position);
         holder.lectureName.setText(lecture.getSubjectName());
-        holder.lectureTime.setText(lecture.getStartTime()+" - "+lecture.getEndTime());
+        holder.lectureTime.setText(lecture.getStartTime() + " - " + lecture.getEndTime());
     }
 
     @Override

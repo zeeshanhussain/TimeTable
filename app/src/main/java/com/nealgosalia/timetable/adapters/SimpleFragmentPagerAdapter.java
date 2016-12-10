@@ -13,11 +13,11 @@ import com.nealgosalia.timetable.fragments.ThursdayFragment;
 import com.nealgosalia.timetable.fragments.TuesdayFragment;
 import com.nealgosalia.timetable.fragments.WednesdayFragment;
 
-
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+
     private Context mContext;
 
-    public SimpleFragmentPagerAdapter(FragmentManager fm,Context context) {
+    public SimpleFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
     }
@@ -26,16 +26,15 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0) {
             return new MondayFragment();
-        } else if (position == 1){
+        } else if (position == 1) {
             return new TuesdayFragment();
-        } else if (position == 2){
+        } else if (position == 2) {
             return new WednesdayFragment();
         } else if (position == 3) {
-            return  new ThursdayFragment();
-        } else if (position == 4){
-            return  new FridayFragment();
-        }
-        else{
+            return new ThursdayFragment();
+        } else if (position == 4) {
+            return new FridayFragment();
+        } else {
             return new SaturdayFragment();
         }
     }
@@ -55,13 +54,10 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             return mContext.getString(R.string.wednesday);
         } else if (position == 3) {
             return mContext.getString(R.string.thursday);
-        } else if (position == 4){
+        } else if (position == 4) {
             return mContext.getString(R.string.friday);
         } else {
-            return  mContext.getString(R.string.saturday);
+            return mContext.getString(R.string.saturday);
         }
     }
-
-
-
 }
