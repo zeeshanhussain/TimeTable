@@ -22,16 +22,9 @@ import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SimpleFragmentPagerAdapter;
-import com.nealgosalia.timetable.fragments.FridayFragment;
-import com.nealgosalia.timetable.fragments.MondayFragment;
-import com.nealgosalia.timetable.fragments.SaturdayFragment;
-import com.nealgosalia.timetable.fragments.ThursdayFragment;
-import com.nealgosalia.timetable.fragments.TuesdayFragment;
-import com.nealgosalia.timetable.fragments.WednesdayFragment;
-import com.nealgosalia.timetable.utils.Lecture;
+
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TimetableActivity extends AppCompatActivity {

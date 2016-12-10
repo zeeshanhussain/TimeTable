@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.utils.Lecture;
-import com.nealgosalia.timetable.utils.Subject;
 
 import java.util.List;
 
