@@ -159,11 +159,16 @@ public class TimetableActivity extends AppCompatActivity {
         subjectsList.clear();
         subjectsList.add("Select one");
         for (SubjectDetails subjectDetails : subjectDatabase.getSubjectDetail()) {
-            if (subjectDetails.getSubject().contains("Break") && breakFlag == 0) {
-                subjectsList.add("Break");
-                breakFlag++;
+            if (breakFlag == 0) {
+                if(subjectDetails.getSubject().compareTo("Break")>0) {
+                    subjectsList.add("Break");
+                    breakFlag++;
+                }
             }
             subjectsList.add(subjectDetails.getSubject());
+        }
+        if (breakFlag == 0) {
+            subjectsList.add("Break");
         }
     }
 }
