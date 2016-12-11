@@ -47,7 +47,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
 
     public ArrayList<SubjectDetails> getSubjectDetail() {
         ArrayList<SubjectDetails> allSubjects = new ArrayList<SubjectDetails>();
-        String sql = "select * from " + TABLE_DETAIL + " order by " + SUBJECT;
+        String sql = "select distinct * from " + TABLE_DETAIL + " order by " + SUBJECT;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(sql, null);
         try {
