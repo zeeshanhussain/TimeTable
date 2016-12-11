@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SubjectsAdapter;
@@ -74,11 +75,15 @@ public class SubjectsActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Subject subject = new Subject();
                 String tempSubject = newSubjectName.getText().toString().trim();
-                subject.setSubjectName(tempSubject);
-                subjectDatabase.addSubject(new SubjectDetails(tempSubject));
-                subjectsList.add(subject);
-                Collections.sort(subjectsList, Subject.Comparators.NAME);
-                mSubjectsAdapter.notifyDataSetChanged();
+                if (!tempSubject.equals("")) {
+                    subject.setSubjectName(tempSubject);
+                    subjectDatabase.addSubject(new SubjectDetails(tempSubject));
+                    subjectsList.add(subject);
+                    Collections.sort(subjectsList, Subject.Comparators.NAME);
+                    mSubjectsAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(SubjectsActivity.this, "Enter a valid Subject", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dialogBuilder.setNegativeButton("Cancel", null);
