@@ -23,7 +23,6 @@ import java.nio.channels.FileChannel;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Timetable";
-
     private Button btnSubjects, btnTimetable,importdb,exportdb;
 
     @Override
@@ -72,17 +71,20 @@ public class MainActivity extends AppCompatActivity {
                 String backupDBPath = "data/data/com.nealgosalia.timetable/databases/" + ePath;
                 File currentDB = new File(currentDBPath);
                 File backupDB = new File(backupDBPath);
+                if(currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backupDB).getChannel();
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
                     Toast.makeText(this, "Import Successfull", Toast.LENGTH_SHORT).show();
-
+                } else {
+                    Toast.makeText(this, "Backup doesn't exists", Toast.LENGTH_SHORT).show();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Import failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Import failed!", Toast.LENGTH_SHORT).show();
         }
     }
     private void exportDatabase(String mPath) {
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 String backupDBPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Timetable/" + mPath;
                 File currentDB = new File(currentDBPath);
                 File backupDB = new File(backupDBPath);
+            if(currentDB.exists()) {
                 FileChannel src = new FileInputStream(currentDB).getChannel();
                 FileChannel dst = new FileOutputStream(backupDB).getChannel();
                 dst.transferFrom(src, 0, src.size());
@@ -105,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
                 dst.close();
                 Toast.makeText(getApplicationContext(), "Backup Successful!",
                         Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Database doesn't exists go and make your timetable before exporting", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Backup Failed!", Toast.LENGTH_SHORT)
