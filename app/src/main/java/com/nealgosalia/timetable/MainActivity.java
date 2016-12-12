@@ -1,5 +1,6 @@
 package com.nealgosalia.timetable;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import com.nealgosalia.timetable.activities.PreferencesActivity;
 import com.nealgosalia.timetable.activities.SubjectsActivity;
@@ -19,7 +21,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
-
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Timetable";
@@ -49,16 +50,37 @@ public class MainActivity extends AppCompatActivity {
         importdb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                importDatabase("subject.db");
-                importDatabase("lecture.db");
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setTitle("Restore Timetable");
+                alertDialog.setMessage("Do you want to Restore Timetable?");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        importDatabase("subject.db");
+                        importDatabase("lecture.db");
+                    }
+                });
+                alertDialog.setNegativeButton("No", null);
+                alertDialog.show();
+
             }
         });
         exportdb = (Button) findViewById(R.id.exportdb);
         exportdb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exportDatabase("subject.db");
-                exportDatabase("lecture.db");
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setTitle("Backup Timetable");
+                alertDialog.setMessage("Do you want to Backup Timetable?");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        exportDatabase("subject.db");
+                        exportDatabase("lecture.db");
+                    }
+                });
+                alertDialog.setNegativeButton("No", null);
+                alertDialog.show();
             }
         });
     }
