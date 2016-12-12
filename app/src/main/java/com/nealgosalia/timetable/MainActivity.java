@@ -1,8 +1,12 @@
 package com.nealgosalia.timetable;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Timetable";
     private Button btnSubjects, btnTimetable,importdb,exportdb;
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         btnSubjects = (Button) findViewById(R.id.btnSubjects);
         btnSubjects.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,37 +56,45 @@ public class MainActivity extends AppCompatActivity {
         importdb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setTitle("Restore Timetable");
-                alertDialog.setMessage("Do you want to Restore Timetable?");
-                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        importDatabase("subject.db");
-                        importDatabase("lecture.db");
-                    }
-                });
-                alertDialog.setNegativeButton("No", null);
-                alertDialog.show();
+                if (isStoragePermissionGranted()) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                    alertDialog.setTitle("Restore Timetable");
+                    alertDialog.setMessage("Do you want to Restore Timetable?");
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            importDatabase("subject.db");
+                            importDatabase("lecture.db");
+                        }
+                    });
+                    alertDialog.setNegativeButton("No", null);
+                    alertDialog.show();
 
+                } else {
+                    Toast.makeText(MainActivity.this, "No Permissions Granted", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         exportdb = (Button) findViewById(R.id.exportdb);
         exportdb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setTitle("Backup Timetable");
-                alertDialog.setMessage("Do you want to Backup Timetable?");
-                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        exportDatabase("subject.db");
-                        exportDatabase("lecture.db");
-                    }
-                });
-                alertDialog.setNegativeButton("No", null);
-                alertDialog.show();
+                if (isStoragePermissionGranted()) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                    alertDialog.setTitle("Backup Timetable");
+                    alertDialog.setMessage("Do you want to Backup Timetable?");
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            exportDatabase("subject.db");
+                            exportDatabase("lecture.db");
+                        }
+                    });
+                    alertDialog.setNegativeButton("No", null);
+                    alertDialog.show();
+                } else {
+                    Toast.makeText(MainActivity.this, "No Permissions Granted", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -93,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 String backupDBPath = "data/data/com.nealgosalia.timetable/databases/" + ePath;
                 File currentDB = new File(currentDBPath);
                 File backupDB = new File(backupDBPath);
-                if(currentDB.exists()) {
+                if(currentDB.exists() && backupDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backupDB).getChannel();
                     dst.transferFrom(src, 0, src.size());
@@ -101,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     dst.close();
                     Toast.makeText(this, "Import Successfull", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Backup doesn't exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Database doesn't exists go and make a short timetable before importing", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {
@@ -138,6 +152,32 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Backup Failed!", Toast.LENGTH_SHORT)
                     .show();
 
+        }
+    }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG,"Permission is granted");
+            return true;
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
         }
     }
 
