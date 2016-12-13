@@ -29,13 +29,13 @@ import java.nio.channels.FileChannel;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Timetable";
-    private Button btnSubjects, btnTimetable,importdb,exportdb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        Button btnSubjects, btnTimetable,importdb,exportdb;
         btnSubjects = (Button) findViewById(R.id.btnSubjects);
         btnSubjects.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isStoragePermissionGranted()) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
                     alertDialog.setTitle("Restore Timetable");
-                    alertDialog.setMessage("Do you want to Restore Timetable?");
+                    alertDialog.setMessage("Do you want to restore the timetable?");
                     alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isStoragePermissionGranted()) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
                     alertDialog.setTitle("Backup Timetable");
-                    alertDialog.setMessage("Do you want to Backup Timetable?");
+                    alertDialog.setMessage("Do you want to Backup the timetable?");
                     alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -113,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
-                    Toast.makeText(this, "Import Successfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Import successful", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Database doesn't exists go and make a short timetable before importing", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No backup found", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             File outDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Timetable");
             if (!outDir.exists()) {
                 Log.d(TAG, "Creating directory");
-                outDir.mkdirs();
+                outDir.mkdir();
             } else {
                 Log.d(TAG, "Directory present");
             }
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Backup Successful!",
                         Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Database doesn't exists go and make your timetable before exporting", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please create a timetable before trying to export", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,19 +157,17 @@ public class MainActivity extends AppCompatActivity {
 
     public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG,"Permission is granted");
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission granted");
                 return true;
             } else {
-
-                Log.v(TAG,"Permission is revoked");
+                Log.v(TAG,"Permission denied");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
         }
         else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted");
+            Log.v(TAG,"Permission granted");
             return true;
         }
     }
