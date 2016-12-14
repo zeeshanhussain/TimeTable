@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:key="WIP"
-        android:title="WIP"
-        android:defaultValue="false"
-        android:summary="WIP"
-        />
+    <Preference
+        android:key="backup"
+        android:title="Backup"/>
+    <Preference
+        android:key="restore"
+        android:title="Restore"/>
 </PreferenceScreen>

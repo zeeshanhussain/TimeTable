@@ -19,15 +19,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Timetable" />
-    <Button
-        android:id="@+id/exportdb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Backup" />
-    <Button
-        android:id="@+id/importdb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Restore" />
 
 </LinearLayout>
