@@ -63,8 +63,35 @@ public class MainActivity extends AppCompatActivity {
                     alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            importDatabase("subject.db");
-                            importDatabase("lecture.db");
+                            String backupDBPath = "data/data/com.nealgosalia.timetable/databases/";
+                            final File subjectDB=new File(backupDBPath+"subject.db");
+                            final File lectureDB=new File(backupDBPath+"lecture.db");
+                            if(!(subjectDB.exists()||lectureDB.exists())) {
+                                if (importDatabase("subject.db") && importDatabase("lecture.db")) {
+                                    Toast.makeText(getApplicationContext(), "Restore Successful!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Backup not found!", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                AlertDialog overwriteDialog=new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle("Warning!")
+                                        .setMessage("Overwrite current timetable?")
+                                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                subjectDB.delete();
+                                                lectureDB.delete();
+                                                if(importDatabase("subject.db")&&importDatabase("lecture.db")){
+                                                    Toast.makeText(getApplicationContext(), "Restore Successful!", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "Backup not found", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        })
+                                        .setNegativeButton("No", null)
+                                        .create();
+                                overwriteDialog.show();
+                            }
                         }
                     });
                     alertDialog.setNegativeButton("No", null);
@@ -80,14 +107,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isStoragePermissionGranted()) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
                     alertDialog.setTitle("Backup Timetable");
-                    alertDialog.setMessage("Do you want to Backup the timetable?");
+                    alertDialog.setMessage("Do you want to backup the timetable?");
                     alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            exportDatabase("subject.db");
-                            exportDatabase("lecture.db");
+                            String backupDBPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Timetable/";
+                            final File subjectDB=new File(backupDBPath+"subject.db");
+                            final File lectureDB=new File(backupDBPath+"lecture.db");
+                            if(!(subjectDB.exists()||lectureDB.exists())) {
+                                if(exportDatabase("subject.db")&&exportDatabase("lecture.db")){
+                                    Toast.makeText(getApplicationContext(), "Backup Successful!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Please create a timetable before trying to export", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                AlertDialog overwriteDialog=new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle("Warning!")
+                                        .setMessage("Overwrite previous backup?")
+                                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                subjectDB.delete();
+                                                lectureDB.delete();
+                                                if(exportDatabase("subject.db")&&exportDatabase("lecture.db")){
+                                                    Toast.makeText(getApplicationContext(), "Backup Successful!", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "Please create a timetable before trying to export", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        })
+                                        .setNegativeButton("No", null)
+                                        .create();
+                                overwriteDialog.show();
+                            }
                         }
                     });
                     alertDialog.setNegativeButton("No", null);
@@ -99,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void importDatabase(String ePath) {
+    private boolean importDatabase(String ePath) {
         try {
             File sd = Environment.getExternalStorageDirectory();
             if (sd.canWrite()) {
@@ -107,23 +161,21 @@ public class MainActivity extends AppCompatActivity {
                 String backupDBPath = "data/data/com.nealgosalia.timetable/databases/" + ePath;
                 File currentDB = new File(currentDBPath);
                 File backupDB = new File(backupDBPath);
-                if(currentDB.exists() && backupDB.exists()) {
+                if(currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backupDB).getChannel();
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
-                    Toast.makeText(this, "Import successful", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "No backup found", Toast.LENGTH_SHORT).show();
+                    return true;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Import failed!", Toast.LENGTH_SHORT).show();
         }
+        return false;
     }
-    private void exportDatabase(String mPath) {
+    private boolean exportDatabase(String mPath) {
         try {
             File outDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Timetable");
             if (!outDir.exists()) {
@@ -133,26 +185,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Directory present");
             }
             String currentDBPath =  Environment.getDataDirectory() + "/data/com.nealgosalia.timetable/databases/" + mPath;
-                String backupDBPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Timetable/" + mPath;
-                File currentDB = new File(currentDBPath);
-                File backupDB = new File(backupDBPath);
+            String backupDBPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Timetable/" + mPath;
+            File currentDB = new File(currentDBPath);
+            File backupDB = new File(backupDBPath);
             if(currentDB.exists()) {
                 FileChannel src = new FileInputStream(currentDB).getChannel();
                 FileChannel dst = new FileOutputStream(backupDB).getChannel();
                 dst.transferFrom(src, 0, src.size());
                 src.close();
                 dst.close();
-                Toast.makeText(getApplicationContext(), "Backup Successful!",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Please create a timetable before trying to export", Toast.LENGTH_SHORT).show();
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Backup Failed!", Toast.LENGTH_SHORT)
-                    .show();
-
         }
+        return false;
     }
 
     public  boolean isStoragePermissionGranted() {
