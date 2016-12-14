@@ -1,6 +1,7 @@
 package com.nealgosalia.timetable.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,10 +13,11 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.nealgosalia.timetable.MainActivity;
 import com.nealgosalia.timetable.R;
 
 import java.io.File;
@@ -25,14 +27,13 @@ import java.nio.channels.FileChannel;
 
 public class PreferencesActivity extends PreferenceActivity {
 
-
-    private static Boolean permissionGranted;
+    private static Context prefContext;
     private static final String TAG = "PreferencesActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        permissionGranted=isStoragePermissionGranted();
+        prefContext=getApplicationContext();
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
     }
 
@@ -47,7 +48,7 @@ public class PreferencesActivity extends PreferenceActivity {
             backup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    if (permissionGranted) {
+                    if (isStoragePermissionGranted(getActivity())) {
                         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                         alertDialog.setTitle("Backup Timetable");
                         alertDialog.setMessage("Do you want to backup the timetable?");
@@ -96,7 +97,7 @@ public class PreferencesActivity extends PreferenceActivity {
             restore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    if (permissionGranted) {
+                    if (isStoragePermissionGranted(getActivity())) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                         alertDialog.setTitle("Restore Timetable");
                         alertDialog.setMessage("Do you want to restore the timetable?");
@@ -144,6 +145,8 @@ public class PreferencesActivity extends PreferenceActivity {
                 }
             });
         }
+
+
     }
     private static boolean importDatabase(String ePath) {
         try {
@@ -193,14 +196,14 @@ public class PreferencesActivity extends PreferenceActivity {
         }
         return false;
     }
-    public boolean isStoragePermissionGranted() {
+    public static boolean isStoragePermissionGranted(Activity activity) {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(prefContext,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.v(TAG,"Permission granted");
                 return true;
             } else {
                 Log.v(TAG,"Permission denied");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
         }
