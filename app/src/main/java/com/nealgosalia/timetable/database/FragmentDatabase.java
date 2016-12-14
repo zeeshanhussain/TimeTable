@@ -58,7 +58,7 @@ public class FragmentDatabase extends SQLiteOpenHelper {
     }
 
     public List getLectureList(int pos) {
-        String sql = "select * from " + TABLE_DETAIL + " where day=" + pos + "order by" + START_HOUR + "," + START_MINUTE;
+        String sql = "select * from " + TABLE_DETAIL + " where day=" + pos + " order by " + START_HOUR + "," + START_MINUTE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         try {
