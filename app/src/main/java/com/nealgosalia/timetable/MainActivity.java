@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         Button btnSubjects, btnTimetable;
         btnSubjects = (Button) findViewById(R.id.btnSubjects);
         btnSubjects.setOnClickListener(new View.OnClickListener() {
