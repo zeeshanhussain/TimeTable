@@ -41,7 +41,10 @@ public class PreferencesActivity extends PreferenceActivity {
             File sd = Environment.getExternalStorageDirectory();
             if (sd.canWrite()) {
                 String currentDBPath = sd + "/Timetable/" + ePath;
-                String backupDBPath = "data/data/com.nealgosalia.timetable/databases/" + ePath;
+                String internalDBPath = "data/data/com.nealgosalia.timetable/databases/";
+                String backupDBPath = internalDBPath + ePath;
+                File internalDB = new File(internalDBPath);
+                internalDB.mkdirs();
                 File currentDB = new File(currentDBPath);
                 File backupDB = new File(backupDBPath);
                 if (currentDB.exists()) {
