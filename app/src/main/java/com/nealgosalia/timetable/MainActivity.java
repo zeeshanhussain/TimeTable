@@ -12,6 +12,7 @@ import android.os.Handler;
 import com.nealgosalia.timetable.activities.PreferencesActivity;
 import com.nealgosalia.timetable.activities.SubjectsActivity;
 import com.nealgosalia.timetable.activities.TimetableActivity;
+import com.nealgosalia.timetable.activities.TodayActivity;
 
 public class MainActivity extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
@@ -20,12 +21,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnSubjects, btnTimetable;
+        Button btnSubjects, btnToday, btnTimetable;
         btnSubjects = (Button) findViewById(R.id.btnSubjects);
         btnSubjects.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SubjectsActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnToday = (Button) findViewById(R.id.btnToday);
+        btnToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TodayActivity.class);
                 startActivity(intent);
             }
         });
