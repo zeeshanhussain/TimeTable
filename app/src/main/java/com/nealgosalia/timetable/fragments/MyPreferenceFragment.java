@@ -29,6 +29,7 @@ public class MyPreferenceFragment extends PreferenceFragment {
         mActivity = (PreferencesActivity) getActivity();
         Preference backup = findPreference("backup");
         Preference restore = findPreference("restore");
+        Preference reset = findPreference("reset");
         backup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -124,6 +125,30 @@ public class MyPreferenceFragment extends PreferenceFragment {
                 } else {
                     Toast.makeText(getActivity(), "No Permissions Granted", Toast.LENGTH_SHORT).show();
                 }
+                return false;
+            }
+        });
+        reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle("Reset Timetable");
+                alertDialog.setMessage("Are you sure you want to reset the timetable?");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String resetDBPath = "data/data/com.nealgosalia.timetable/databases/";
+                        final File subjectDB = new File(resetDBPath + "subject.db");
+                        final File lectureDB = new File(resetDBPath + "lecture.db");
+                        if(subjectDB.exists() && lectureDB.exists()) {
+                            subjectDB.delete();
+                            lectureDB.delete();
+                        }
+                        Toast.makeText(mActivity, "Reset Successful!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alertDialog.setNegativeButton("No", null);
+                alertDialog.show();
                 return false;
             }
         });

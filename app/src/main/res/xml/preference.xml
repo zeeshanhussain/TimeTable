@@ -6,4 +6,8 @@
     <Preference
         android:key="restore"
         android:title="Restore"/>
+    <Preference
+        android:key="reset"
+        android:title="Reset"
+        android:summary="Reset your timetanle"/>
 </PreferenceScreen>
