@@ -57,7 +57,6 @@ public class SubjectsActivity extends AppCompatActivity {
         listSubjects.setItemAnimator(new DefaultItemAnimator());
         listSubjects.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         listSubjects.setAdapter(mSubjectsAdapter);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
