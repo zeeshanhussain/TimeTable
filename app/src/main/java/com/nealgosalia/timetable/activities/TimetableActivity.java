@@ -49,7 +49,9 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
-        getSupportActionBar().setElevation(0);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
         fragmentDatabase = new FragmentDatabase(this);
         subjectDatabase = new SubjectDatabase(this);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
