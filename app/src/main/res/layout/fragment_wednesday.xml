@@ -2,6 +2,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/wednesdayPlaceholderText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:text="@string/placeholder"
+        android:gravity="center"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listWednesday"
         android:layout_width="match_parent"

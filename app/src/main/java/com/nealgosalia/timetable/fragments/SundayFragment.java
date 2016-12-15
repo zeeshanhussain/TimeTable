@@ -12,14 +12,14 @@ import android.widget.TextView;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.LecturesAdapter;
-import com.nealgosalia.timetable.utils.DividerItemDecoration;
 import com.nealgosalia.timetable.database.FragmentDatabase;
+import com.nealgosalia.timetable.utils.DividerItemDecoration;
 import com.nealgosalia.timetable.utils.Lecture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SaturdayFragment extends Fragment {
+public class SundayFragment extends Fragment {
 
     private List<Lecture> lecturesList = new ArrayList<>();
     private RecyclerView recyclerLectures;
@@ -30,14 +30,14 @@ public class SaturdayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_saturday, container, false);
-        placeholderText = (TextView) view.findViewById(R.id.saturdayPlaceholderText);
+        view = inflater.inflate(R.layout.fragment_sunday, container, false);
+        placeholderText = (TextView) view.findViewById(R.id.sundayPlaceholderText);
         FragmentDatabase db = new FragmentDatabase(getActivity());
-        lecturesList = new ArrayList<>(db.getLectureList(5));
+        lecturesList = new ArrayList<>(db.getLectureList(6));
         if(lecturesList.size()!=0){
             placeholderText.setVisibility(View.GONE);
         }
-        recyclerLectures = (RecyclerView) view.findViewById(R.id.listSaturday);
+        recyclerLectures = (RecyclerView) view.findViewById(R.id.listSunday);
         mLectureAdapter = new LecturesAdapter(lecturesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerLectures.setLayoutManager(mLayoutManager);

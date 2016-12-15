@@ -9,6 +9,7 @@ import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.fragments.FridayFragment;
 import com.nealgosalia.timetable.fragments.MondayFragment;
 import com.nealgosalia.timetable.fragments.SaturdayFragment;
+import com.nealgosalia.timetable.fragments.SundayFragment;
 import com.nealgosalia.timetable.fragments.ThursdayFragment;
 import com.nealgosalia.timetable.fragments.TuesdayFragment;
 import com.nealgosalia.timetable.fragments.WednesdayFragment;
@@ -34,14 +35,16 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             return new ThursdayFragment();
         } else if (position == 4) {
             return new FridayFragment();
-        } else {
+        } else if (position == 5){
             return new SaturdayFragment();
+        } else {
+            return new SundayFragment();
         }
     }
 
     @Override
     public int getCount() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -56,8 +59,10 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             return mContext.getString(R.string.thursday);
         } else if (position == 4) {
             return mContext.getString(R.string.friday);
-        } else {
+        } else if (position == 5) {
             return mContext.getString(R.string.saturday);
+        } else {
+            return mContext.getString(R.string.sunday);
         }
     }
 }
