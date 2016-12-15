@@ -23,7 +23,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".activities.PreferencesActivity" />
+        <activity
+            android:name=".activities.PreferencesActivity"
+            android:label="@string/title_activity_preferences"/>
         <activity
             android:name=".activities.SplashActivity"
             android:noHistory="true">

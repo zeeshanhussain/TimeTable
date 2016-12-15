@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TimeTable</string>
     <string name="title_activity_subjects">Subjects</string>
+    <string name="title_activity_preferences">Settings</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>

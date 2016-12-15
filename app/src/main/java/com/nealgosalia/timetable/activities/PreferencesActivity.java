@@ -6,11 +6,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceActivity;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.fragments.MyPreferenceFragment;
 
 import java.io.File;
@@ -18,13 +19,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
-public class PreferencesActivity extends PreferenceActivity {
+public class PreferencesActivity extends AppCompatActivity {
 
     private static final String TAG = "PreferencesActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_preferences);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
     }
 
