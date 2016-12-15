@@ -39,6 +39,7 @@ public class TimetableActivity extends AppCompatActivity {
     private TextView textDialog;
     private TimePicker startTime;
     private TimePicker endTime;
+    private ViewPager viewPager;
     private int count;
     private int breakFlag;
     private FragmentDatabase fragmentDatabase;
@@ -51,7 +52,7 @@ public class TimetableActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         fragmentDatabase = new FragmentDatabase(this);
         subjectDatabase = new SubjectDatabase(this);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), TimetableActivity.this));
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -163,6 +164,7 @@ public class TimetableActivity extends AppCompatActivity {
                         fragmentDatabase.add(new FragmentDetails(tabLayout.getSelectedTabPosition(), subjectsList.get(spinnerSubjects.getSelectedItemPosition()).toString(),
                                 startHour, startMinute, endHour, endMinute));
                         dialog.dismiss();
+                        viewPager.getAdapter().notifyDataSetChanged();
                     } else {
                         Toast.makeText(TimetableActivity.this, "End time should be greater than start time!", Toast.LENGTH_LONG).show();
                         count--;
