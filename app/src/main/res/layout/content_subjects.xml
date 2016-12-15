@@ -9,6 +9,14 @@
     tools:context="com.nealgosalia.timetable.activities.SubjectsActivity"
     tools:showIn="@layout/activity_subjects">
 
+    <TextView
+        android:id="@+id/subjectsPlaceholderText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:text="@string/subjectsPlaceholder"
+        android:gravity="center"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listSubjects"
         android:layout_width="match_parent"

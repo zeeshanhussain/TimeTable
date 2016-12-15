@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
@@ -31,12 +32,14 @@ public class SubjectsActivity extends AppCompatActivity {
     private RecyclerView listSubjects;
     private SubjectsAdapter mSubjectsAdapter;
     private SubjectDatabase subjectDatabase;
+    private TextView placeholderText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
         listSubjects = (RecyclerView) findViewById(R.id.listSubjects);
+        placeholderText = (TextView) findViewById(R.id.subjectsPlaceholderText);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         subjectDatabase = new SubjectDatabase(this);
@@ -44,6 +47,9 @@ public class SubjectsActivity extends AppCompatActivity {
             Subject subject = new Subject();
             subject.setSubjectName(subjectDetails.getSubject());
             subjectsList.add(subject);
+        }
+        if(subjectsList.size()!=0){
+            placeholderText.setVisibility(View.GONE);
         }
         mSubjectsAdapter = new SubjectsAdapter(subjectsList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -81,6 +87,7 @@ public class SubjectsActivity extends AppCompatActivity {
                     subjectsList.add(subject);
                     Collections.sort(subjectsList, Subject.Comparators.NAME);
                     mSubjectsAdapter.notifyDataSetChanged();
+                    placeholderText.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(SubjectsActivity.this, "Enter a valid Subject", Toast.LENGTH_SHORT).show();
                 }
