@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import java.util.Calendar;
+
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SimpleFragmentPagerAdapter;
@@ -53,6 +55,23 @@ public class TimetableActivity extends AppCompatActivity {
         viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), TimetableActivity.this));
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
+        Calendar c = Calendar.getInstance();
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        if (Calendar.MONDAY == dayOfWeek) {
+            viewPager.setCurrentItem(0);
+        } else if (Calendar.TUESDAY == dayOfWeek) {
+            viewPager.setCurrentItem(1);
+        } else if (Calendar.WEDNESDAY == dayOfWeek) {
+            viewPager.setCurrentItem(2);
+        } else if (Calendar.THURSDAY == dayOfWeek) {
+            viewPager.setCurrentItem(3);
+        } else if (Calendar.FRIDAY == dayOfWeek) {
+            viewPager.setCurrentItem(4);
+        } else if (Calendar.SATURDAY == dayOfWeek) {
+            viewPager.setCurrentItem(5);
+        } else if (Calendar.SUNDAY == dayOfWeek) {
+            viewPager.setCurrentItem(6);
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabTimeTable);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
