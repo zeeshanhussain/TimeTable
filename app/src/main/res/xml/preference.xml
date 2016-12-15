@@ -2,12 +2,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference
         android:key="backup"
-        android:title="Backup"/>
+        android:title="Backup"
+        android:summary="Backup to internal storage"/>
     <Preference
         android:key="restore"
-        android:title="Restore"/>
+        android:title="Restore"
+        android:summary="Restore from internal storage"/>
     <Preference
         android:key="reset"
         android:title="Reset"
-        android:summary="Reset your timetanle"/>
+        android:summary="Reset the timetable"/>
 </PreferenceScreen>
