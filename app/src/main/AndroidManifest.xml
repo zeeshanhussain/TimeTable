@@ -35,7 +35,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TodayActivity"></activity>
+        <activity android:name=".activities.TodayActivity"
+            android:launchMode="singleTop">
+        </activity>
         <receiver android:name=".receivers.MyReceiver">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
