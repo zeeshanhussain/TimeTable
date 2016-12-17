@@ -30,15 +30,9 @@ public class MyReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, TodayActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         Calendar c = Calendar.getInstance();
-        int hour=c.get(Calendar.HOUR_OF_DAY);
-        int minute=c.get(Calendar.MINUTE);
-        if(minute>54){
-            hour++;
-            minute = minute -55;
-        } else{
-            minute = minute + 5;
-        }
-        String time=String.format(Locale.US, "%02d:%02d",hour,minute);
+        c.set(Calendar.SECOND,0);
+        c.setTimeInMillis(c.getTimeInMillis()+300000);
+        String time=String.format(Locale.US, "%02d:%02d",c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE));
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Next lecture")

@@ -65,16 +65,8 @@ public class TodayActivity extends AppCompatActivity {
         recyclerLectures.setAdapter(mLectureAdapter);
 
         // Notifications
-        Calendar midnightCalendar = Calendar.getInstance();
-        midnightCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        midnightCalendar.set(Calendar.MINUTE, 0);
-        midnightCalendar.set(Calendar.SECOND, 0);
-        midnightCalendar.set(Calendar.MILLISECOND, 0);
-        long midnightMillis = midnightCalendar.getTimeInMillis();
-        long currentMillis = c.getTimeInMillis();
-        long diffMillis = currentMillis-midnightMillis;
-        int currentHour = (int) diffMillis/(3600000);
-        int currentMinute = (int) (diffMillis%3600000)/60000;
+        int currentHour = c.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = c.get(Calendar.MINUTE);
         int targetHour=0, targetMinute=0;
         if(lecturesList.size()!=0) {
             boolean lectureFound=false;
@@ -82,13 +74,10 @@ public class TodayActivity extends AppCompatActivity {
                 int startHour = Integer.parseInt(lecture.getStartTime().substring(0, 2));
                 int startMinute = Integer.parseInt(lecture.getStartTime().substring(3, 5));
                 if ((startHour > currentHour) || ((startHour == currentHour) && (startMinute > currentMinute))) {
-                    if(startMinute>=5) {
-                        targetHour = startHour;
-                        targetMinute = startMinute - 5;
-                    } else{
-                        targetHour = startHour - 1;
-                        targetMinute = 60 + startMinute - 5;
-                    }
+                    int totalMinutes= (startHour*60) + startMinute;
+                    totalMinutes = totalMinutes - 5;
+                    targetHour = totalMinutes / 60;
+                    targetMinute = totalMinutes % 60;
                     lectureFound=true;
                     break;
                 }
@@ -96,8 +85,10 @@ public class TodayActivity extends AppCompatActivity {
             if(lectureFound) {
                 c.set(Calendar.HOUR_OF_DAY, targetHour);
                 c.set(Calendar.MINUTE, targetMinute);
+                c.set(Calendar.SECOND, 0);
+                c.set(Calendar.MILLISECOND, 0);
                 Intent myIntent = new Intent(TodayActivity.this, MyReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(TodayActivity.this,(int)System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                pendingIntent = PendingIntent.getBroadcast(TodayActivity.this,(int)System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC, c.getTimeInMillis(), pendingIntent);
             }
