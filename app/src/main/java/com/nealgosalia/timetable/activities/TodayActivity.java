@@ -97,7 +97,7 @@ public class TodayActivity extends AppCompatActivity {
                 c.set(Calendar.HOUR_OF_DAY, targetHour);
                 c.set(Calendar.MINUTE, targetMinute);
                 Intent myIntent = new Intent(TodayActivity.this, MyReceiver.class);
-                pendingIntent = PendingIntent.getBroadcast(TodayActivity.this, 0, myIntent, 0);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(TodayActivity.this,(int)System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC, c.getTimeInMillis(), pendingIntent);
             }
