@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
 import com.nealgosalia.timetable.R;
@@ -14,12 +15,12 @@ import com.nealgosalia.timetable.activities.TodayActivity;
 import java.util.Calendar;
 import java.util.Locale;
 
+
 /**
  * Created by kira on 16/12/16.
  */
 
 public class MyReceiver extends BroadcastReceiver {
-
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,9 +35,10 @@ public class MyReceiver extends BroadcastReceiver {
         c.setTimeInMillis(c.getTimeInMillis()+300000);
         String time=String.format(Locale.US, "%02d:%02d",c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE));
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("Next lecture")
-                .setContentText("at "+time);
+                .setContentText("at "+time)
+                .setColor(Color.argb(255,67,133,244));
         mBuilder.setContentIntent(pi);
         mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
         mBuilder.setAutoCancel(true);

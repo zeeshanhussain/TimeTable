@@ -7,6 +7,15 @@ public class Lecture implements Comparable<Lecture> {
     private String subjectName;
     private String startTime;
     private String endTime;
+    private int day;
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
 
     public String getSubjectName() {
         return subjectName;
