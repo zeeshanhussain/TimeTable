@@ -12,8 +12,6 @@ import android.support.v4.app.NotificationCompat;
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.activities.TodayActivity;
 
-import java.util.Calendar;
-import java.util.Locale;
 
 
 /**
@@ -24,20 +22,18 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        showNotification(context);
+        String subjectName = intent.getExtras().getString("SUBJECT_NAME");
+        String startTime = intent.getExtras().getString("START_TIME");
+        showNotification(context, subjectName, startTime);
     }
 
-    public void showNotification(Context context) {
+    public void showNotification(Context context, String subjectName, String startTime) {
         Intent intent = new Intent(context, TodayActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.SECOND,0);
-        c.setTimeInMillis(c.getTimeInMillis()+300000);
-        String time=String.format(Locale.US, "%02d:%02d",c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE));
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("Next lecture")
-                .setContentText("at "+time)
+                .setContentTitle(subjectName)
+                .setContentText("at "+startTime)
                 .setColor(Color.argb(255,67,133,244));
         mBuilder.setContentIntent(pi);
         mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
