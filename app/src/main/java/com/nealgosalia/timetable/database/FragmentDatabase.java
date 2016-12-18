@@ -58,6 +58,28 @@ public class FragmentDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    public List getLectureList() {
+        String sql = "select * from " + TABLE_DETAIL;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        try {
+            lecturesList.clear();
+            while (cursor.moveToNext()) {
+                Lecture lecture = new Lecture();
+                lecture.setSubjectName(cursor.getString(1));
+                lecture.setStartTime(String.format(Locale.US,"%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
+                lecture.setEndTime(String.format(Locale.US,"%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
+                lecture.setDay(cursor.getInt(0));
+                lecturesList.add(lecture);
+            }
+        } catch (Exception e) {
+        } finally {
+            cursor.close();
+        }
+        db.close();
+        return lecturesList;
+    }
+
     public List getLectureList(int pos) {
         String sql = "select * from " + TABLE_DETAIL + " where day=" + pos + " order by " + START_HOUR + "," + START_MINUTE;
         SQLiteDatabase db = this.getReadableDatabase();
