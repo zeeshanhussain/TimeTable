@@ -46,8 +46,8 @@ public class OnBootReceiver extends BroadcastReceiver {
                     calendar.set(Calendar.MILLISECOND, 0);
                     calendar.setTimeInMillis(calendar.getTimeInMillis() - 300000);
                     Intent i = new Intent(context.getApplicationContext(), MyReceiver.class);
-                    i.putExtra("SUBJECT_NAME",lecture.getSubjectName());
-                    i.putExtra("START_TIME",lecture.getStartTime());
+                    i.putExtra("SUBJECT_NAME", lecture.getSubjectName());
+                    i.putExtra("START_TIME", lecture.getStartTime());
                     int randomRequestCode = (int) (calendar.getTimeInMillis());
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, randomRequestCode, i, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);

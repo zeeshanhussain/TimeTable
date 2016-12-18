@@ -26,7 +26,7 @@
         </activity>
         <activity
             android:name=".activities.PreferencesActivity"
-            android:label="@string/title_activity_preferences"/>
+            android:label="@string/title_activity_preferences" />
         <activity
             android:name=".activities.SplashActivity"
             android:noHistory="true">
@@ -36,9 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TodayActivity"
-            android:launchMode="singleTop">
-        </activity>
+        <activity
+            android:name=".activities.TodayActivity"
+            android:launchMode="singleTop" />
+
         <receiver android:name=".receivers.MyReceiver">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />

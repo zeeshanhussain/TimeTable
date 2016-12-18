@@ -35,7 +35,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
             return new ThursdayFragment();
         } else if (position == 4) {
             return new FridayFragment();
-        } else if (position == 5){
+        } else if (position == 5) {
             return new SaturdayFragment();
         } else {
             return new SundayFragment();

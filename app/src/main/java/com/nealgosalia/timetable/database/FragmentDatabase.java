@@ -67,8 +67,8 @@ public class FragmentDatabase extends SQLiteOpenHelper {
             while (cursor.moveToNext()) {
                 Lecture lecture = new Lecture();
                 lecture.setSubjectName(cursor.getString(1));
-                lecture.setStartTime(String.format(Locale.US,"%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
-                lecture.setEndTime(String.format(Locale.US,"%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
+                lecture.setStartTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
+                lecture.setEndTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
                 lecture.setDay(cursor.getInt(0));
                 lecturesList.add(lecture);
             }
@@ -89,8 +89,8 @@ public class FragmentDatabase extends SQLiteOpenHelper {
             while (cursor.moveToNext()) {
                 Lecture lecture = new Lecture();
                 lecture.setSubjectName(cursor.getString(1));
-                lecture.setStartTime(String.format(Locale.US,"%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
-                lecture.setEndTime(String.format(Locale.US,"%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
+                lecture.setStartTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
+                lecture.setEndTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
                 lecture.setDay(cursor.getInt(0));
                 lecturesList.add(lecture);
             }

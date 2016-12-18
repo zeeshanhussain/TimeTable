@@ -34,7 +34,7 @@ public class SundayFragment extends Fragment {
         placeholderText = (TextView) view.findViewById(R.id.sundayPlaceholderText);
         FragmentDatabase db = new FragmentDatabase(getActivity());
         lecturesList = new ArrayList<>(db.getLectureList(6));
-        if(lecturesList.size()!=0){
+        if (lecturesList.size() != 0) {
             placeholderText.setVisibility(View.GONE);
         }
         recyclerLectures = (RecyclerView) view.findViewById(R.id.listSunday);

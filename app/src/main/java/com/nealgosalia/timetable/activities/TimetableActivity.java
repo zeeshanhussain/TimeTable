@@ -20,8 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import java.util.Calendar;
-
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SimpleFragmentPagerAdapter;
@@ -32,6 +30,7 @@ import com.nealgosalia.timetable.database.SubjectDetails;
 import com.nealgosalia.timetable.receivers.MyReceiver;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TimetableActivity extends AppCompatActivity {
@@ -53,7 +52,7 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
         }
         fragmentDatabase = new FragmentDatabase(this);
@@ -172,7 +171,7 @@ public class TimetableActivity extends AppCompatActivity {
                         fragmentDatabase.add(new FragmentDetails(day, subjectName, startHour, startMinute, endHour, endMinute));
                         dialog.dismiss();
                         viewPager.getAdapter().notifyDataSetChanged();
-                        setAlarmForNotification(subjectName,startHour,startMinute);
+                        setAlarmForNotification(subjectName, startHour, startMinute);
                     } else {
                         Toast.makeText(TimetableActivity.this, "End time should be greater than start time!", Toast.LENGTH_LONG).show();
                         count--;
@@ -189,7 +188,7 @@ public class TimetableActivity extends AppCompatActivity {
         subjectsList.add("Select one");
         for (SubjectDetails subjectDetails : subjectDatabase.getSubjectDetail()) {
             if (breakFlag == 0) {
-                if(subjectDetails.getSubject().compareTo("Break")>0) {
+                if (subjectDetails.getSubject().compareTo("Break") > 0) {
                     subjectsList.add("Break");
                     breakFlag++;
                 }
@@ -201,17 +200,17 @@ public class TimetableActivity extends AppCompatActivity {
         }
     }
 
-    private void setAlarmForNotification(String subjectName,int startHour, int startMinute){
+    private void setAlarmForNotification(String subjectName, int startHour, int startMinute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, startHour);
         calendar.set(Calendar.MINUTE, startMinute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        calendar.setTimeInMillis(calendar.getTimeInMillis()-300000);
+        calendar.setTimeInMillis(calendar.getTimeInMillis() - 300000);
         Intent myIntent = new Intent(TimetableActivity.this, MyReceiver.class);
-        myIntent.putExtra("SUBJECT_NAME",subjectName);
-        myIntent.putExtra("START_TIME",startHour+":"+startMinute);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(TimetableActivity.this,(int)System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        myIntent.putExtra("SUBJECT_NAME", subjectName);
+        myIntent.putExtra("START_TIME", startHour + ":" + startMinute);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(TimetableActivity.this, (int) System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
     }

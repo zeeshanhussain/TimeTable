@@ -140,7 +140,7 @@ public class MyPreferenceFragment extends PreferenceFragment {
                         String resetDBPath = "data/data/com.nealgosalia.timetable/databases/";
                         final File subjectDB = new File(resetDBPath + "subject.db");
                         final File lectureDB = new File(resetDBPath + "lecture.db");
-                        if(subjectDB.exists() && lectureDB.exists()) {
+                        if (subjectDB.exists() && lectureDB.exists()) {
                             subjectDB.delete();
                             lectureDB.delete();
                         }

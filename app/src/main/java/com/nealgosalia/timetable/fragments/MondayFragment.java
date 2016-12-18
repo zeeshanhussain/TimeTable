@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.LecturesAdapter;
-import com.nealgosalia.timetable.utils.DividerItemDecoration;
 import com.nealgosalia.timetable.database.FragmentDatabase;
+import com.nealgosalia.timetable.utils.DividerItemDecoration;
 import com.nealgosalia.timetable.utils.Lecture;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class MondayFragment extends Fragment {
         placeholderText = (TextView) view.findViewById(R.id.mondayPlaceholderText);
         FragmentDatabase db = new FragmentDatabase(getActivity());
         lecturesList = new ArrayList<>(db.getLectureList(0));
-        if(lecturesList.size()!=0){
+        if (lecturesList.size() != 0) {
             placeholderText.setVisibility(View.GONE);
         }
         recyclerLectures = (RecyclerView) view.findViewById(R.id.listMonday);

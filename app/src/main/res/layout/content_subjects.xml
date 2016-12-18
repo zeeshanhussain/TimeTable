@@ -13,9 +13,9 @@
         android:id="@+id/subjectsPlaceholderText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAlignment="center"
+        android:gravity="center"
         android:text="@string/subjectsPlaceholder"
-        android:gravity="center"/>
+        android:textAlignment="center" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listSubjects"

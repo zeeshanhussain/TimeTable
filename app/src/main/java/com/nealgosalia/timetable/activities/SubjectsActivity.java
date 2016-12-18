@@ -48,7 +48,7 @@ public class SubjectsActivity extends AppCompatActivity {
             subject.setSubjectName(subjectDetails.getSubject());
             subjectsList.add(subject);
         }
-        if(subjectsList.size()!=0){
+        if (subjectsList.size() != 0) {
             placeholderText.setVisibility(View.GONE);
         }
         mSubjectsAdapter = new SubjectsAdapter(subjectsList);

@@ -1,7 +1,7 @@
 package com.nealgosalia.timetable.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,7 +48,7 @@ public class TodayActivity extends AppCompatActivity {
         } else if (Calendar.SUNDAY == dayOfWeek) {
             lecturesList = new ArrayList<>(db.getLectureList(6));
         }
-        if(lecturesList.size()!=0){
+        if (lecturesList.size() != 0) {
             placeholderText.setVisibility(View.GONE);
         }
         recyclerLectures = (RecyclerView) findViewById(R.id.listToday);

@@ -12,8 +12,6 @@ import android.support.v4.app.NotificationCompat;
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.activities.TodayActivity;
 
-
-
 /**
  * Created by kira on 16/12/16.
  */
@@ -33,8 +31,8 @@ public class MyReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(subjectName)
-                .setContentText("at "+startTime)
-                .setColor(Color.argb(255,67,133,244));
+                .setContentText("at " + startTime)
+                .setColor(Color.argb(255, 67, 133, 244));
         mBuilder.setContentIntent(pi);
         mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
         mBuilder.setAutoCancel(true);
