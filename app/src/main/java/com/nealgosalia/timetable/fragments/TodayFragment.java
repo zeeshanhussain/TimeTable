@@ -1,11 +1,14 @@
-package com.nealgosalia.timetable.activities;
+package com.nealgosalia.timetable.fragments;
 
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nealgosalia.timetable.R;
@@ -18,19 +21,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class TodayActivity extends AppCompatActivity {
+public class TodayFragment extends Fragment {
 
     private List<Lecture> lecturesList = new ArrayList<>();
     private RecyclerView recyclerLectures;
     private LecturesAdapter mLectureAdapter;
     private TextView placeholderText;
+    private View view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_today);
-        FragmentDatabase db = new FragmentDatabase(this);
-        placeholderText = (TextView) findViewById(R.id.todayPlaceholderText);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_today, container, false);
+        FragmentDatabase db = new FragmentDatabase(getActivity());
+        placeholderText = (TextView) view.findViewById(R.id.todayPlaceholderText);
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         if (Calendar.MONDAY == dayOfWeek) {
@@ -51,12 +54,13 @@ public class TodayActivity extends AppCompatActivity {
         if (lecturesList.size() != 0) {
             placeholderText.setVisibility(View.GONE);
         }
-        recyclerLectures = (RecyclerView) findViewById(R.id.listToday);
+        recyclerLectures = (RecyclerView) view.findViewById(R.id.listToday);
         mLectureAdapter = new LecturesAdapter(lecturesList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerLectures.setLayoutManager(mLayoutManager);
         recyclerLectures.setItemAnimator(new DefaultItemAnimator());
-        recyclerLectures.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerLectures.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerLectures.setAdapter(mLectureAdapter);
+        return view;
     }
 }

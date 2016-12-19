@@ -1,4 +1,4 @@
-package com.nealgosalia.timetable.activities;
+package com.nealgosalia.timetable.fragments;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,11 +40,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import static android.content.Context.ALARM_SERVICE;
 
-public class TimetableActivity extends AppCompatActivity {
+
+public class TimetableFragment extends Fragment {
 
     private static final int MINUTE = 60000;
-    private static final String TAG = "TimetableActivity";
+    private static final String TAG = "TimetableFragment";
     private Button btnCancel, btnNext;
     private List<String> subjectsList = new ArrayList<>();
     private Spinner spinnerSubjects;
@@ -56,19 +59,20 @@ public class TimetableActivity extends AppCompatActivity {
     private int breakFlag;
     private FragmentDatabase fragmentDatabase;
     private SubjectDatabase subjectDatabase;
+    private View view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timetable);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0);
-        }
-        fragmentDatabase = new FragmentDatabase(this);
-        subjectDatabase = new SubjectDatabase(this);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager(), TimetableActivity.this));
-        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_timetable, container, false);
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setElevation(0);
+//        }
+        fragmentDatabase = new FragmentDatabase(getActivity());
+        subjectDatabase = new SubjectDatabase(getActivity());
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewPager.setAdapter(new SimpleFragmentPagerAdapter(getChildFragmentManager(), getActivity()));
+        tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -87,7 +91,7 @@ public class TimetableActivity extends AppCompatActivity {
         } else if (Calendar.SUNDAY == dayOfWeek) {
             viewPager.setCurrentItem(6);
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabTimeTable);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabTimeTable);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,11 +99,12 @@ public class TimetableActivity extends AppCompatActivity {
                 showTimeTableDialog();
             }
         });
+        return view;
     }
 
     public void showTimeTableDialog() {
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        final LayoutInflater inflater = this.getLayoutInflater();
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_add_timetable, null);
 
         startTime = (TimePicker) dialogView.findViewById(R.id.startTime);
@@ -109,7 +114,7 @@ public class TimetableActivity extends AppCompatActivity {
         textDialog = (TextView) dialogView.findViewById(R.id.textDialog);
         spinnerSubjects = (Spinner) dialogView.findViewById(R.id.spinnerSubjects);
         setSubjectList();
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subjectsList) {
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, subjectsList) {
             @Override
             public boolean isEnabled(int position) {
                 return position != 0;
@@ -152,7 +157,7 @@ public class TimetableActivity extends AppCompatActivity {
                         startTime.setVisibility(View.VISIBLE);
                         btnNext.setText("Next");
                     } else {
-                        Toast.makeText(TimetableActivity.this, "Please select a subject", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please select a subject", Toast.LENGTH_SHORT).show();
                         count--;
                     }
                 } else if (count == 2) {
@@ -180,14 +185,14 @@ public class TimetableActivity extends AppCompatActivity {
                         fragmentDatabase.add(new FragmentDetails(day, subjectName, startHour, startMinute, endHour, endMinute));
                         dialog.dismiss();
                         viewPager.getAdapter().notifyDataSetChanged();
-                        SharedPreferences mSharedPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                        SharedPreferences mSharedPreference = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
                         int notificationTime = Integer.parseInt(mSharedPreference.getString("NOTIFICATION_TIME", "-1"));
                         Log.d(TAG,Integer.toString(notificationTime));
                         if (notificationTime != -1) {
                             setAlarmForNotification(subjectName, day, notificationTime, startHour, startMinute);
                         }
                     } else {
-                        Toast.makeText(TimetableActivity.this, "End time should be greater than start time!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "End time should be greater than start time!", Toast.LENGTH_LONG).show();
                         count--;
                     }
                 }
@@ -226,17 +231,17 @@ public class TimetableActivity extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.setTimeInMillis(calendar.getTimeInMillis() - notificationTime * MINUTE);
-        Intent myIntent = new Intent(TimetableActivity.this, MyReceiver.class);
+        Intent myIntent = new Intent(getActivity(), MyReceiver.class);
         int requestCode = (int) System.currentTimeMillis()/1000;
         myIntent.putExtra("SUBJECT_NAME", subjectName);
         myIntent.putExtra("START_TIME", String.format(Locale.US, "%02d:%02d", startHour, startMinute));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(TimetableActivity.this, requestCode, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), requestCode, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Alarms alarms = new Alarms();
-        alarms.setContext(TimetableActivity.this);
+        alarms.setContext(getActivity());
         alarms.setPendingIntent(pendingIntent);
         MyPreferenceFragment mpf = new MyPreferenceFragment();
         mpf.addAlarm(alarms);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
     }
 }

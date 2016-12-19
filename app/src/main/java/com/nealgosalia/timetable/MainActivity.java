@@ -1,50 +1,66 @@
 package com.nealgosalia.timetable;
 
+import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.ncapdevi.fragnav.FragNavController;
 import com.nealgosalia.timetable.activities.PreferencesActivity;
-import com.nealgosalia.timetable.activities.SubjectsActivity;
-import com.nealgosalia.timetable.activities.TimetableActivity;
-import com.nealgosalia.timetable.activities.TodayActivity;
+import com.nealgosalia.timetable.fragments.SubjectsFragment;
+import com.nealgosalia.timetable.fragments.TimetableFragment;
+import com.nealgosalia.timetable.fragments.TodayFragment;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
+import com.roughike.bottombar.OnTabSelectListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
     boolean doubleBackToExitPressedOnce = false;
+    private FragNavController fragNavController;
+    private final int TAB_FIRST = FragNavController.TAB1;
+    private final int TAB_SECOND = FragNavController.TAB2;
+    private final int TAB_THIRD = FragNavController.TAB3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnSubjects, btnToday, btnTimetable;
-        btnSubjects = (Button) findViewById(R.id.btnSubjects);
-        btnSubjects.setOnClickListener(new View.OnClickListener() {
+        List<Fragment> fragments = new ArrayList<>(3);
+        fragments.add(new TimetableFragment());
+        fragments.add(new TodayFragment());
+        fragments.add(new SubjectsFragment());
+        fragNavController = new FragNavController(savedInstanceState, getSupportFragmentManager(), R.id.contentContainer, fragments, TAB_SECOND);
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SubjectsActivity.class);
-                startActivity(intent);
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.tab_timetable:
+                        fragNavController.switchTab(TAB_FIRST);
+                        break;
+                    case R.id.tab_today:
+                        fragNavController.switchTab(TAB_SECOND);
+                        break;
+                    case R.id.tab_subjects:
+                        fragNavController.switchTab(TAB_THIRD);
+                        break;
+                }
             }
         });
-        btnToday = (Button) findViewById(R.id.btnToday);
-        btnToday.setOnClickListener(new View.OnClickListener() {
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TodayActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnTimetable = (Button) findViewById(R.id.btnTimetable);
-        btnTimetable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TimetableActivity.class);
-                startActivity(intent);
+            public void onTabReSelected(@IdRes int tabId) {
+                fragNavController.clearStack();
             }
         });
     }

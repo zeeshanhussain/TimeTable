@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_today"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nealgosalia.timetable.activities.TodayActivity">
+    tools:context="com.nealgosalia.timetable.fragments.TodayFragment">
 
     <TextView
         android:id="@+id/todayPlaceholderText"
@@ -20,4 +20,4 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-</RelativeLayout>
+</FrameLayout>
