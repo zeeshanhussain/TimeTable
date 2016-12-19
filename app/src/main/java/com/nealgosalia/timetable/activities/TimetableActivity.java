@@ -171,7 +171,7 @@ public class TimetableActivity extends AppCompatActivity {
                         fragmentDatabase.add(new FragmentDetails(day, subjectName, startHour, startMinute, endHour, endMinute));
                         dialog.dismiss();
                         viewPager.getAdapter().notifyDataSetChanged();
-                        setAlarmForNotification(subjectName, startHour, startMinute);
+                        setAlarmForNotification(subjectName, day, startHour, startMinute);
                     } else {
                         Toast.makeText(TimetableActivity.this, "End time should be greater than start time!", Toast.LENGTH_LONG).show();
                         count--;
@@ -200,8 +200,13 @@ public class TimetableActivity extends AppCompatActivity {
         }
     }
 
-    private void setAlarmForNotification(String subjectName, int startHour, int startMinute) {
+    private void setAlarmForNotification(String subjectName, int day, int startHour, int startMinute) {
+        int dayOfWeek = (day + 2) % 7;
         Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.DAY_OF_WEEK) > dayOfWeek) {
+            calendar.set(Calendar.WEEK_OF_MONTH, calendar.get(Calendar.WEEK_OF_MONTH) + 1);
+        }
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
         calendar.set(Calendar.HOUR_OF_DAY, startHour);
         calendar.set(Calendar.MINUTE, startMinute);
         calendar.set(Calendar.SECOND, 0);
@@ -209,7 +214,7 @@ public class TimetableActivity extends AppCompatActivity {
         calendar.setTimeInMillis(calendar.getTimeInMillis() - 300000);
         Intent myIntent = new Intent(TimetableActivity.this, MyReceiver.class);
         myIntent.putExtra("SUBJECT_NAME", subjectName);
-        myIntent.putExtra("START_TIME", startHour + ":" + startMinute);
+        myIntent.putExtra("START_TIME", String.format(Locale.US,"%02d:%02d",startHour, startMinute));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(TimetableActivity.this, (int) System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
