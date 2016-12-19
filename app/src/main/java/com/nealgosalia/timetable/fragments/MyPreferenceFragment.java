@@ -31,13 +31,13 @@ public class MyPreferenceFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);
         mActivity = (PreferencesActivity) getActivity();
-        final ListPreference notificationTime = (ListPreference) findPreference("notificationTime");
+        ListPreference notificationTime = (ListPreference) findPreference("notificationTime");
         notificationTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("NOTIFICATION_TIME", notificationTime.getValue());
+                editor.putString("NOTIFICATION_TIME", (String) o;
                 editor.apply();
                 return false;
             }
