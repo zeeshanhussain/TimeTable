@@ -30,7 +30,9 @@ import com.nealgosalia.timetable.database.FragmentDatabase;
 import com.nealgosalia.timetable.database.FragmentDetails;
 import com.nealgosalia.timetable.database.SubjectDatabase;
 import com.nealgosalia.timetable.database.SubjectDetails;
+import com.nealgosalia.timetable.fragments.MyPreferenceFragment;
 import com.nealgosalia.timetable.receivers.MyReceiver;
+import com.nealgosalia.timetable.utils.Alarms;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -225,9 +227,15 @@ public class TimetableActivity extends AppCompatActivity {
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.setTimeInMillis(calendar.getTimeInMillis() - notificationTime * MINUTE);
         Intent myIntent = new Intent(TimetableActivity.this, MyReceiver.class);
+        int requestCode = (int) System.currentTimeMillis()/1000;
         myIntent.putExtra("SUBJECT_NAME", subjectName);
         myIntent.putExtra("START_TIME", String.format(Locale.US, "%02d:%02d", startHour, startMinute));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(TimetableActivity.this, (int) System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(TimetableActivity.this, requestCode, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Alarms alarms = new Alarms();
+        alarms.setContext(TimetableActivity.this);
+        alarms.setPendingIntent(pendingIntent);
+        MyPreferenceFragment mpf = new MyPreferenceFragment();
+        mpf.addAlarm(alarms);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
     }

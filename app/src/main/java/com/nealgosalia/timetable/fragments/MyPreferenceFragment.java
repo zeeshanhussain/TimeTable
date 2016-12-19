@@ -1,7 +1,10 @@
 package com.nealgosalia.timetable.fragments;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,8 +17,14 @@ import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.activities.PreferencesActivity;
+import com.nealgosalia.timetable.receivers.MyReceiver;
+import com.nealgosalia.timetable.utils.Alarms;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.content.Context.ALARM_SERVICE;
 
 /**
  * Created by men_in_black007 on 15/12/16.
@@ -24,6 +33,7 @@ import java.io.File;
 public class MyPreferenceFragment extends PreferenceFragment {
 
     private static final String TAG = "MyPreferenceFragment";
+    private static List<Alarms> alarmsList = new ArrayList<>();
     private PreferencesActivity mActivity;
 
     @Override
@@ -39,7 +49,17 @@ public class MyPreferenceFragment extends PreferenceFragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("NOTIFICATION_TIME", (String) o);
                 editor.apply();
-                return false;
+                if (o.equals("-1")) {
+                    if(alarmsList.size()!=0) {
+                        for (Alarms alarm : alarmsList) {
+                            AlarmManager alarmManager = (AlarmManager) alarm.getContext().getSystemService(ALARM_SERVICE);
+                            alarmManager.cancel(alarm.getPendingIntent());
+                            Toast.makeText(getActivity(),"Deleted the alarm",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    alarmsList.clear();
+                }
+                return true;
             }
         });
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -171,5 +191,9 @@ public class MyPreferenceFragment extends PreferenceFragment {
                 return false;
             }
         });
+    }
+
+    public void addAlarm(Alarms alarm) {
+        alarmsList.add(alarm);
     }
 }
