@@ -3,14 +3,17 @@ package com.nealgosalia.timetable.activities;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +40,8 @@ import java.util.Locale;
 
 public class TimetableActivity extends AppCompatActivity {
 
+    private static final int MINUTE = 60000;
+    private static final String TAG = "TimetableActivity";
     private Button btnCancel, btnNext;
     private List<String> subjectsList = new ArrayList<>();
     private Spinner spinnerSubjects;
@@ -173,7 +178,12 @@ public class TimetableActivity extends AppCompatActivity {
                         fragmentDatabase.add(new FragmentDetails(day, subjectName, startHour, startMinute, endHour, endMinute));
                         dialog.dismiss();
                         viewPager.getAdapter().notifyDataSetChanged();
-                        setAlarmForNotification(subjectName, day, startHour, startMinute);
+                        SharedPreferences mSharedPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                        int notificationTime = Integer.parseInt(mSharedPreference.getString("NOTIFICATION_TIME", "-1"));
+                        Log.d(TAG,Integer.toString(notificationTime));
+                        if (notificationTime != -1) {
+                            setAlarmForNotification(subjectName, day, notificationTime, startHour, startMinute);
+                        }
                     } else {
                         Toast.makeText(TimetableActivity.this, "End time should be greater than start time!", Toast.LENGTH_LONG).show();
                         count--;
@@ -202,7 +212,7 @@ public class TimetableActivity extends AppCompatActivity {
         }
     }
 
-    private void setAlarmForNotification(String subjectName, int day, int startHour, int startMinute) {
+    private void setAlarmForNotification(String subjectName, int day, int notificationTime, int startHour, int startMinute) {
         int dayOfWeek = (day + 2) % 7;
         Calendar calendar = Calendar.getInstance();
         if (calendar.get(Calendar.DAY_OF_WEEK) > dayOfWeek) {
@@ -213,10 +223,10 @@ public class TimetableActivity extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, startMinute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        calendar.setTimeInMillis(calendar.getTimeInMillis() - 300000);
+        calendar.setTimeInMillis(calendar.getTimeInMillis() - notificationTime * MINUTE);
         Intent myIntent = new Intent(TimetableActivity.this, MyReceiver.class);
         myIntent.putExtra("SUBJECT_NAME", subjectName);
-        myIntent.putExtra("START_TIME", String.format(Locale.US,"%02d:%02d",startHour, startMinute));
+        myIntent.putExtra("START_TIME", String.format(Locale.US, "%02d:%02d", startHour, startMinute));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(TimetableActivity.this, (int) System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);

@@ -2,10 +2,14 @@ package com.nealgosalia.timetable.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
@@ -27,6 +31,21 @@ public class MyPreferenceFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);
         mActivity = (PreferencesActivity) getActivity();
+        final ListPreference notificationTime = (ListPreference) findPreference("notificationTime");
+        notificationTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("NOTIFICATION_TIME", notificationTime.getValue());
+                editor.apply();
+                return false;
+            }
+        });
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("NOTIFICATION_TIME", notificationTime.getValue());
+        editor.apply();
         Preference backup = findPreference("backup");
         Preference restore = findPreference("restore");
         Preference reset = findPreference("reset");

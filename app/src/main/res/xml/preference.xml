@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="notificationsEnable"
+    <ListPreference
+        android:defaultValue="-1"
+        android:entries="@array/listEntries"
+        android:entryValues="@array/listValues"
+        android:key="notificationTime"
         android:summary="Enable/Disable notifications for lectures"
         android:title="Notifications" />
     <Preference
