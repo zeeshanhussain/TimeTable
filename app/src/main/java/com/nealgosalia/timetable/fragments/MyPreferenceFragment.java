@@ -37,7 +37,7 @@ public class MyPreferenceFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("NOTIFICATION_TIME", (String) o;
+                editor.putString("NOTIFICATION_TIME", (String) o);
                 editor.apply();
                 return false;
             }
