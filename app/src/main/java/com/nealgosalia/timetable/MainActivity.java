@@ -1,7 +1,6 @@
 package com.nealgosalia.timetable;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;

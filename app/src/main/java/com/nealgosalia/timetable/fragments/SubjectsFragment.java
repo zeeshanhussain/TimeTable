@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,14 +42,14 @@ public class SubjectsFragment extends Fragment {
         view = inflater.inflate(R.layout.activity_subjects, container, false);
         listSubjects = (RecyclerView) view.findViewById(R.id.listSubjects);
         placeholderText = (TextView) view.findViewById(R.id.subjectsPlaceholderText);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         subjectDatabase = new SubjectDatabase(getActivity());
+        subjectsList.clear();
         for (SubjectDetails subjectDetails : subjectDatabase.getSubjectDetail()) {
             Subject subject = new Subject();
             subject.setSubjectName(subjectDetails.getSubject());
             subjectsList.add(subject);
         }
+        Log.d("SubjectsFragment", String.valueOf(subjectsList.size()));
         if (subjectsList.size() != 0) {
             placeholderText.setVisibility(View.GONE);
         }
@@ -94,6 +93,7 @@ public class SubjectsFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "Enter a valid Subject", Toast.LENGTH_SHORT).show();
                 }
+                newSubjectName.setText("");
             }
         });
         dialogBuilder.setNegativeButton("Cancel", null);

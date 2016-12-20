@@ -30,11 +30,11 @@ public class OnBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals("com.nealgosalia.timetable.NOTIFY")) {
             SharedPreferences mSharedPreference = PreferenceManager.getDefaultSharedPreferences(context);
             int notificationTime = Integer.parseInt(mSharedPreference.getString("NOTIFICATION_TIME", "-1"));
             if (notificationTime != -1) {
-                Log.d(TAG, "ACTION_BOOT_COMPLETED");
+                Log.d(TAG, intent.getAction());
                 FragmentDatabase db = new FragmentDatabase(context);
                 Calendar calendar = Calendar.getInstance();
                 lecturesList = new ArrayList<>(db.getLectureList());
