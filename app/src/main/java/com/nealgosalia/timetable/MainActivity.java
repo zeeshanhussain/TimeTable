@@ -39,13 +39,14 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new TimetableFragment());
         fragments.add(new TodayFragment());
         fragments.add(new SubjectsFragment());
-        fragNavController = new FragNavController(savedInstanceState, getSupportFragmentManager(), R.id.contentContainer, fragments, TAB_SECOND);
+        fragNavController = new FragNavController(savedInstanceState, getSupportFragmentManager(), R.id.contentContainer, fragments, TAB_FIRST);
         BottomBar bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.noTopOffset();
         bottomBar.setFixedInactiveIconColor(Color.argb(128, 0, 0, 0));
         bottomBar.setItems(R.menu.bottombar_menu);
         bottomBar.setActiveTabColor(Color.argb(255, 255, 255, 255));
         bottomBar.getBar().setBackgroundColor(Color.argb(255, 67, 133, 244));
+        bottomBar.setDefaultTabPosition(1);
         bottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int tabId) {
