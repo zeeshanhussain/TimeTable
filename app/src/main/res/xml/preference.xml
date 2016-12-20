@@ -5,7 +5,7 @@
         android:entries="@array/listEntries"
         android:entryValues="@array/listValues"
         android:key="notificationTime"
-        android:summary="Enable/Disable notifications for lectures"
+        android:summary="Notification : %s before each lecture"
         android:title="Notifications" />
     <Preference
         android:key="backup"
