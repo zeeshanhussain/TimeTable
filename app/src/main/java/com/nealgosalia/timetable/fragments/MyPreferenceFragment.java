@@ -2,7 +2,6 @@ package com.nealgosalia.timetable.fragments;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,9 +14,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.nealgosalia.timetable.MainActivity;
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.activities.PreferencesActivity;
-import com.nealgosalia.timetable.receivers.MyReceiver;
 import com.nealgosalia.timetable.utils.Alarms;
 
 import java.io.File;
@@ -49,15 +48,17 @@ public class MyPreferenceFragment extends PreferenceFragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("NOTIFICATION_TIME", (String) o);
                 editor.apply();
-                if (o.equals("-1")) {
-                    if(alarmsList.size()!=0) {
-                        for (Alarms alarm : alarmsList) {
-                            AlarmManager alarmManager = (AlarmManager) alarm.getContext().getSystemService(ALARM_SERVICE);
-                            alarmManager.cancel(alarm.getPendingIntent());
-                            Toast.makeText(getActivity(),"Deleted the alarm",Toast.LENGTH_SHORT).show();
-                        }
+                if (alarmsList.size() != 0) {
+                    for (Alarms alarm : alarmsList) {
+                        AlarmManager alarmManager = (AlarmManager) alarm.getContext().getSystemService(ALARM_SERVICE);
+                        alarmManager.cancel(alarm.getPendingIntent());
                     }
-                    alarmsList.clear();
+                }
+                if (!o.equals("-1")) {
+                    Intent i = new Intent();
+                    i.setAction("com.nealgosalia.timetable.NOTIFY");
+                    getActivity().sendBroadcast(i);
+                    Log.d(TAG, "Broadcasted");
                 }
                 return true;
             }
@@ -133,6 +134,7 @@ public class MyPreferenceFragment extends PreferenceFragment {
                             final File lectureDB = new File(backupDBPath + "lecture.db");
                             if (!(subjectDB.exists() || lectureDB.exists())) {
                                 if (mActivity.importDatabase("subject.db") && mActivity.importDatabase("lecture.db")) {
+                                    restartApplication();
                                     Toast.makeText(getActivity(), "Restore Successful!", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(getActivity(), "Backup not found!", Toast.LENGTH_SHORT).show();
@@ -147,6 +149,7 @@ public class MyPreferenceFragment extends PreferenceFragment {
                                                 subjectDB.delete();
                                                 lectureDB.delete();
                                                 if (mActivity.importDatabase("subject.db") && mActivity.importDatabase("lecture.db")) {
+                                                    restartApplication();
                                                     Toast.makeText(getActivity(), "Restore Successful!", Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     Toast.makeText(getActivity(), "Backup not found", Toast.LENGTH_SHORT).show();
@@ -183,6 +186,7 @@ public class MyPreferenceFragment extends PreferenceFragment {
                             subjectDB.delete();
                             lectureDB.delete();
                         }
+                        restartApplication();
                         Toast.makeText(mActivity, "Reset Successful!", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -195,5 +199,11 @@ public class MyPreferenceFragment extends PreferenceFragment {
 
     public void addAlarm(Alarms alarm) {
         alarmsList.add(alarm);
+    }
+
+    private void restartApplication() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        getActivity().finish();
+        startActivity(intent);
     }
 }

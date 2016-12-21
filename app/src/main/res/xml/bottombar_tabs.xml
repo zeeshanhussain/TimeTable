@@ -1,0 +1,14 @@
+<tabs>
+    <tab
+        id="@+id/tab_timetable"
+        icon="@drawable/ic_timetable"
+        title="Timetable" />
+    <tab
+        id="@+id/tab_today"
+        icon="@drawable/ic_today"
+        title="Today" />
+    <tab
+        id="@+id/tab_subjects"
+        icon="@drawable/ic_subject"
+        title="Subjects" />
+</tabs>
