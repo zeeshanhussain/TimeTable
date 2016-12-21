@@ -45,6 +45,13 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void removeSubject(SubjectDetails sd) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = SubjectDatabase.SUBJECT + " LIKE ?";
+        String[] selectionArgs = { sd.getSubject() };
+        db.delete(SubjectDatabase.TABLE_DETAIL, selection, selectionArgs);
+    }
+
     public ArrayList<SubjectDetails> getSubjectDetail() {
         ArrayList<SubjectDetails> allSubjects = new ArrayList<SubjectDetails>();
         String sql = "select distinct * from " + TABLE_DETAIL + " order by " + SUBJECT;
