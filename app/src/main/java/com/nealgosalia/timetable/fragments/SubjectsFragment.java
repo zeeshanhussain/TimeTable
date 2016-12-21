@@ -214,7 +214,12 @@ public class SubjectsFragment extends Fragment {
                 mSubjectsAdapter.notifyDataSetChanged();
             }
         });
-        alertDialog.setNegativeButton("No", null);
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mSubjectsAdapter.notifyDataSetChanged();
+            }
+        });
         alertDialog.show();
     }
 }
