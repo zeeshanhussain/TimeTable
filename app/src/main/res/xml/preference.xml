@@ -5,7 +5,7 @@
         android:entries="@array/listEntries"
         android:entryValues="@array/listValues"
         android:key="notificationTime"
-        android:summary="Notification : %s before each lecture"
+        android:summary="%s"
         android:title="Notifications" />
     <Preference
         android:key="backup"
