@@ -1,7 +1,5 @@
 package com.nealgosalia.timetable;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +16,8 @@ import com.nealgosalia.timetable.fragments.SubjectsFragment;
 import com.nealgosalia.timetable.fragments.TimetableFragment;
 import com.nealgosalia.timetable.fragments.TodayFragment;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabClickListener;
+import com.roughike.bottombar.OnTabReselectListener;
+import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +39,11 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new TodayFragment());
         fragments.add(new SubjectsFragment());
         fragNavController = new FragNavController(savedInstanceState, getSupportFragmentManager(), R.id.contentContainer, fragments, TAB_FIRST);
-        BottomBar bottomBar = BottomBar.attach(this, savedInstanceState);
-        bottomBar.noTopOffset();
-        bottomBar.setFixedInactiveIconColor(Color.argb(128, 0, 0, 0));
-        bottomBar.setItems(R.menu.bottombar_menu);
-        bottomBar.setActiveTabColor(Color.argb(255, 255, 255, 255));
-        bottomBar.getBar().setBackgroundColor(Color.argb(255, 67, 133, 244));
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setDefaultTabPosition(1);
-        bottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
-            public void onMenuTabSelected(@IdRes int tabId) {
+            public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.tab_timetable:
                         fragNavController.switchTab(TAB_FIRST);
@@ -62,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
+        });
 
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
-            public void onMenuTabReSelected(@IdRes int menuItemId) {
-
+            public void onTabReSelected(@IdRes int tabId) {
+                fragNavController.clearStack();
             }
         });
     }
