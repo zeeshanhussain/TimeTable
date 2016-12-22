@@ -176,17 +176,22 @@ public class SubjectsFragment extends Fragment {
         alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Subject subject = subjectsList.get(position);
-                SubjectDetails sd = new SubjectDetails();
-                sd.setSubject(subject.getSubjectName());
-                subjectDatabase.removeSubject(sd);
-                subjectsList.remove(position);
-                subject.setSubjectName(editSubject.getText().toString());
-                sd.setSubject(subject.getSubjectName());
-                subjectDatabase.addSubject(sd);
-                subjectsList.add(subject);
-                Collections.sort(subjectsList, Subject.Comparators.NAME);
-                mSubjectsAdapter.notifyDataSetChanged();
+                if(!editSubject.getText().toString().equals("")) {
+                    Subject subject = subjectsList.get(position);
+                    SubjectDetails sd = new SubjectDetails();
+                    sd.setSubject(subject.getSubjectName());
+                    subjectDatabase.removeSubject(sd);
+                    subjectsList.remove(position);
+                    subject.setSubjectName(editSubject.getText().toString());
+                    sd.setSubject(subject.getSubjectName());
+                    subjectDatabase.addSubject(sd);
+                    subjectsList.add(subject);
+                    Collections.sort(subjectsList, Subject.Comparators.NAME);
+                    mSubjectsAdapter.notifyDataSetChanged();
+                } else {
+                    mSubjectsAdapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), "Enter a valid Subject", Toast.LENGTH_SHORT).show();
+                }
                 dialog.dismiss();
             }
         });
