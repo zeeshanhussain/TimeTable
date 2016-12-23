@@ -49,11 +49,14 @@ public class SubjectsFragment extends Fragment {
     private Paint p = new Paint();
     private AlertDialog.Builder alertDialog;
     private boolean add = false;
-    private EditText editSubject;
+    private AutoCompleteTextView editSubject;
     private AutoCompleteTextView newSubjectName;
 
     String[] sub = { "Maths","Android","Java",
-            "Chemisty","Physics","English","Physical Education"};
+            "Chemistry","Physics","English","Physical Education","Biology","Economics","Informatics Practices",
+            "Accounts","Business Studies","Music","Psychology","Hindi","Urdu","Fine Arts","Engineering Graphics",
+    "Biotechnology","Political Science","History","Home Science","Agriculture","Sociology","Mass Media Studies",
+            "Heritage Crafts","Entrepreneurship","Fashion Studies","Sanskrit"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,8 +98,8 @@ public class SubjectsFragment extends Fragment {
         final View dialogView = inflater.inflate(R.layout.dialog_add_subject, null);
         dialogBuilder.setView(dialogView);
         newSubjectName = (AutoCompleteTextView) dialogView.findViewById(R.id.newSubjectName);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,sub);
-        newSubjectName.setThreshold(1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sub);
+        newSubjectName.setThreshold(2);
         newSubjectName.setAdapter(adapter);
         dialogBuilder.setTitle("Subject");
         dialogBuilder.setMessage("Enter subject name");
@@ -178,7 +181,12 @@ public class SubjectsFragment extends Fragment {
     private void initDialog(final int position){
         alertDialog = new AlertDialog.Builder(getActivity());
         dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_subject,null);
-        editSubject = (EditText)dialogView.findViewById(R.id.edit_subject);
+        editSubject = (AutoCompleteTextView)dialogView.findViewById(R.id.edit_subject);
+        ArrayAdapter<String> adapte = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sub);
+        if(editSubject !=null) {
+            editSubject.setThreshold(2);
+            editSubject.setAdapter(adapte);
+        }
         alertDialog.setView(dialogView);
         alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
