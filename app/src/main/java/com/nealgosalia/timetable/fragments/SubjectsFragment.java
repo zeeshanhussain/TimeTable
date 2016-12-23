@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,10 +32,10 @@ import com.nealgosalia.timetable.database.SubjectDetails;
 import com.nealgosalia.timetable.utils.DividerItemDecoration;
 import com.nealgosalia.timetable.utils.Subject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 public class SubjectsFragment extends Fragment {
 
@@ -48,6 +50,10 @@ public class SubjectsFragment extends Fragment {
     private AlertDialog.Builder alertDialog;
     private boolean add = false;
     private EditText editSubject;
+    private AutoCompleteTextView newSubjectName;
+
+    String[] sub = { "Maths","Android","Java",
+            "Chemisty","Physics","English","Physical Education"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,9 +94,10 @@ public class SubjectsFragment extends Fragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_add_subject, null);
         dialogBuilder.setView(dialogView);
-
-        final EditText newSubjectName = (EditText) dialogView.findViewById(R.id.newSubjectName);
-
+        newSubjectName = (AutoCompleteTextView) dialogView.findViewById(R.id.newSubjectName);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,sub);
+        newSubjectName.setThreshold(1);
+        newSubjectName.setAdapter(adapter);
         dialogBuilder.setTitle("Subject");
         dialogBuilder.setMessage("Enter subject name");
         dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
