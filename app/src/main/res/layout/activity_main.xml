@@ -17,6 +17,7 @@
         android:layout_alignParentBottom="true"
         app:bb_tabXmlResource="@xml/bottombar_tabs"
         app:bb_inActiveTabColor="#22437A"
-        app:bb_activeTabColor="#FFFFFF"/>
+        app:bb_activeTabColor="#FFFFFF"
+        app:bb_titleTextAppearance="@style/Text"/>
 
 </RelativeLayout>
