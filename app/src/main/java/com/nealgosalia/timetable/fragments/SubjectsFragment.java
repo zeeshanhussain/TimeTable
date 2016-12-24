@@ -48,16 +48,10 @@ public class SubjectsFragment extends Fragment {
     private View dialogView;
     private Paint p = new Paint();
     private AlertDialog.Builder alertDialog;
-    private boolean add = false;
     private AutoCompleteTextView editSubject;
     private AutoCompleteTextView newSubjectName;
 
-    String[] sub = { "Maths","Android","Java",
-            "Chemistry","Physics","English","Physical Education","Biology","Economics","Informatics Practices",
-            "Accounts","Business Studies","Music","Psychology","Hindi","Urdu","Fine Arts","Engineering Graphics",
-    "Biotechnology","Political Science","History","Home Science","Agriculture","Sociology","Mass Media Studies",
-            "Heritage Crafts","Entrepreneurship","Fashion Studies","Sanskrit"};
-
+    String[] sub;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,6 +92,7 @@ public class SubjectsFragment extends Fragment {
         final View dialogView = inflater.inflate(R.layout.dialog_add_subject, null);
         dialogBuilder.setView(dialogView);
         newSubjectName = (AutoCompleteTextView) dialogView.findViewById(R.id.newSubjectName);
+        sub = getResources().getStringArray(R.array.subjectNames);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sub);
         newSubjectName.setThreshold(2);
         newSubjectName.setAdapter(adapter);
@@ -157,14 +152,14 @@ public class SubjectsFragment extends Fragment {
                     float width = height / 3;
 
                     if(dX > 0){
-                        p.setColor(Color.parseColor("#4CAF50"));
+                        p.setColor(Color.parseColor("#FF5722"));
                         RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX,(float) itemView.getBottom());
                         c.drawRect(background,p);
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_edit_white);
                         RectF icon_dest = new RectF((float) itemView.getLeft() + width ,(float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,(float)itemView.getBottom() - width);
                         c.drawBitmap(icon,null,icon_dest,p);
                     } else if(dX < 0) {
-                        p.setColor(Color.parseColor("#F44336"));
+                        p.setColor(Color.parseColor("#009688"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background,p);
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete_white);
@@ -182,6 +177,7 @@ public class SubjectsFragment extends Fragment {
         alertDialog = new AlertDialog.Builder(getActivity());
         dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_subject,null);
         editSubject = (AutoCompleteTextView)dialogView.findViewById(R.id.edit_subject);
+        sub = getResources().getStringArray(R.array.subjectNames);
         ArrayAdapter<String> adapte = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sub);
         if(editSubject !=null) {
             editSubject.setThreshold(2);

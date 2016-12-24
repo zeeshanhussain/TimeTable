@@ -20,4 +20,36 @@
         <item>45</item>
         <item>60</item>
     </string-array>
+    <string-array name="subjectNames">
+        <item>Maths</item>
+        <item>Android</item>
+        <item>Java</item>
+        <item>Chemistry</item>
+        <item>Physics</item>
+        <item>English</item>
+        <item>Physical Education</item>
+        <item>Biology</item>
+        <item>Economics</item>
+        <item>Informatics Practices</item>
+        <item>Accounts</item>
+        <item>Business Studies</item>
+        <item>Music</item>
+        <item>Psychology</item>
+        <item>Hindi</item>
+        <item>Urdu</item>
+        <item>Fine Arts</item>
+        <item>Engineering Graphics</item>
+        <item>Biotechnology</item>
+        <item>Political Science</item>
+        <item>History</item>
+        <item>Home Science</item>
+        <item>Agriculture</item>
+        <item>Sociology</item>
+        <item>Mass Media Studies</item>
+        <item>Heritage Crafts</item>
+        <item>Entrepreneurship</item>
+        <item>Fashion Studies</item>
+        <item>Sanskrit</item>
+        <item>Film Media</item>
+    </string-array>
 </resources>
