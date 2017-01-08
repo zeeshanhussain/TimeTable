@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
+import com.nealgosalia.timetable.MainActivity;
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.fragments.TodayFragment;
 
@@ -26,7 +27,7 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     public void showNotification(Context context, String subjectName, String startTime) {
-        Intent intent = new Intent(context, TodayFragment.class);
+        Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
