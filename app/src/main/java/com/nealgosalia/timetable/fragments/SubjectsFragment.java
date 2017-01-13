@@ -213,6 +213,7 @@ public class SubjectsFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+        mSubjectsAdapter.notifyDataSetChanged();
     }
 
     public void deleteSwipe(final int position) {
@@ -237,5 +238,6 @@ public class SubjectsFragment extends Fragment {
             }
         });
         alertDialog.show();
+        mSubjectsAdapter.notifyDataSetChanged();
     }
 }
