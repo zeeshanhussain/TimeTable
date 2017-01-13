@@ -15,15 +15,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.SubjectsAdapter;
@@ -35,7 +35,6 @@ import com.nealgosalia.timetable.utils.Subject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 public class SubjectsFragment extends Fragment {
 
@@ -102,22 +101,39 @@ public class SubjectsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Subject subject = new Subject();
                 String tempSubject = newSubjectName.getText().toString().trim();
-                if (!tempSubject.equals("")) {
                     subject.setSubjectName(tempSubject);
                     subjectDatabase.addSubject(new SubjectDetails(tempSubject));
                     subjectsList.add(subject);
                     Collections.sort(subjectsList, Subject.Comparators.NAME);
                     mSubjectsAdapter.notifyDataSetChanged();
                     placeholderText.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(getActivity(), "Enter a valid Subject", Toast.LENGTH_SHORT).show();
-                }
-                newSubjectName.setText("");
+                    newSubjectName.setText("");
             }
         });
         dialogBuilder.setNegativeButton("Cancel", null);
-        AlertDialog dialog = dialogBuilder.create();
+        final AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        newSubjectName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+             if(editable.length()>=1){
+                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+             } else  {
+                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+             }
+            }
+        });
     }
 
     private void initSwipe(){
@@ -136,8 +152,6 @@ public class SubjectsFragment extends Fragment {
                     deleteSwipe(position);
                 } else {
                     initDialog(position);
-                    alertDialog.setTitle("Edit Subject");
-                    alertDialog.show();
                 }
             }
 
@@ -184,10 +198,10 @@ public class SubjectsFragment extends Fragment {
             editSubject.setAdapter(adapte);
         }
         alertDialog.setView(dialogView);
+        alertDialog.setTitle("Edit Subject");
         alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(!editSubject.getText().toString().equals("")) {
                     Subject subject = subjectsList.get(position);
                     SubjectDetails sd = new SubjectDetails();
                     sd.setSubject(subject.getSubjectName());
@@ -199,11 +213,7 @@ public class SubjectsFragment extends Fragment {
                     subjectsList.add(subject);
                     Collections.sort(subjectsList, Subject.Comparators.NAME);
                     mSubjectsAdapter.notifyDataSetChanged();
-                } else {
-                    mSubjectsAdapter.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), "Enter a valid Subject", Toast.LENGTH_SHORT).show();
-                }
-                dialog.dismiss();
+                    dialog.dismiss();
             }
         });
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -211,6 +221,31 @@ public class SubjectsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 mSubjectsAdapter.notifyDataSetChanged();
                 dialog.dismiss();
+            }
+        });
+        final AlertDialog dialog = alertDialog.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        editSubject.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() >= 1) {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    mSubjectsAdapter.notifyDataSetChanged();
+                } else {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                    mSubjectsAdapter.notifyDataSetChanged();
+                }
             }
         });
         mSubjectsAdapter.notifyDataSetChanged();
