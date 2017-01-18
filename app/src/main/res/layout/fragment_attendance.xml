@@ -4,18 +4,18 @@
     android:id="@+id/activity_today"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nealgosalia.timetable.fragments.TodayFragment">
+    tools:context="com.nealgosalia.timetable.fragments.AttendanceFragment">
 
     <TextView
-        android:id="@+id/todayPlaceholderText"
+        android:id="@+id/attendancePlaceholderText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/placeholder"
+        android:text="@string/subjectsPlaceholder"
         android:textAlignment="center" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/listToday"
+        android:id="@+id/listAttendance"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />

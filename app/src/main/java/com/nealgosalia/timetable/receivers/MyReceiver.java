@@ -11,7 +11,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.nealgosalia.timetable.MainActivity;
 import com.nealgosalia.timetable.R;
-import com.nealgosalia.timetable.fragments.TodayFragment;
 
 /**
  * Created by kira on 16/12/16.
