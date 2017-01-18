@@ -65,9 +65,6 @@ public class TimetableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_timetable, container, false);
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setElevation(0);
-//        }
         fragmentDatabase = new FragmentDatabase(getActivity());
         subjectDatabase = new SubjectDatabase(getActivity());
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
