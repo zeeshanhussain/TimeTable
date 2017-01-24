@@ -20,7 +20,9 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "subject.db";
     private static final String TABLE_DETAIL = "subjectName";
     private static final String SUBJECT = "subject";
-    private static final String CREATE_TABLE = "create table " + TABLE_DETAIL + "(" + SUBJECT + " varchar);";
+    private static final String ATT_LECTURES = "att_lectures";
+    private static final String TOT_LECTURES = "tot_lectures";
+    private static final String CREATE_TABLE = "create table " + TABLE_DETAIL + "(" + SUBJECT + " varchar, " + ATT_LECTURES + " int, " + TOT_LECTURES + " int);";
 
     public SubjectDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,6 +43,8 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SUBJECT, sd.getSubject());
+        values.put(ATT_LECTURES, sd.getAttendedLectures());
+        values.put(TOT_LECTURES, sd.getTotalLectures());
         db.insert(TABLE_DETAIL, null, values);
         db.close();
     }
@@ -50,6 +54,15 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         String selection = SubjectDatabase.SUBJECT + " LIKE ?";
         String[] selectionArgs = { sd.getSubject() };
         db.delete(SubjectDatabase.TABLE_DETAIL, selection, selectionArgs);
+    }
+
+    public void updateSubject(SubjectDetails sd) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ATT_LECTURES, Integer.toString(sd.getAttendedLectures()));
+        values.put(TOT_LECTURES, Integer.toString(sd.getTotalLectures()));
+        String[] args = new String[]{sd.getSubject()};
+        db.update(TABLE_DETAIL, values, SUBJECT + " LIKE ?",args);
     }
 
     public ArrayList<SubjectDetails> getSubjectDetail() {

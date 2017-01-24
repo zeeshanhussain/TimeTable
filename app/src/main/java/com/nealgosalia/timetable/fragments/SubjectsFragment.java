@@ -101,13 +101,13 @@ public class SubjectsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Subject subject = new Subject();
                 String tempSubject = newSubjectName.getText().toString().trim();
-                    subject.setSubjectName(tempSubject);
-                    subjectDatabase.addSubject(new SubjectDetails(tempSubject));
-                    subjectsList.add(subject);
-                    Collections.sort(subjectsList, Subject.Comparators.NAME);
-                    mSubjectsAdapter.notifyDataSetChanged();
-                    placeholderText.setVisibility(View.GONE);
-                    newSubjectName.setText("");
+                subject.setSubjectName(tempSubject);
+                subjectDatabase.addSubject(new SubjectDetails(tempSubject, 0, 0));
+                subjectsList.add(subject);
+                Collections.sort(subjectsList, Subject.Comparators.NAME);
+                mSubjectsAdapter.notifyDataSetChanged();
+                placeholderText.setVisibility(View.GONE);
+                newSubjectName.setText("");
             }
         });
         dialogBuilder.setNegativeButton("Cancel", null);
