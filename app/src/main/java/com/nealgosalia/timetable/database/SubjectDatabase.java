@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -18,8 +19,8 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     private static final String TAG = "SubjectDatabase";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "subject.db";
-    private static final String TABLE_DETAIL = "subjectName";
-    private static final String SUBJECT = "subject";
+    private static final String TABLE_DETAIL = "subject";
+    private static final String SUBJECT = "subjectName";
     private static final String ATT_LECTURES = "att_lectures";
     private static final String TOT_LECTURES = "tot_lectures";
     private static final String CREATE_TABLE = "create table " + TABLE_DETAIL + "(" + SUBJECT + " varchar, " + ATT_LECTURES + " int, " + TOT_LECTURES + " int);";
@@ -59,8 +60,9 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     public void updateSubject(SubjectDetails sd) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ATT_LECTURES, Integer.toString(sd.getAttendedLectures()));
-        values.put(TOT_LECTURES, Integer.toString(sd.getTotalLectures()));
+        Log.d("SubjectDatabase",sd.getAttendedLectures()+" "+sd.getTotalLectures());
+        values.put(ATT_LECTURES, sd.getAttendedLectures());
+        values.put(TOT_LECTURES, sd.getTotalLectures());
         String[] args = new String[]{sd.getSubject()};
         db.update(TABLE_DETAIL, values, SUBJECT + " LIKE ?",args);
     }
