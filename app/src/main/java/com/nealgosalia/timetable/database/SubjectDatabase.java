@@ -53,18 +53,18 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     public void removeSubject(SubjectDetails sd) {
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = SubjectDatabase.SUBJECT + " LIKE ?";
-        String[] selectionArgs = { sd.getSubject() };
+        String[] selectionArgs = {sd.getSubject()};
         db.delete(SubjectDatabase.TABLE_DETAIL, selection, selectionArgs);
     }
 
     public void updateSubject(SubjectDetails sd) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        Log.d("SubjectDatabase",sd.getAttendedLectures()+" "+sd.getTotalLectures());
+        Log.d("SubjectDatabase", sd.getAttendedLectures() + " " + sd.getTotalLectures());
         values.put(ATT_LECTURES, sd.getAttendedLectures());
         values.put(TOT_LECTURES, sd.getTotalLectures());
         String[] args = new String[]{sd.getSubject()};
-        db.update(TABLE_DETAIL, values, SUBJECT + " LIKE ?",args);
+        db.update(TABLE_DETAIL, values, SUBJECT + " LIKE ?", args);
     }
 
     public ArrayList<SubjectDetails> getSubjectDetail() {
