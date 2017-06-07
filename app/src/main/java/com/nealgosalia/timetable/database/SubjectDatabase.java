@@ -76,6 +76,8 @@ public class SubjectDatabase extends SQLiteOpenHelper {
             while (c.moveToNext()) {
                 SubjectDetails subjectDetails = new SubjectDetails();
                 subjectDetails.setSubject(c.getString(c.getColumnIndex(SUBJECT)));
+                subjectDetails.setAttendedLectures(c.getInt(c.getColumnIndex(ATT_LECTURES)));
+                subjectDetails.setTotalLectures(c.getInt(c.getColumnIndex(TOT_LECTURES)));
                 allSubjects.add(subjectDetails);
             }
         } catch (SQLException e) {
