@@ -1,5 +1,7 @@
 package com.nealgosalia.timetable.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -19,10 +21,13 @@ import android.widget.TextView;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.AttendanceAdapter;
+import com.nealgosalia.timetable.database.FragmentDetails;
 import com.nealgosalia.timetable.database.SubjectDatabase;
 import com.nealgosalia.timetable.database.SubjectDetails;
 import com.nealgosalia.timetable.utils.DividerItemDecoration;
+import com.nealgosalia.timetable.utils.RecyclerItemClickListener;
 import com.nealgosalia.timetable.utils.Subject;
+import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +74,13 @@ public class AttendanceFragment extends Fragment {
         listSubjects.setItemAnimator(new DefaultItemAnimator());
         listSubjects.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         listSubjects.setAdapter(mAttendanceAdapter);
+        listSubjects.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Subject subject = subjectsList.get(position);
+                showAttendanceDialog(subject, position);
+            }
+        }));
         initSwipe();
         return view;
     }
@@ -136,5 +148,46 @@ public class AttendanceFragment extends Fragment {
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(listSubjects);
+    }
+
+    public void showAttendanceDialog(final Subject subject, final int position) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_edit_attendance, null);
+        final NumberPicker attendedLecturesNumberPicker = (NumberPicker) dialogView.findViewById(R.id.attendedLecturesNumberPicker);
+        final NumberPicker totalLecturesNumberPicker = (NumberPicker) dialogView.findViewById(R.id.totalLecturesNumberPicker);
+        attendedLecturesNumberPicker.setValue(subject.getAttendedLectures());
+        totalLecturesNumberPicker.setValue(subject.getTotalLectures());
+        //int attendedLectures = attendedLecturesNumberPicker.getValue();
+        //int totalLectures = ;
+        attendedLecturesNumberPicker.setMaxValue(totalLecturesNumberPicker.getValue());
+        totalLecturesNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                attendedLecturesNumberPicker.setMaxValue(totalLecturesNumberPicker.getValue());
+            }
+        });
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setTitle("Attendance: " + subject.getSubjectName());
+        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                int attendedLectures = attendedLecturesNumberPicker.getValue();
+                int totalLectures = totalLecturesNumberPicker.getValue();
+                SubjectDetails subjectDetails = new SubjectDetails(
+                        subject.getSubjectName(),
+                        attendedLectures,
+                        totalLectures
+                );
+                subjectDatabase.updateSubject(subjectDetails);
+                progressList.set(position, attendedLectures * 100 / totalLectures);
+                subject.setAttendedLectures(attendedLectures);
+                subject.setTotalLectures(totalLectures);
+                subjectsList.set(position, subject);
+                mAttendanceAdapter.notifyDataSetChanged();
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", null);
+        AlertDialog b = dialogBuilder.create();
+        b.show();
     }
 }
