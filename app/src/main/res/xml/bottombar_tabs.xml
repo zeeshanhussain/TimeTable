@@ -5,9 +5,9 @@
         title="Timetable"
         barColorWhenSelected="@color/colorPrimary"/>
     <tab
-        id="@+id/tab_today"
+        id="@+id/tab_attendance"
         icon="@drawable/ic_today"
-        title="Today"
+        title="Attendance"
         barColorWhenSelected="@color/colorPrimary"/>
     <tab
         id="@+id/tab_subjects"

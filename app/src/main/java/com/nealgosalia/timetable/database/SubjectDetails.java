@@ -7,12 +7,32 @@ package com.nealgosalia.timetable.database;
 public class SubjectDetails {
 
     private String subject;
+    private int attendedLectures;
+    private int totalLectures;
 
     public SubjectDetails() {
     }
 
-    public SubjectDetails(String subject) {
+    public int getAttendedLectures() {
+        return attendedLectures;
+    }
+
+    public void setAttendedLectures(int attendedLectures) {
+        this.attendedLectures = attendedLectures;
+    }
+
+    public int getTotalLectures() {
+        return totalLectures;
+    }
+
+    public void setTotalLectures(int totalLectures) {
+        this.totalLectures = totalLectures;
+    }
+
+    public SubjectDetails(String subject, int attendedLectures, int totalLectures) {
         this.subject = subject;
+        this.attendedLectures = attendedLectures;
+        this.totalLectures = totalLectures;
     }
 
     public String getSubject() {

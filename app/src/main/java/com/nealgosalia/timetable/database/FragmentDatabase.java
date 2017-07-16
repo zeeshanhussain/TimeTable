@@ -58,6 +58,13 @@ public class FragmentDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void remove(FragmentDetails fd) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = FragmentDatabase.DAY + "=? AND " + FragmentDatabase.START_HOUR + "=? AND "+ FragmentDatabase.START_MINUTE + "=?";
+        String[] selectionArgs = { Integer.toString(fd.getDay()),Integer.toString(fd.getStartHour()),Integer.toString(fd.getEndMinute()) };
+        db.delete(FragmentDatabase.TABLE_DETAIL, selection, selectionArgs);
+    }
+
     public List getLectureList() {
         String sql = "select * from " + TABLE_DETAIL;
         SQLiteDatabase db = this.getReadableDatabase();

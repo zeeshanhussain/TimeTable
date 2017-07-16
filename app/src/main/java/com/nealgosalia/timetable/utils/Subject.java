@@ -2,11 +2,29 @@ package com.nealgosalia.timetable.utils;
 
 import java.util.Comparator;
 
-public class Subject implements Comparable<Subject>{
+public class Subject implements Comparable<Subject> {
 
     private String subjectName;
+    private int attendedLectures;
+    private int totalLectures;
 
-    public Subject(){
+    public Subject() {
+    }
+
+    public int getAttendedLectures() {
+        return attendedLectures;
+    }
+
+    public void setAttendedLectures(int attendedLectures) {
+        this.attendedLectures = attendedLectures;
+    }
+
+    public int getTotalLectures() {
+        return totalLectures;
+    }
+
+    public void setTotalLectures(int totalLectures) {
+        this.totalLectures = totalLectures;
     }
 
     public String getSubjectName() {

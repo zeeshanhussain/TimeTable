@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 import com.ncapdevi.fragnav.FragNavController;
 import com.nealgosalia.timetable.activities.PreferencesActivity;
+import com.nealgosalia.timetable.fragments.AttendanceFragment;
 import com.nealgosalia.timetable.fragments.SubjectsFragment;
 import com.nealgosalia.timetable.fragments.TimetableFragment;
-import com.nealgosalia.timetable.fragments.TodayFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         List<Fragment> fragments = new ArrayList<>(3);
         fragments.add(new TimetableFragment());
-        fragments.add(new TodayFragment());
+        fragments.add(new AttendanceFragment());
         fragments.add(new SubjectsFragment());
         fragNavController = new FragNavController(savedInstanceState, getSupportFragmentManager(), R.id.contentContainer, fragments, TAB_FIRST);
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.tab_timetable:
                         fragNavController.switchTab(TAB_FIRST);
                         break;
-                    case R.id.tab_today:
+                    case R.id.tab_attendance:
                         fragNavController.switchTab(TAB_SECOND);
                         break;
                     case R.id.tab_subjects:
