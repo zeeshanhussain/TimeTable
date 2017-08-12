@@ -12,14 +12,16 @@ public class FragmentDetails {
     private int endHour;
     private int startMinute;
     private int endMinute;
+    private String roomNo;
 
-    public FragmentDetails(int day, String subject, int startHour, int startMinute, int endHour, int endMinute) {
+    public FragmentDetails(int day, String subject, int startHour, int startMinute, int endHour, int endMinute, String roomNo) {
         this.day = day;
         this.subject = subject;
         this.startHour = startHour;
         this.startMinute = startMinute;
         this.endHour = endHour;
         this.endMinute = endMinute;
+        this.roomNo = roomNo;
     }
 
     public int getDay() {
@@ -44,5 +46,8 @@ public class FragmentDetails {
 
     public int getEndMinute() {
         return endMinute;
+    }
+    public String getRoomNo(){
+        return roomNo;
     }
 }

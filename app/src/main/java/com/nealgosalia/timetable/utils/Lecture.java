@@ -7,6 +7,7 @@ public class Lecture implements Comparable<Lecture> {
     private String subjectName;
     private String startTime;
     private String endTime;
+    private String roomNo;
     private int day;
 
     public int getDay() {
@@ -40,6 +41,13 @@ public class Lecture implements Comparable<Lecture> {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+    public void setRoomNo(String roomNo) {
+        this.roomNo = roomNo;
+    }
+    public String getRoomNo(){
+        return roomNo;
+    }
+
 
     @Override
     public int compareTo(Lecture o) {

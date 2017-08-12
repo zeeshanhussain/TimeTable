@@ -24,10 +24,11 @@ public class FragmentDatabase extends SQLiteOpenHelper {
     private static final String END_HOUR = "endHour";
     private static final String START_MINUTE = "startMinute";
     private static final String END_MINUTE = "endMinute";
+    private static final String ROOM_NUMBER = "roomNo";
     private static final String CREATE_TABLE = "create table "
             + TABLE_DETAIL + "(" + DAY + " integer not null, " + SUBJECT + " varchar not null,"
             + START_HOUR + " integer not null," + START_MINUTE + " integer not null,"
-            + END_HOUR + " integer not null," + END_MINUTE + " integer not null);";
+            + END_HOUR + " integer not null," + END_MINUTE + " integer not null," +  ROOM_NUMBER + " varchar not null);";
     private List<Lecture> lecturesList = new ArrayList<>();
 
     public FragmentDatabase(Context context) {
@@ -54,6 +55,7 @@ public class FragmentDatabase extends SQLiteOpenHelper {
         values.put(START_MINUTE, fd.getStartMinute());
         values.put(END_HOUR, fd.getEndHour());
         values.put(END_MINUTE, fd.getEndMinute());
+        values.put(ROOM_NUMBER,fd.getRoomNo());
         db.insert(TABLE_DETAIL, null, values);
         db.close();
     }
@@ -77,6 +79,7 @@ public class FragmentDatabase extends SQLiteOpenHelper {
                 lecture.setStartTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
                 lecture.setEndTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
                 lecture.setDay(cursor.getInt(0));
+                lecture.setRoomNo(cursor.getString(6));
                 lecturesList.add(lecture);
             }
         } catch (Exception e) {
@@ -99,6 +102,7 @@ public class FragmentDatabase extends SQLiteOpenHelper {
                 lecture.setStartTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(2), cursor.getInt(3)));
                 lecture.setEndTime(String.format(Locale.US, "%02d:%02d", cursor.getInt(4), cursor.getInt(5)));
                 lecture.setDay(cursor.getInt(0));
+                lecture.setRoomNo(cursor.getString(6));
                 lecturesList.add(lecture);
             }
         } catch (Exception e) {

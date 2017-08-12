@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -55,6 +56,7 @@ public class TimetableFragment extends Fragment {
     private TimePicker startTime;
     private TimePicker endTime;
     private ViewPager viewPager;
+    private EditText roomN;
     private int count;
     private int breakFlag;
     private FragmentDatabase fragmentDatabase;
@@ -110,6 +112,7 @@ public class TimetableFragment extends Fragment {
         btnNext = (Button) dialogView.findViewById(R.id.btnNext);
         textDialog = (TextView) dialogView.findViewById(R.id.textDialog);
         spinnerSubjects = (Spinner) dialogView.findViewById(R.id.spinnerSubjects);
+        roomN = (EditText) dialogView.findViewById(R.id.room);
         setSubjectList();
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, subjectsList) {
             @Override
@@ -134,6 +137,7 @@ public class TimetableFragment extends Fragment {
 
         startTime.setVisibility(View.GONE);
         endTime.setVisibility(View.GONE);
+        roomN.setVisibility(View.GONE);
         dialogBuilder.setView(dialogView);
         textDialog.setText("Choose subject");
         final AlertDialog dialog = dialogBuilder.create();
@@ -150,19 +154,24 @@ public class TimetableFragment extends Fragment {
                 if (count == 1) {
                     if (spinnerSubjects.getSelectedItemPosition() != 0) {
                         spinnerSubjects.setVisibility(View.GONE);
-                        textDialog.setText("Enter start time");
-                        startTime.setVisibility(View.VISIBLE);
-                        btnNext.setText("Next");
+                        textDialog.setText("Enter room number");
+                        roomN.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(getActivity(), "Please select a subject", Toast.LENGTH_SHORT).show();
                         count--;
                     }
-                } else if (count == 2) {
+                } else if(count==2) {
+                    roomN.setVisibility(View.GONE);
+                    textDialog.setText("Enter start time");
+                    startTime.setVisibility(View.VISIBLE);
+                    btnNext.setText("Next");
+                }
+                else if (count == 3) {
                     startTime.setVisibility(View.GONE);
                     textDialog.setText("Enter end time");
                     endTime.setVisibility(View.VISIBLE);
                     btnNext.setText("Done");
-                } else if (count == 3) {
+                } else if (count == 4) {
                     int startHour, startMinute, endHour, endMinute;
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                         startHour = startTime.getCurrentHour();
@@ -177,9 +186,10 @@ public class TimetableFragment extends Fragment {
                         endMinute = endTime.getMinute();
                     }
                     if ((endHour > startHour) || ((endHour == startHour) && (endMinute > startMinute))) {
+                        String edit  = roomN.getText().toString().trim();
                         int day = tabLayout.getSelectedTabPosition();
                         String subjectName = subjectsList.get(spinnerSubjects.getSelectedItemPosition());
-                        fragmentDatabase.add(new FragmentDetails(day, subjectName, startHour, startMinute, endHour, endMinute));
+                        fragmentDatabase.add(new FragmentDetails(day, subjectName, startHour, startMinute, endHour, endMinute,edit));
                         dialog.dismiss();
                         viewPager.getAdapter().notifyDataSetChanged();
                         SharedPreferences mSharedPreference = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
@@ -193,6 +203,7 @@ public class TimetableFragment extends Fragment {
                         count--;
                     }
                 }
+
             }
         });
         dialog.show();

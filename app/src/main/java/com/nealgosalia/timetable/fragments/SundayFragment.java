@@ -70,7 +70,10 @@ public class SundayFragment extends Fragment {
                         Integer.parseInt(lecture.getStartTime().substring(0,2)),
                         Integer.parseInt(lecture.getStartTime().substring(3,5)),
                         Integer.parseInt(lecture.getEndTime().substring(0,2)),
-                        Integer.parseInt(lecture.getEndTime().substring(3,5))
+                        Integer.parseInt(lecture.getEndTime().substring(3,5)),
+                        lecture.getRoomNo()
+
+
                 );
                 db.remove(fd);
                 lecturesList.remove(position);

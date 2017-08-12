@@ -18,11 +18,14 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView lectureName;
         public TextView lectureTime;
+        public TextView lectureroom;
 
         public MyViewHolder(View view) {
             super(view);
             lectureName = (TextView) view.findViewById(R.id.lectureName);
             lectureTime = (TextView) view.findViewById(R.id.lectureTime);
+            lectureroom = (TextView) view.findViewById(R.id.lectureroom);
+
         }
     }
 
@@ -43,6 +46,7 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyView
         Lecture lecture = lectureList.get(position);
         holder.lectureName.setText(lecture.getSubjectName());
         holder.lectureTime.setText(lecture.getStartTime() + " - " + lecture.getEndTime());
+        holder.lectureroom.setText(lecture.getRoomNo());
     }
 
     @Override
