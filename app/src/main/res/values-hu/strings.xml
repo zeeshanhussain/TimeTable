@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Órarend</string>
+    <string name="title_activity_subjects">Tantárgyak</string>
+    <string name="title_activity_preferences">Beállítások</string>
+    <string name="monday">Hétfő</string>
+    <string name="tuesday">Kedd</string>
+    <string name="wednesday">Szerda</string>
+    <string name="thursday">Csütörtök</string>
+    <string name="friday">Péntek</string>
+    <string name="saturday">Szombat</string>
+    <string name="sunday">Vasárnap</string>
+    <string name="placeholder">Nincs tanóra</string>
+    <string name="subjectsPlaceholder">Nincs tantárgy</string>
+</resources>

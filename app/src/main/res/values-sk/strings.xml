@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Rozvrh hodín</string>
+    <string name="title_activity_subjects">Predmety</string>
+    <string name="title_activity_preferences">Nastavenia</string>
+    <string name="monday">Pondelok</string>
+    <string name="tuesday">Utorok</string>
+    <string name="wednesday">Streda</string>
+    <string name="thursday">Štvrtok</string>
+    <string name="friday">Piatok</string>
+    <string name="saturday">Sobota</string>
+    <string name="sunday">Nedela</string>
+    <string name="placeholder">Žiadne vyučovacie hodiny</string>
+    <string name="subjectsPlaceholder">Žiadne predmety</string>
+</resources>
