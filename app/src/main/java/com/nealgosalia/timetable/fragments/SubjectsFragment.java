@@ -55,8 +55,8 @@ public class SubjectsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_subjects, container, false);
-        listSubjects = (RecyclerView) view.findViewById(R.id.listSubjects);
-        placeholderText = (TextView) view.findViewById(R.id.subjectsPlaceholderText);
+        listSubjects = view.findViewById(R.id.listSubjects);
+        placeholderText = view.findViewById(R.id.subjectsPlaceholderText);
         subjectDatabase = new SubjectDatabase(getActivity());
         subjectsList.clear();
         for (SubjectDetails subjectDetails : subjectDatabase.getSubjectDetail()) {
@@ -74,7 +74,7 @@ public class SubjectsFragment extends Fragment {
         listSubjects.setItemAnimator(new DefaultItemAnimator());
         listSubjects.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         listSubjects.setAdapter(mSubjectsAdapter);
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,14 +90,14 @@ public class SubjectsFragment extends Fragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_add_subject, null);
         dialogBuilder.setView(dialogView);
-        newSubjectName = (AutoCompleteTextView) dialogView.findViewById(R.id.newSubjectName);
+        newSubjectName = dialogView.findViewById(R.id.newSubjectName);
         sub = getResources().getStringArray(R.array.subjectNames);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sub);
         newSubjectName.setThreshold(2);
         newSubjectName.setAdapter(adapter);
-        dialogBuilder.setTitle("Subject");
-        dialogBuilder.setMessage("Enter subject name");
-        dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        dialogBuilder.setTitle(getResources().getString(R.string.subject));
+        dialogBuilder.setMessage(getResources().getString(R.string.enter_subject_name));
+        dialogBuilder.setPositiveButton(getResources().getString(R.string.add), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Subject subject = new Subject();
                 String tempSubject = newSubjectName.getText().toString().trim();
@@ -110,7 +110,7 @@ public class SubjectsFragment extends Fragment {
                 newSubjectName.setText("");
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", null);
+        dialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), null);
         final AlertDialog dialog = dialogBuilder.create();
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
@@ -190,7 +190,7 @@ public class SubjectsFragment extends Fragment {
     private void initDialog(final int position){
         alertDialog = new AlertDialog.Builder(getActivity());
         dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_subject,null);
-        editSubject = (AutoCompleteTextView)dialogView.findViewById(R.id.edit_subject);
+        editSubject = dialogView.findViewById(R.id.edit_subject);
         sub = getResources().getStringArray(R.array.subjectNames);
         ArrayAdapter<String> adapte = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sub);
         if(editSubject !=null) {
@@ -198,7 +198,7 @@ public class SubjectsFragment extends Fragment {
             editSubject.setAdapter(adapte);
         }
         alertDialog.setView(dialogView);
-        alertDialog.setTitle("Edit Subject");
+        alertDialog.setTitle(getResources().getString(R.string.edit_subject));
         alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -215,7 +215,7 @@ public class SubjectsFragment extends Fragment {
                     dialog.dismiss();
             }
         });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+        alertDialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mSubjectsAdapter.notifyDataSetChanged();
@@ -252,9 +252,9 @@ public class SubjectsFragment extends Fragment {
 
     public void deleteSwipe(final int position) {
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("Warning!");
-        alertDialog.setMessage("Are you sure you want to delete the subject?");
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(getResources().getString(R.string.warning));
+        alertDialog.setMessage(getResources().getString(R.string.subject_question));
+        alertDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Subject subject = subjectsList.get(position);
@@ -265,7 +265,7 @@ public class SubjectsFragment extends Fragment {
                 mSubjectsAdapter.notifyDataSetChanged();
             }
         });
-        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mSubjectsAdapter.notifyDataSetChanged();

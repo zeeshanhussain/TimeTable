@@ -20,7 +20,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            subjectName = (TextView) view.findViewById(R.id.subjectName);
+            subjectName = view.findViewById(R.id.subjectName);
         }
     }
 

@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.AttendanceAdapter;
-import com.nealgosalia.timetable.database.FragmentDetails;
 import com.nealgosalia.timetable.database.SubjectDatabase;
 import com.nealgosalia.timetable.database.SubjectDetails;
 import com.nealgosalia.timetable.utils.DividerItemDecoration;
@@ -47,8 +46,8 @@ public class AttendanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_attendance, container, false);
-        listSubjects = (RecyclerView) view.findViewById(R.id.listAttendance);
-        placeholderText = (TextView) view.findViewById(R.id.attendancePlaceholderText);
+        listSubjects = view.findViewById(R.id.listAttendance);
+        placeholderText = view.findViewById(R.id.attendancePlaceholderText);
         subjectDatabase = new SubjectDatabase(getActivity());
         subjectsList.clear();
         for (SubjectDetails subjectDetails : subjectDatabase.getSubjectDetail()) {
@@ -154,8 +153,8 @@ public class AttendanceFragment extends Fragment {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_edit_attendance, null);
-        final NumberPicker attendedLecturesNumberPicker = (NumberPicker) dialogView.findViewById(R.id.attendedLecturesNumberPicker);
-        final NumberPicker totalLecturesNumberPicker = (NumberPicker) dialogView.findViewById(R.id.totalLecturesNumberPicker);
+        final NumberPicker attendedLecturesNumberPicker = dialogView.findViewById(R.id.attendedLecturesNumberPicker);
+        final NumberPicker totalLecturesNumberPicker = dialogView.findViewById(R.id.totalLecturesNumberPicker);
         attendedLecturesNumberPicker.setValue(subject.getAttendedLectures());
         totalLecturesNumberPicker.setValue(subject.getTotalLectures());
         //int attendedLectures = attendedLecturesNumberPicker.getValue();
@@ -168,8 +167,8 @@ public class AttendanceFragment extends Fragment {
             }
         });
         dialogBuilder.setView(dialogView);
-        dialogBuilder.setTitle("Attendance: " + subject.getSubjectName());
-        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        dialogBuilder.setTitle(getResources().getString(R.string.attendance) + ": " + subject.getSubjectName());
+        dialogBuilder.setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 int attendedLectures = attendedLecturesNumberPicker.getValue();
                 int totalLectures = totalLecturesNumberPicker.getValue();
@@ -186,7 +185,7 @@ public class AttendanceFragment extends Fragment {
                 mAttendanceAdapter.notifyDataSetChanged();
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", null);
+        dialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), null);
         AlertDialog b = dialogBuilder.create();
         b.show();
     }

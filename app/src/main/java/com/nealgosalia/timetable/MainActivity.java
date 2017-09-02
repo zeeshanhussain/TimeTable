@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Press back button again to exit!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.press_back), Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -23,8 +23,8 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            subjectName = (TextView) view.findViewById(R.id.subjectNameAttendance);
-            attendance = (NumberProgressBar)view.findViewById(R.id.attendance_progress_bar);
+            subjectName = view.findViewById(R.id.subjectNameAttendance);
+            attendance = view.findViewById(R.id.attendance_progress_bar);
         }
     }
 

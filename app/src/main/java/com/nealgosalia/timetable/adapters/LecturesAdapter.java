@@ -22,9 +22,9 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            lectureName = (TextView) view.findViewById(R.id.lectureName);
-            lectureTime = (TextView) view.findViewById(R.id.lectureTime);
-            lectureroom = (TextView) view.findViewById(R.id.lectureroom);
+            lectureName = view.findViewById(R.id.lectureName);
+            lectureTime = view.findViewById(R.id.lectureTime);
+            lectureroom = view.findViewById(R.id.lectureroom);
 
         }
     }

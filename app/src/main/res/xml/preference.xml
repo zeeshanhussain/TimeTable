@@ -6,17 +6,17 @@
         android:entryValues="@array/listValues"
         android:key="notificationTime"
         android:summary="%s"
-        android:title="Notifications" />
+        android:title="@string/notifications" />
     <Preference
         android:key="backup"
-        android:summary="Backup to internal storage"
-        android:title="Backup" />
+        android:summary="@string/backup_to_internal_storage"
+        android:title="@string/backup" />
     <Preference
         android:key="restore"
-        android:summary="Restore from internal storage"
-        android:title="Restore" />
+        android:summary="@string/restore_from_internal_storage"
+        android:title="@string/restore" />
     <Preference
         android:key="reset"
-        android:summary="Reset the timetable"
-        android:title="Reset" />
+        android:summary="@string/reset_the_timetable"
+        android:title="@string/reset" />
 </PreferenceScreen>

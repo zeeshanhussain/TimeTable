@@ -1,5 +1,6 @@
 package com.nealgosalia.timetable.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -8,12 +9,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,6 @@ import com.nealgosalia.timetable.database.FragmentDatabase;
 import com.nealgosalia.timetable.database.FragmentDetails;
 import com.nealgosalia.timetable.database.SubjectDatabase;
 import com.nealgosalia.timetable.database.SubjectDetails;
-import com.nealgosalia.timetable.fragments.MyPreferenceFragment;
 import com.nealgosalia.timetable.receivers.MyReceiver;
 import com.nealgosalia.timetable.utils.Alarms;
 
@@ -48,7 +48,7 @@ public class TimetableFragment extends Fragment {
 
     private static final int MINUTE = 60000;
     private static final String TAG = "TimetableFragment";
-    private Button btnCancel, btnNext;
+    private Button btnNext;
     private List<String> subjectsList = new ArrayList<>();
     private Spinner spinnerSubjects;
     private TabLayout tabLayout;
@@ -58,20 +58,18 @@ public class TimetableFragment extends Fragment {
     private ViewPager viewPager;
     private EditText roomN;
     private int count;
-    private int breakFlag;
     private FragmentDatabase fragmentDatabase;
     private SubjectDatabase subjectDatabase;
-    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_timetable, container, false);
+        View view = inflater.inflate(R.layout.activity_timetable, container, false);
         fragmentDatabase = new FragmentDatabase(getActivity());
         subjectDatabase = new SubjectDatabase(getActivity());
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewPager = view.findViewById(R.id.viewpager);
         viewPager.setAdapter(new SimpleFragmentPagerAdapter(getChildFragmentManager(), getActivity()));
-        tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
+        tabLayout = view.findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -90,7 +88,7 @@ public class TimetableFragment extends Fragment {
         } else if (Calendar.SUNDAY == dayOfWeek) {
             viewPager.setCurrentItem(6);
         }
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabTimeTable);
+        FloatingActionButton fab = view.findViewById(R.id.fabTimeTable);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,15 +102,15 @@ public class TimetableFragment extends Fragment {
     public void showTimeTableDialog() {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         final LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.dialog_add_timetable, null);
+        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_add_timetable, null);
 
-        startTime = (TimePicker) dialogView.findViewById(R.id.startTime);
-        endTime = (TimePicker) dialogView.findViewById(R.id.endTime);
-        btnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
-        btnNext = (Button) dialogView.findViewById(R.id.btnNext);
-        textDialog = (TextView) dialogView.findViewById(R.id.textDialog);
-        spinnerSubjects = (Spinner) dialogView.findViewById(R.id.spinnerSubjects);
-        roomN = (EditText) dialogView.findViewById(R.id.room);
+        startTime = dialogView.findViewById(R.id.startTime);
+        endTime = dialogView.findViewById(R.id.endTime);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+        btnNext = dialogView.findViewById(R.id.btnNext);
+        textDialog = dialogView.findViewById(R.id.textDialog);
+        spinnerSubjects = dialogView.findViewById(R.id.spinnerSubjects);
+        roomN = dialogView.findViewById(R.id.room);
         setSubjectList();
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, subjectsList) {
             @Override
@@ -121,7 +119,7 @@ public class TimetableFragment extends Fragment {
             }
 
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
                 if (position == 0) {
@@ -139,7 +137,7 @@ public class TimetableFragment extends Fragment {
         endTime.setVisibility(View.GONE);
         roomN.setVisibility(View.GONE);
         dialogBuilder.setView(dialogView);
-        textDialog.setText("Choose subject");
+        textDialog.setText(getResources().getString(R.string.choose_subject));
         final AlertDialog dialog = dialogBuilder.create();
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +152,7 @@ public class TimetableFragment extends Fragment {
                 if (count == 1) {
                     if (spinnerSubjects.getSelectedItemPosition() != 0) {
                         spinnerSubjects.setVisibility(View.GONE);
-                        textDialog.setText("Enter room number");
+                        textDialog.setText(getResources().getString(R.string.enter_room_number));
                         roomN.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(getActivity(), "Please select a subject", Toast.LENGTH_SHORT).show();
@@ -162,15 +160,15 @@ public class TimetableFragment extends Fragment {
                     }
                 } else if(count==2) {
                     roomN.setVisibility(View.GONE);
-                    textDialog.setText("Enter start time");
+                    textDialog.setText(getResources().getString(R.string.enter_start_time));
                     startTime.setVisibility(View.VISIBLE);
-                    btnNext.setText("Next");
+                    btnNext.setText(getResources().getString(R.string.next));
                 }
                 else if (count == 3) {
                     startTime.setVisibility(View.GONE);
-                    textDialog.setText("Enter end time");
+                    textDialog.setText(getResources().getString(R.string.enter_end_time));
                     endTime.setVisibility(View.VISIBLE);
-                    btnNext.setText("Done");
+                    btnNext.setText(getResources().getString(R.string.done));
                 } else if (count == 4) {
                     int startHour, startMinute, endHour, endMinute;
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -199,7 +197,7 @@ public class TimetableFragment extends Fragment {
                             setAlarmForNotification(subjectName, day, notificationTime, startHour, startMinute);
                         }
                     } else {
-                        Toast.makeText(getActivity(), "End time should be greater than start time!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.end_time_should_be), Toast.LENGTH_LONG).show();
                         count--;
                     }
                 }
@@ -210,20 +208,20 @@ public class TimetableFragment extends Fragment {
     }
 
     private void setSubjectList() {
-        breakFlag = 0;
+        int breakFlag = 0;
         subjectsList.clear();
         subjectsList.add("Select one");
         for (SubjectDetails subjectDetails : subjectDatabase.getSubjectDetail()) {
             if (breakFlag == 0) {
                 if (subjectDetails.getSubject().compareTo("Break") > 0) {
-                    subjectsList.add("Break");
+                    subjectsList.add(getResources().getString(R.string.Break));
                     breakFlag++;
                 }
             }
             subjectsList.add(subjectDetails.getSubject());
         }
         if (breakFlag == 0) {
-            subjectsList.add("Break");
+            subjectsList.add(getResources().getString(R.string.Break));
         }
     }
 

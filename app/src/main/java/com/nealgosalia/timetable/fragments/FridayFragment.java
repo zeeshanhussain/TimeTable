@@ -36,13 +36,13 @@ public class FridayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_friday, container, false);
-        placeholderText = (TextView) view.findViewById(R.id.fridayPlaceholderText);
+        placeholderText = view.findViewById(R.id.fridayPlaceholderText);
         db = new FragmentDatabase(getActivity());
         lecturesList = new ArrayList<>(db.getLectureList(4));
         if (lecturesList.size() != 0) {
             placeholderText.setVisibility(View.GONE);
         }
-        recyclerLectures = (RecyclerView) view.findViewById(R.id.listFriday);
+        recyclerLectures = view.findViewById(R.id.listFriday);
         mLectureAdapter = new LecturesAdapter(lecturesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerLectures.setLayoutManager(mLayoutManager);
@@ -60,9 +60,9 @@ public class FridayFragment extends Fragment {
 
     public void showDeleteDialog(final Lecture lecture, final int position) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setTitle("Delete");
-        dialogBuilder.setMessage("Delete lecture?");
-        dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        dialogBuilder.setTitle(getResources().getString(R.string.delete));
+        dialogBuilder.setMessage(getResources().getString(R.string.delete_lecture));
+        dialogBuilder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 FragmentDetails fd = new FragmentDetails(
                         lecture.getDay(),
@@ -78,7 +78,7 @@ public class FridayFragment extends Fragment {
                 mLectureAdapter.notifyDataSetChanged();
             }
         });
-        dialogBuilder.setNegativeButton("No", null);
+        dialogBuilder.setNegativeButton(getResources().getString(R.string.no), null);
         AlertDialog b = dialogBuilder.create();
         b.show();
     }

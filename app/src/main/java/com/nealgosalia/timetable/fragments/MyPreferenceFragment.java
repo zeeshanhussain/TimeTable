@@ -75,9 +75,9 @@ public class MyPreferenceFragment extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 if (mActivity.isStoragePermissionGranted(getActivity())) {
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                    alertDialog.setTitle("Backup Timetable");
-                    alertDialog.setMessage("Do you want to backup the timetable?");
-                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    alertDialog.setTitle(getResources().getString(R.string.backup));
+                    alertDialog.setMessage(getResources().getString(R.string.backup_question));
+                    alertDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String backupDBPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Timetable/";
@@ -85,36 +85,36 @@ public class MyPreferenceFragment extends PreferenceFragment {
                             final File lectureDB = new File(backupDBPath + "lecture.db");
                             if (!(subjectDB.exists() || lectureDB.exists())) {
                                 if (mActivity.exportDatabase("subject.db") && mActivity.exportDatabase("lecture.db")) {
-                                    Toast.makeText(getActivity(), "Backup Successful!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.backup_successful), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getActivity(), "Please create a timetable before trying to export", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.please_create_timetable), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 AlertDialog overwriteDialog = new AlertDialog.Builder(getActivity())
-                                        .setTitle("Warning!")
-                                        .setMessage("Overwrite previous backup?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        .setTitle(getResources().getString(R.string.warning))
+                                        .setMessage(getResources().getString(R.string.overwrite_backup))
+                                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 subjectDB.delete();
                                                 lectureDB.delete();
                                                 if (mActivity.exportDatabase("subject.db") && mActivity.exportDatabase("lecture.db")) {
-                                                    Toast.makeText(getActivity(), "Backup Successful!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), getResources().getString(R.string.backup_successful), Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(getActivity(), "Please create a timetable before trying to export", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), getResources().getString(R.string.please_create_timetable), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         })
-                                        .setNegativeButton("No", null)
+                                        .setNegativeButton(getResources().getString(R.string.no), null)
                                         .create();
                                 overwriteDialog.show();
                             }
                         }
                     });
-                    alertDialog.setNegativeButton("No", null);
+                    alertDialog.setNegativeButton(getResources().getString(R.string.no), null);
                     alertDialog.show();
                 } else {
-                    Toast.makeText(getActivity(), "No Permissions Granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.no_permission_granted), Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -124,9 +124,9 @@ public class MyPreferenceFragment extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 if (mActivity.isStoragePermissionGranted(getActivity())) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                    alertDialog.setTitle("Restore Timetable");
-                    alertDialog.setMessage("Do you want to restore the timetable?");
-                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    alertDialog.setTitle(getResources().getString(R.string.restore));
+                    alertDialog.setMessage(getResources().getString(R.string.restore_question));
+                    alertDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String backupDBPath = "data/data/com.nealgosalia.timetable/databases/";
@@ -135,37 +135,37 @@ public class MyPreferenceFragment extends PreferenceFragment {
                             if (!(subjectDB.exists() || lectureDB.exists())) {
                                 if (mActivity.importDatabase("subject.db") && mActivity.importDatabase("lecture.db")) {
                                     restartApplication();
-                                    Toast.makeText(getActivity(), "Restore Successful!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.restore_successful), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getActivity(), "Backup not found!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.backup_not_found), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 AlertDialog overwriteDialog = new AlertDialog.Builder(getActivity())
-                                        .setTitle("Warning!")
-                                        .setMessage("Overwrite current timetable?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        .setTitle(getResources().getString(R.string.warning))
+                                        .setMessage(getResources().getString(R.string.overwrite_timetable))
+                                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 subjectDB.delete();
                                                 lectureDB.delete();
                                                 if (mActivity.importDatabase("subject.db") && mActivity.importDatabase("lecture.db")) {
                                                     restartApplication();
-                                                    Toast.makeText(getActivity(), "Restore Successful!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), getResources().getString(R.string.restore_successful), Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(getActivity(), "Backup not found", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), getResources().getString(R.string.backup_not_found), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         })
-                                        .setNegativeButton("No", null)
+                                        .setNegativeButton(getResources().getString(R.string.no), null)
                                         .create();
                                 overwriteDialog.show();
                             }
                         }
                     });
-                    alertDialog.setNegativeButton("No", null);
+                    alertDialog.setNegativeButton(getResources().getString(R.string.no), null);
                     alertDialog.show();
                 } else {
-                    Toast.makeText(getActivity(), "No Permissions Granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.no_permission_granted), Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -174,9 +174,9 @@ public class MyPreferenceFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                alertDialog.setTitle("Reset Timetable");
-                alertDialog.setMessage("Are you sure you want to reset the timetable?");
-                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                alertDialog.setTitle(getResources().getString(R.string.reset_the_timetable));
+                alertDialog.setMessage(getResources().getString(R.string.reset_question));
+                alertDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String resetDBPath = "data/data/com.nealgosalia.timetable/databases/";
@@ -187,10 +187,10 @@ public class MyPreferenceFragment extends PreferenceFragment {
                             lectureDB.delete();
                         }
                         restartApplication();
-                        Toast.makeText(mActivity, "Reset Successful!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, getResources().getString(R.string.reset_successful), Toast.LENGTH_SHORT).show();
                     }
                 });
-                alertDialog.setNegativeButton("No", null);
+                alertDialog.setNegativeButton(getResources().getString(R.string.no), null);
                 alertDialog.show();
                 return false;
             }

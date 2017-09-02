@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="listEntries">
-        <item>Disable</item>
-        <item>0 minutes</item>
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>45 minutes</item>
-        <item>60 minutes</item>
+        <item>@string/disable</item>
+        <item>@string/zero_min</item>
+        <item>@string/five_min</item>
+        <item>@string/ten_min</item>
+        <item>@string/fifteen_min</item>
+        <item>@string/thirty_min</item>
+        <item>@string/fourty_five_min</item>
+        <item>@string/sixty_min</item>
     </string-array>
-    <string-array name="listValues">
-        <item>-1</item>
-        <item>0</item>
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>30</item>
-        <item>45</item>
-        <item>60</item>
+    <string-array translatable="false" name="listValues">
+        <item translatable="false">-1</item>
+        <item translatable="false">0</item>
+        <item translatable="false">5</item>
+        <item translatable="false">10</item>
+        <item translatable="false">15</item>
+        <item translatable="false">30</item>
+        <item translatable="false">45</item>
+        <item translatable="false">60</item>
     </string-array>
-    <string-array name="subjectNames">
-        <item>Maths</item>
-        <item>Android</item>
-        <item>Java</item>
-        <item>Chemistry</item>
-        <item>Physics</item>
-        <item>English</item>
-        <item>Physical Education</item>
-        <item>Biology</item>
-        <item>Economics</item>
-        <item>Informatics Practices</item>
-        <item>Accounts</item>
-        <item>Business Studies</item>
-        <item>Music</item>
-        <item>Psychology</item>
-        <item>Hindi</item>
-        <item>Urdu</item>
-        <item>Fine Arts</item>
-        <item>Engineering Graphics</item>
-        <item>Biotechnology</item>
-        <item>Political Science</item>
-        <item>History</item>
-        <item>Home Science</item>
-        <item>Agriculture</item>
-        <item>Sociology</item>
-        <item>Mass Media Studies</item>
-        <item>Heritage Crafts</item>
-        <item>Entrepreneurship</item>
-        <item>Fashion Studies</item>
-        <item>Sanskrit</item>
-        <item>Film Media</item>
+    <string-array translatable="false" name="subjectNames">
+        <item translatable="false">Maths</item>
+        <item translatable="false">Android</item>
+        <item translatable="false">Java</item>
+        <item translatable="false">Chemistry</item>
+        <item translatable="false">Physics</item>
+        <item translatable="false">English</item>
+        <item translatable="false">Physical Education</item>
+        <item translatable="false">Biology</item>
+        <item translatable="false">Economics</item>
+        <item translatable="false">Informatics Practices</item>
+        <item translatable="false">Accounts</item>
+        <item translatable="false">Business Studies</item>
+        <item translatable="false">Music</item>
+        <item translatable="false">Psychology</item>
+        <item translatable="false">Hindi</item>
+        <item translatable="false">Urdu</item>
+        <item translatable="false">Fine Arts</item>
+        <item translatable="false">Engineering Graphics</item>
+        <item translatable="false">Biotechnology</item>
+        <item translatable="false">Political Science</item>
+        <item translatable="false">History</item>
+        <item translatable="false">Home Science</item>
+        <item translatable="false">Agriculture</item>
+        <item translatable="false">Sociology</item>
+        <item translatable="false">Mass Media Studies</item>
+        <item translatable="false">Heritage Crafts</item>
+        <item translatable="false">Entrepreneurship</item>
+        <item translatable="false">Fashion Studies</item>
+        <item translatable="false">Sanskrit</item>
+        <item translatable="false">Film Media</item>
     </string-array>
 </resources>
