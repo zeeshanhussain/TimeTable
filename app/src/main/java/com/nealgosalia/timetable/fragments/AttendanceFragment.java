@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nealgosalia.timetable.R;
 import com.nealgosalia.timetable.adapters.AttendanceAdapter;
@@ -41,6 +42,7 @@ public class AttendanceFragment extends Fragment {
     private View view;
     private List<Integer> progressList = new ArrayList<>();
     private Paint p = new Paint();
+    private CharSequence options[] = new CharSequence[] {"Bunk Manager", "Update"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,9 +77,43 @@ public class AttendanceFragment extends Fragment {
         listSubjects.setAdapter(mAttendanceAdapter);
         listSubjects.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Subject subject = subjectsList.get(position);
-                showAttendanceDialog(subject, position);
+            public void onItemClick(View view, final int position) {
+                final Subject subject = subjectsList.get(position);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("Options");
+                alertDialog.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                //check if you can Bunk or not
+                                int temp1,temp2,i=0;
+                                int attendedLectures = subjectsList.get(position).getAttendedLectures();
+                                int totalLectures = subjectsList.get(position).getTotalLectures();
+                                temp1=attendedLectures;
+                                temp2=totalLectures;
+                                int x= attendedLectures * 100 / totalLectures;
+                                while(x<75) {
+                                    temp1++;
+                                    temp2++;
+                                    x = temp1 * 100 / temp2;
+                                    i++;
+                                }
+                                if(i!=0) {
+                                    Toast.makeText(getContext(), "You need to attend " + String.valueOf(i) + " lectures", Toast.LENGTH_SHORT).show();
+                                } else{
+                                    Toast.makeText(getContext(), "Your Attendance is fine", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            case 1:
+                                //update Attendance manually
+                                showAttendanceDialog(subject, position);
+
+                        }
+                    }
+                });
+                alertDialog.show();
+
             }
         }));
         initSwipe();
