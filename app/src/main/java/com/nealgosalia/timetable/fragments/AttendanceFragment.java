@@ -87,17 +87,36 @@ public class AttendanceFragment extends Fragment {
                         switch (which) {
                             case 0:
                                 //check if you can Bunk or not
-                                int temp;
+                                int temp,x;
                                 int attendedLectures = subjectsList.get(position).getAttendedLectures();
                                 int totalLectures = subjectsList.get(position).getTotalLectures();
-
-                                int x= attendedLectures * 100 / totalLectures;
-                                if(x>75){
+                                if (attendedLectures==0 && totalLectures==0){
+                                    x=0;
+                                }else{
+                                    x = attendedLectures * 100 / totalLectures;
+                                }
+                                if(x==0){
+                                    Toast.makeText(getContext(), "Please update your attendance", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(x==75){
+                                    Toast.makeText(getContext(), "you can't bunk any lecture", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(x>75){
                                     temp=((4*attendedLectures)-(3*totalLectures))/3;
+                                    if(temp==0){
+                                        Toast.makeText(getContext(), "you can't bunk any lecture", Toast.LENGTH_SHORT).show();
+                                    } else if(temp==1){
+                                        Toast.makeText(getContext(), "you can bunk " + String.valueOf(temp)+" lecture", Toast.LENGTH_SHORT).show();
+                                    } else
                                     Toast.makeText(getContext(), "you can bunk " + String.valueOf(temp)+" lectures", Toast.LENGTH_SHORT).show();
+
                                 } else {
                                     temp=(3*totalLectures)-(4*attendedLectures);
+                                    if(temp==1){
+                                        Toast.makeText(getContext(), "you need to attend "+String.valueOf(temp)+" lecture", Toast.LENGTH_SHORT).show();
+                                    } else
                                     Toast.makeText(getContext(), "you need to attend "+String.valueOf(temp)+" lectures", Toast.LENGTH_SHORT).show();
+
                                 }
                                 break;
                             case 1:
@@ -209,7 +228,13 @@ public class AttendanceFragment extends Fragment {
                         totalLectures
                 );
                 subjectDatabase.updateSubject(subjectDetails);
-                progressList.set(position, attendedLectures * 100 / totalLectures);
+                int x;
+                if (attendedLectures==0 && totalLectures==0){
+                    x=0;
+                }else{
+                    x = attendedLectures * 100 / totalLectures;
+                }
+                progressList.set(position, x);
                 subject.setAttendedLectures(attendedLectures);
                 subject.setTotalLectures(totalLectures);
                 subjectsList.set(position, subject);
