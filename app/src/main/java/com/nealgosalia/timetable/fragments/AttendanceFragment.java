@@ -92,7 +92,10 @@ public class AttendanceFragment extends Fragment {
                                 int totalLectures = subjectsList.get(position).getTotalLectures();
                                 if (attendedLectures==0 && totalLectures==0){
                                     x=0;
-                                }else{
+                                } else if(attendedLectures==0 && totalLectures!=0){
+                                    x=1; //temp
+                                }
+                                else{
                                     x = attendedLectures * 100 / totalLectures;
                                 }
                                 if(x==0){
