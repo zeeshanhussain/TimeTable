@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listEntries">
+        <item>@string/disable</item>
+        <item>@string/zero_min</item>
+        <item>@string/five_min</item>
+        <item>@string/ten_min</item>
+        <item>@string/fifteen_min</item>
+        <item>@string/thirty_min</item>
+        <item>@string/fourty_five_min</item>
+        <item>@string/sixty_min</item>
+    </string-array>
+    <string-array translatable="false" name="listValues">
+        <item translatable="false">-1</item>
+        <item translatable="false">0</item>
+        <item translatable="false">5</item>
+        <item translatable="false">10</item>
+        <item translatable="false">15</item>
+        <item translatable="false">30</item>
+        <item translatable="false">45</item>
+        <item translatable="false">60</item>
+    </string-array>
+    <string-array translatable="false" name="subjectNames">
+        <item translatable="false">Maths</item>
+        <item translatable="false">Android</item>
+        <item translatable="false">Java</item>
+        <item translatable="false">Chemistry</item>
+        <item translatable="false">Physics</item>
+        <item translatable="false">English</item>
+        <item translatable="false">Physical Education</item>
+        <item translatable="false">Biology</item>
+        <item translatable="false">Economics</item>
+        <item translatable="false">Informatics Practices</item>
+        <item translatable="false">Accounts</item>
+        <item translatable="false">Business Studies</item>
+        <item translatable="false">Music</item>
+        <item translatable="false">Psychology</item>
+        <item translatable="false">Hindi</item>
+        <item translatable="false">Urdu</item>
+        <item translatable="false">Fine Arts</item>
+        <item translatable="false">Engineering Graphics</item>
+        <item translatable="false">Biotechnology</item>
+        <item translatable="false">Political Science</item>
+        <item translatable="false">History</item>
+        <item translatable="false">Home Science</item>
+        <item translatable="false">Agriculture</item>
+        <item translatable="false">Sociology</item>
+        <item translatable="false">Mass Media Studies</item>
+        <item translatable="false">Heritage Crafts</item>
+        <item translatable="false">Entrepreneurship</item>
+        <item translatable="false">Fashion Studies</item>
+        <item translatable="false">Sanskrit</item>
+        <item translatable="false">Film Media</item>
+    </string-array>
+</resources>

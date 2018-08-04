@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="-1"
+        android:entries="@array/listEntries"
+        android:entryValues="@array/listValues"
+        android:key="notificationTime"
+        android:summary="%s"
+        android:title="@string/notifications" />
+    <Preference
+        android:key="backup"
+        android:summary="@string/backup_to_internal_storage"
+        android:title="@string/backup" />
+    <Preference
+        android:key="restore"
+        android:summary="@string/restore_from_internal_storage"
+        android:title="@string/restore" />
+    <Preference
+        android:key="reset"
+        android:summary="@string/reset_the_timetable"
+        android:title="@string/reset" />
+</PreferenceScreen>
