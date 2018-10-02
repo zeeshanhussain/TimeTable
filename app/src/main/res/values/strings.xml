@@ -10,6 +10,8 @@
     <string name="restore_from_internal_storage">Restore from internal storage</string>
     <string name="reset">Reset</string>
     <string name="reset_the_timetable">Reset the timetable</string>
+    <string name="attendance_per">Target attendance</string>
+    <string name="target_attendance_per">The attendance you want to reach</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>

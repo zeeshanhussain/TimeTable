@@ -27,6 +27,8 @@
     <string name="restore_from_internal_storage">Visszaállítás a belső tárolóból</string>
     <string name="reset">Helyreállít</string>
     <string name="reset_the_timetable">Állítsa vissza az órarendet</string>
+    <string name="attendance_per">Célközönség</string>
+    <string name="target_attendance_per">A látogatottság, amelyet el akar érni</string>
     <string name="press_back">Nyomja meg újra a gombot, hogy kilépjen!</string>
     <string name="no">Nem</string>
     <string name="yes">Igen</string>

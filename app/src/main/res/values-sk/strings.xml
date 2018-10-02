@@ -27,6 +27,8 @@
     <string name="restore_from_internal_storage">Obnoviť z interného úložiska</string>
     <string name="reset">Reštartovať</string>
     <string name="reset_the_timetable">Obnovte rozvrh hodín</string>
+    <string name="attendance_per">Cieľová účasť</string>
+    <string name="target_attendance_per">Účasť, ktorú chcete osloviť</string>
     <string name="press_back">Ďalším stlačením tlačidla späť opustíte!</string>
     <string name="no">Nie</string>
     <string name="yes">Áno</string>
