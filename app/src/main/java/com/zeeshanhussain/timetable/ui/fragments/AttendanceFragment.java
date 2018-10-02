@@ -42,7 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AttendanceFragment extends Fragment {
     public static final String ATTENDANCE_PREFS = "attendancePrefs";
     private static final String TARGET_ATTENDANCE = "target_attendance";
-    private static final String DEF_TARGET_ATTENDANCE = "75";
+    public static final String DEF_TARGET_ATTENDANCE = "75";
 
     private int targetAttendance;
     private List<Subject> subjectsList = new ArrayList<>();
@@ -61,9 +61,10 @@ public class AttendanceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_attendance, container, false);
         Context context = getContext();
+        SharedPreferences prefs = null;
 
         if (context != null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             targetAttendance = Integer.parseInt(
                     prefs.getString(TARGET_ATTENDANCE, DEF_TARGET_ATTENDANCE));
         } else
@@ -71,7 +72,7 @@ public class AttendanceFragment extends Fragment {
 
         listSubjects = view.findViewById(R.id.listAttendance);
         placeholderText = view.findViewById(R.id.attendancePlaceholderText);
-        mAttendanceAdapter = new AttendanceAdapter(subjectsList, progressList);
+        mAttendanceAdapter = new AttendanceAdapter(subjectsList, progressList, prefs);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         listSubjects.setLayoutManager(mLayoutManager);
         listSubjects.setItemAnimator(new DefaultItemAnimator());

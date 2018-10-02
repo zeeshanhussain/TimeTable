@@ -1,5 +1,6 @@
 package com.zeeshanhussain.timetable.adapters;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,11 @@ import android.widget.TextView;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.zeeshanhussain.timetable.R;
 import com.zeeshanhussain.timetable.model.Subject;
+import com.zeeshanhussain.timetable.ui.fragments.AttendanceFragment;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder> {
@@ -19,9 +22,18 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     private List<Subject> subjectList;
     private List<Integer> progressList;
 
-    public AttendanceAdapter(List<Subject> subjectList, List<Integer> progress) {
+    int targetAttendance;
+
+    public AttendanceAdapter(List<Subject> subjectList, List<Integer> progress,
+                             @Nullable SharedPreferences prefs) {
         this.subjectList = subjectList;
         this.progressList = progress;
+        if (prefs != null)
+            targetAttendance = Integer.parseInt(
+                    prefs.getString(AttendanceFragment.ATTENDANCE_PREFS,
+                            AttendanceFragment.DEF_TARGET_ATTENDANCE));
+        else
+            targetAttendance = Integer.parseInt(AttendanceFragment.DEF_TARGET_ATTENDANCE);
     }
 
     @Override
@@ -47,7 +59,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         }
         int redColorValue = Color.parseColor("#FF0000");
         int blueColorValue = Color.parseColor("#4385F4");
-        if (x >= 75 || x == 0) {
+        if (x >= targetAttendance || x == 0) {
             holder.attendance.setReachedBarColor(blueColorValue);
             holder.attendance.setProgressTextColor(blueColorValue);
         } else {
