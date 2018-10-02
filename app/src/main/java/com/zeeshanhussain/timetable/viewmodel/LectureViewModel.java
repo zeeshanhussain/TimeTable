@@ -1,7 +1,7 @@
 package com.zeeshanhussain.timetable.viewmodel;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.zeeshanhussain.timetable.database.AppDatabase;
 import com.zeeshanhussain.timetable.model.Lecture;
