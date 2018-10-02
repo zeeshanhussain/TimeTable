@@ -1,10 +1,10 @@
 package com.zeeshanhussain.timetable.model;
 
+import java.util.Comparator;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import java.util.Comparator;
 
 @Entity()
 public class Subject implements Comparable<Subject> {
@@ -19,14 +19,16 @@ public class Subject implements Comparable<Subject> {
     }
 
     @Ignore
-    public Subject(String subjectName){
-        this.subjectName=subjectName;
+    public Subject(String subjectName) {
+        this.subjectName = subjectName;
     }
-    public  Subject(String subjectName,int attendedLectures,int totalLectures){
-        this.subjectName=subjectName;
-        this.attendedLectures=attendedLectures;
-        this.totalLectures=totalLectures;
+
+    public Subject(String subjectName, int attendedLectures, int totalLectures) {
+        this.subjectName = subjectName;
+        this.attendedLectures = attendedLectures;
+        this.totalLectures = totalLectures;
     }
+
     public int getAttendedLectures() {
         return attendedLectures;
     }

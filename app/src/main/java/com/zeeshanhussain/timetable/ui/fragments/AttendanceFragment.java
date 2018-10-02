@@ -1,8 +1,6 @@
 package com.zeeshanhussain.timetable.ui.fragments;
 
 import android.app.AlertDialog;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -14,34 +12,36 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zeeshanhussain.timetable.utils.AppExecutors;
-import com.zeeshanhussain.timetable.viewmodel.MainViewModel;
+import com.shawnlin.numberpicker.NumberPicker;
 import com.zeeshanhussain.timetable.R;
 import com.zeeshanhussain.timetable.adapters.AttendanceAdapter;
+import com.zeeshanhussain.timetable.model.Subject;
+import com.zeeshanhussain.timetable.utils.AppExecutors;
 import com.zeeshanhussain.timetable.utils.DividerItemDecoration;
 import com.zeeshanhussain.timetable.utils.RecyclerItemClickListener;
-import com.zeeshanhussain.timetable.model.Subject;
-import com.shawnlin.numberpicker.NumberPicker;
+import com.zeeshanhussain.timetable.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class AttendanceFragment extends Fragment {
-    private static final String TARGET_ATTENDANCE = "target_attendance";
     public static final String ATTENDANCE_PREFS = "attendancePrefs";
+    private static final String TARGET_ATTENDANCE = "target_attendance";
     private static final String DEF_TARGET_ATTENDANCE = "75";
 
     private int targetAttendance;
@@ -51,7 +51,7 @@ public class AttendanceFragment extends Fragment {
     private TextView placeholderText;
     private List<Integer> progressList = new ArrayList<>();
     private Paint p = new Paint();
-    private CharSequence options[] = new CharSequence[] {"Bunk Manager", "Update"};
+    private CharSequence options[] = new CharSequence[]{"Bunk Manager", "Update"};
     private int attended;
     private int total;
     private MainViewModel mainViewModel;
@@ -77,19 +77,19 @@ public class AttendanceFragment extends Fragment {
         listSubjects.setItemAnimator(new DefaultItemAnimator());
         listSubjects.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         listSubjects.setAdapter(mAttendanceAdapter);
-        mainViewModel= ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.getSubject().observe(this, new Observer<List<Subject>>() {
             @Override
             public void onChanged(@Nullable List<Subject> subjects) {
                 subjectsList.clear();
                 progressList.clear();
                 subjectsList.addAll(subjects);
-                for (int i=0;i<subjectsList.size();i++){
+                for (int i = 0; i < subjectsList.size(); i++) {
                     int progress;
-                    if(subjectsList.get(i).getTotalLectures()!=0){
-                        progress=subjectsList.get(i).getAttendedLectures() * 100 / subjectsList.get(i).getTotalLectures();
-                    } else{
-                        progress=0;
+                    if (subjectsList.get(i).getTotalLectures() != 0) {
+                        progress = subjectsList.get(i).getAttendedLectures() * 100 / subjectsList.get(i).getTotalLectures();
+                    } else {
+                        progress = 0;
                     }
                     progressList.add(progress);
                     getActivity().runOnUiThread(new Runnable() {
@@ -124,19 +124,18 @@ public class AttendanceFragment extends Fragment {
                                 int targetOffset;
                                 int attendedLectures = subjectsList.get(position).getAttendedLectures();
                                 int totalLectures = subjectsList.get(position).getTotalLectures();
-                                if(attendedLectures==0){
+                                if (attendedLectures == 0) {
                                     Toast.makeText(getContext(), "Please update your attendance", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    targetOffset=attendedLectures - (totalLectures * targetAttendance / 100);
-                                    if(targetOffset==0)
+                                } else {
+                                    targetOffset = attendedLectures - (totalLectures * targetAttendance / 100);
+                                    if (targetOffset == 0)
                                         Toast.makeText(getContext(), "you can\'t bunk any lectures", Toast.LENGTH_SHORT).show();
                                     else {
-                                        String plural = Math.abs(targetOffset)==1?"":"s";
-                                        if(targetOffset>0)
-                                            Toast.makeText(getContext(), "you can bunk " +targetOffset+" lecture"+plural, Toast.LENGTH_SHORT).show();
-                                        if(targetOffset<0)
-                                        Toast.makeText(getContext(), "you need to attend " +(-1*targetOffset)+" lecture"+plural, Toast.LENGTH_SHORT).show();
+                                        String plural = Math.abs(targetOffset) == 1 ? "" : "s";
+                                        if (targetOffset > 0)
+                                            Toast.makeText(getContext(), "you can bunk " + targetOffset + " lecture" + plural, Toast.LENGTH_SHORT).show();
+                                        if (targetOffset < 0)
+                                            Toast.makeText(getContext(), "you need to attend " + (-1 * targetOffset) + " lecture" + plural, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 break;
@@ -179,7 +178,7 @@ public class AttendanceFragment extends Fragment {
                         }
                         subjects.setAttendedLectures(attended);
                         subjects.setTotalLectures(total);
-                        mainViewModel.updateAttendance(attended,total,subjectsList.get(position).getId());
+                        mainViewModel.updateAttendance(attended, total, subjectsList.get(position).getId());
                         progressList.set(position, progress);
                         subjectsList.set(position, subjects);
                         getActivity().runOnUiThread(new Runnable() {
@@ -252,11 +251,11 @@ public class AttendanceFragment extends Fragment {
                     public void run() {
                         int attendedLectures = attendedLecturesNumberPicker.getValue();
                         int totalLectures = totalLecturesNumberPicker.getValue();
-                        mainViewModel.updateAttendance(attendedLectures,totalLectures,subjectsList.get(position).getId());
+                        mainViewModel.updateAttendance(attendedLectures, totalLectures, subjectsList.get(position).getId());
                         int x;
-                        if (attendedLectures==0 && totalLectures==0){
-                            x=0;
-                        }else{
+                        if (attendedLectures == 0 && totalLectures == 0) {
+                            x = 0;
+                        } else {
                             x = attendedLectures * 100 / totalLectures;
                         }
                         progressList.set(position, x);

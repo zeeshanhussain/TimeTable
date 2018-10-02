@@ -1,6 +1,5 @@
 package com.zeeshanhussain.timetable.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +11,11 @@ import com.zeeshanhussain.timetable.model.Lecture;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyViewHolder> {
 
     private List<Lecture> lectureList;
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView lectureName;
-        TextView lectureTime;
-        TextView lectureRoom;
-
-        MyViewHolder(View view) {
-            super(view);
-            lectureName = view.findViewById(R.id.lectureName);
-            lectureTime = view.findViewById(R.id.lectureTime);
-            lectureRoom = view.findViewById(R.id.lectureRoom);
-
-        }
-    }
 
     public LecturesAdapter(List<Lecture> lectureList) {
         this.lectureList = lectureList;
@@ -46,17 +33,31 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Lecture lecture = lectureList.get(position);
         holder.lectureName.setText(lecture.getSubjectName());
-        String startTime= String.format(Locale.getDefault(), "%02d:%02d", lecture.getStartHour(), lecture.getStartMinute());
-        String endTime=String.format(Locale.getDefault(), "%02d:%02d", lecture.getEndHour(), lecture.getEndMinute());
+        String startTime = String.format(Locale.getDefault(), "%02d:%02d", lecture.getStartHour(), lecture.getStartMinute());
+        String endTime = String.format(Locale.getDefault(), "%02d:%02d", lecture.getEndHour(), lecture.getEndMinute());
         holder.lectureTime.setText(startTime + " - " + endTime);
-        if(!lecture.getRoomNo().isEmpty()){
-                        holder.lectureRoom.setText("Room Number - "+lecture.getRoomNo());
-                    }
+        if (!lecture.getRoomNo().isEmpty()) {
+            holder.lectureRoom.setText("Room Number - " + lecture.getRoomNo());
+        }
 
     }
 
     @Override
     public int getItemCount() {
         return lectureList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView lectureName;
+        TextView lectureTime;
+        TextView lectureRoom;
+
+        MyViewHolder(View view) {
+            super(view);
+            lectureName = view.findViewById(R.id.lectureName);
+            lectureTime = view.findViewById(R.id.lectureTime);
+            lectureRoom = view.findViewById(R.id.lectureRoom);
+
+        }
     }
 }

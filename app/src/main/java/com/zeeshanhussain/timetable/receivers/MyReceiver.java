@@ -7,10 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import androidx.core.app.NotificationCompat;
 
-import com.zeeshanhussain.timetable.ui.activity.MainActivity;
 import com.zeeshanhussain.timetable.R;
+import com.zeeshanhussain.timetable.ui.activity.MainActivity;
+
+import androidx.core.app.NotificationCompat;
 
 /**
  * Created by kira on 16/12/16.

@@ -1,6 +1,5 @@
 package com.zeeshanhussain.timetable.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,11 @@ import com.zeeshanhussain.timetable.model.Subject;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.MyViewHolder> {
 
     private List<Subject> subjectsList;
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView subjectName;
-
-        MyViewHolder(View view) {
-            super(view);
-            subjectName = view.findViewById(R.id.subjectName);
-        }
-    }
 
     public SubjectsAdapter(List<Subject> subjectsList) {
         this.subjectsList = subjectsList;
@@ -45,5 +37,14 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.MyView
     @Override
     public int getItemCount() {
         return subjectsList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView subjectName;
+
+        MyViewHolder(View view) {
+            super(view);
+            subjectName = view.findViewById(R.id.subjectName);
+        }
     }
 }

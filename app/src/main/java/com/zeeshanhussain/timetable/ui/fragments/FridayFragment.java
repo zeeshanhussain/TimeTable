@@ -1,32 +1,33 @@
 package com.zeeshanhussain.timetable.ui.fragments;
 
 import android.app.AlertDialog;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zeeshanhussain.timetable.database.AppDatabase;
-import com.zeeshanhussain.timetable.utils.AppExecutors;
-import com.zeeshanhussain.timetable.viewmodel.LectureViewModel;
-import com.zeeshanhussain.timetable.viewmodel.LectureViewModelFactory;
 import com.zeeshanhussain.timetable.R;
 import com.zeeshanhussain.timetable.adapters.LecturesAdapter;
-import com.zeeshanhussain.timetable.utils.DividerItemDecoration;
+import com.zeeshanhussain.timetable.database.AppDatabase;
 import com.zeeshanhussain.timetable.model.Lecture;
+import com.zeeshanhussain.timetable.utils.AppExecutors;
+import com.zeeshanhussain.timetable.utils.DividerItemDecoration;
 import com.zeeshanhussain.timetable.utils.RecyclerItemClickListener;
+import com.zeeshanhussain.timetable.viewmodel.LectureViewModel;
+import com.zeeshanhussain.timetable.viewmodel.LectureViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FridayFragment extends Fragment {
 
@@ -41,7 +42,7 @@ public class FridayFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friday, container, false);
         placeholderText = view.findViewById(R.id.fridayPlaceholderText);
-        appDatabase=AppDatabase.getsInstance(getActivity());
+        appDatabase = AppDatabase.getsInstance(getActivity());
         RecyclerView recyclerLectures = view.findViewById(R.id.listFriday);
         mLectureAdapter = new LecturesAdapter(lecturesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -49,8 +50,8 @@ public class FridayFragment extends Fragment {
         recyclerLectures.setItemAnimator(new DefaultItemAnimator());
         recyclerLectures.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerLectures.setAdapter(mLectureAdapter);
-        LectureViewModelFactory lectureViewModelFactory=new LectureViewModelFactory(appDatabase,4);
-        LectureViewModel lectureViewModel = ViewModelProviders.of(this,lectureViewModelFactory).get(LectureViewModel.class);
+        LectureViewModelFactory lectureViewModelFactory = new LectureViewModelFactory(appDatabase, 4);
+        LectureViewModel lectureViewModel = ViewModelProviders.of(this, lectureViewModelFactory).get(LectureViewModel.class);
         lectureViewModel.getLecture().observe(this, new Observer<List<Lecture>>() {
             @Override
             public void onChanged(@Nullable List<Lecture> lectures) {
@@ -63,7 +64,8 @@ public class FridayFragment extends Fragment {
             }
         });
         recyclerLectures.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override public void onItemClick(View view, int position) {
+            @Override
+            public void onItemClick(View view, int position) {
                 Lecture lecture = lecturesList.get(position);
                 showDeleteDialog(lecture, position);
             }

@@ -10,8 +10,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.zeeshanhussain.timetable.database.AppDatabase;
-import com.zeeshanhussain.timetable.utils.AppExecutors;
 import com.zeeshanhussain.timetable.model.Lecture;
+import com.zeeshanhussain.timetable.utils.AppExecutors;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,7 +38,7 @@ public class OnBootReceiver extends BroadcastReceiver {
             final int notificationTime = Integer.parseInt(mSharedPreference.getString("NOTIFICATION_TIME", "-1"));
             if (notificationTime != -1) {
                 Log.d(TAG, intent.getAction());
-                appDatabase=AppDatabase.getsInstance(context);
+                appDatabase = AppDatabase.getsInstance(context);
                 final Calendar calendar = Calendar.getInstance();
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
@@ -47,14 +47,14 @@ public class OnBootReceiver extends BroadcastReceiver {
                         if (lecturesList.size() != 0) {
                             for (Lecture lecture : lecturesList) {
                                 calendar.setTimeInMillis(System.currentTimeMillis());
-                                int dayOfWeek = (lecture.getDay() +1 % 7)+1;
+                                int dayOfWeek = (lecture.getDay() + 1 % 7) + 1;
                                 calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
                                 calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(String.valueOf(lecture.getStartHour())));
                                 calendar.set(Calendar.MINUTE, Integer.parseInt(String.valueOf(lecture.getStartMinute())));
                                 calendar.set(Calendar.SECOND, 0);
                                 calendar.set(Calendar.MILLISECOND, 0);
                                 calendar.setTimeInMillis(calendar.getTimeInMillis() - notificationTime * MINUTE);
-                                if (System.currentTimeMillis() > calendar.getTimeInMillis()){
+                                if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
                                     calendar.set(Calendar.WEEK_OF_MONTH, calendar.get(Calendar.WEEK_OF_MONTH) + 1);
                                 }
                                 Intent i = new Intent(context.getApplicationContext(), MyReceiver.class);
