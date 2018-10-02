@@ -3,7 +3,9 @@ package com.zeeshanhussain.timetable.ui.fragments;
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,12 +13,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +41,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttendanceFragment extends Fragment {
+    public static final String TARGET_ATTENDANCE = "target_attendance";
+    public static final String ATTENDANCE_PREFS = "attendancePrefs";
+    public static final String DEF_TARGET_ATTENDANCE = "75";
 
+    private int targetAttendance;
     private List<Subject> subjectsList = new ArrayList<>();
     private RecyclerView listSubjects;
     private AttendanceAdapter mAttendanceAdapter;
@@ -53,6 +61,15 @@ public class AttendanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_attendance, container, false);
+        Context context = getContext();
+
+        if (context != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            targetAttendance = Integer.parseInt(
+                    prefs.getString(TARGET_ATTENDANCE, DEF_TARGET_ATTENDANCE));
+        } else
+            targetAttendance = Integer.parseInt(DEF_TARGET_ATTENDANCE);
+
         listSubjects = view.findViewById(R.id.listAttendance);
         placeholderText = view.findViewById(R.id.attendancePlaceholderText);
         mAttendanceAdapter = new AttendanceAdapter(subjectsList, progressList);
@@ -105,39 +122,23 @@ public class AttendanceFragment extends Fragment {
                         switch (which) {
                             case 0:
                                 //check if you can Bunk or not
-                                int temp,x;
+                                int targetOffset;
                                 int attendedLectures = subjectsList.get(position).getAttendedLectures();
                                 int totalLectures = subjectsList.get(position).getTotalLectures();
-                                if (attendedLectures==0 && totalLectures==0){
-                                    x=0;
-                                } else if(attendedLectures==0 && totalLectures!=0){
-                                    x=1; //temp
-                                }
-                                else{
-                                    x = attendedLectures * 100 / totalLectures;
-                                }
-                                if(x==0){
+                                if(attendedLectures==0){
                                     Toast.makeText(getContext(), "Please update your attendance", Toast.LENGTH_SHORT).show();
                                 }
-                                else if(x==75){
-                                    Toast.makeText(getContext(), "you can't bunk any lecture", Toast.LENGTH_SHORT).show();
-                                }
-                                else if(x>75){
-                                    temp=((4*attendedLectures)-(3*totalLectures))/3;
-                                    if(temp==0){
-                                        Toast.makeText(getContext(), "you can't bunk any lecture", Toast.LENGTH_SHORT).show();
-                                    } else if(temp==1){
-                                        Toast.makeText(getContext(), "you can bunk " + String.valueOf(temp)+" lecture", Toast.LENGTH_SHORT).show();
-                                    } else
-                                    Toast.makeText(getContext(), "you can bunk " + String.valueOf(temp)+" lectures", Toast.LENGTH_SHORT).show();
-
-                                } else {
-                                    temp=(3*totalLectures)-(4*attendedLectures);
-                                    if(temp==1){
-                                        Toast.makeText(getContext(), "you need to attend "+String.valueOf(temp)+" lecture", Toast.LENGTH_SHORT).show();
-                                    } else
-                                    Toast.makeText(getContext(), "you need to attend "+String.valueOf(temp)+" lectures", Toast.LENGTH_SHORT).show();
-
+                                else {
+                                    targetOffset=attendedLectures - (totalLectures * targetAttendance / 100);
+                                    if(targetOffset==0)
+                                        Toast.makeText(getContext(), "you can\'t bunk any lectures", Toast.LENGTH_SHORT).show();
+                                    else {
+                                        String plural = Math.abs(targetOffset)==1?"":"s";
+                                        if(targetOffset>0)
+                                            Toast.makeText(getContext(), "you can bunk " +targetOffset+" lecture"+plural, Toast.LENGTH_SHORT).show();
+                                        if(targetOffset<0)
+                                        Toast.makeText(getContext(), "you need to attend " +(-1*targetOffset)+" lecture"+plural, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 break;
                             case 1:
