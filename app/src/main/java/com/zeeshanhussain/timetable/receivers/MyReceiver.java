@@ -7,10 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import androidx.core.app.NotificationCompat;
 
-import com.zeeshanhussain.timetable.ui.activity.MainActivity;
 import com.zeeshanhussain.timetable.R;
+import com.zeeshanhussain.timetable.ui.activity.MainActivity;
+
+import androidx.core.app.NotificationCompat;
 
 /**
  * Created by kira on 16/12/16.
@@ -25,7 +26,7 @@ public class MyReceiver extends BroadcastReceiver {
         showNotification(context, subjectName, startTime);
     }
 
-    public void showNotification(Context context, String subjectName, String startTime) {
+    private void showNotification(Context context, String subjectName, String startTime) {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)

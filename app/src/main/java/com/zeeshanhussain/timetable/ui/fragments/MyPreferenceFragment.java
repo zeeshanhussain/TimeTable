@@ -16,8 +16,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.zeeshanhussain.timetable.ui.activity.MainActivity;
 import com.zeeshanhussain.timetable.R;
+import com.zeeshanhussain.timetable.ui.activity.MainActivity;
 import com.zeeshanhussain.timetable.ui.activity.PreferencesActivity;
 import com.zeeshanhussain.timetable.utils.Alarms;
 

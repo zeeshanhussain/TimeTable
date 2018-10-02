@@ -16,17 +16,17 @@ public class Lecture {
     private String roomNo;
     private int day;
 
-public Lecture(int day,String subjectName,int startHour,int endHour,int startMinute,int endMinute,String roomNo){
+    public Lecture(int day, String subjectName, int startHour, int endHour, int startMinute, int endMinute, String roomNo) {
 
-    this.day = day;
-    this.subjectName = subjectName;
-    this.startHour = startHour;
-    this.endHour = endHour;
-    this.startMinute = startMinute;
-    this.endMinute = endMinute;
-    this.roomNo = roomNo;
+        this.day = day;
+        this.subjectName = subjectName;
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.startMinute = startMinute;
+        this.endMinute = endMinute;
+        this.roomNo = roomNo;
 
-}
+    }
 
 
     public int getDay() {
@@ -45,13 +45,13 @@ public Lecture(int day,String subjectName,int startHour,int endHour,int startMin
         this.subjectName = subjectName;
     }
 
-    public void setRoomNo(String roomNo) {
-        this.roomNo = roomNo;
-    }
-    public String getRoomNo(){
+    public String getRoomNo() {
         return roomNo;
     }
 
+    public void setRoomNo(String roomNo) {
+        this.roomNo = roomNo;
+    }
 
     public int getStartHour() {
         return startHour;

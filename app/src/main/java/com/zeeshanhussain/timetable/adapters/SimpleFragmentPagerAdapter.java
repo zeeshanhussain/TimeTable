@@ -1,9 +1,6 @@
 package com.zeeshanhussain.timetable.adapters;
 
 import android.content.Context;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.zeeshanhussain.timetable.R;
 import com.zeeshanhussain.timetable.ui.fragments.FridayFragment;
@@ -13,6 +10,10 @@ import com.zeeshanhussain.timetable.ui.fragments.SundayFragment;
 import com.zeeshanhussain.timetable.ui.fragments.ThursdayFragment;
 import com.zeeshanhussain.timetable.ui.fragments.TuesdayFragment;
 import com.zeeshanhussain.timetable.ui.fragments.WednesdayFragment;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
