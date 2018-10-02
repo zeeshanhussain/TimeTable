@@ -17,11 +17,11 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.MyView
     private List<Lecture> lectureList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView lectureName;
-        public TextView lectureTime;
-        public TextView lectureRoom;
+        TextView lectureName;
+        TextView lectureTime;
+        TextView lectureRoom;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             lectureName = view.findViewById(R.id.lectureName);
             lectureTime = view.findViewById(R.id.lectureTime);

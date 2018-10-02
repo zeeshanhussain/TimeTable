@@ -102,7 +102,7 @@ public class TimetableFragment extends Fragment {
         return view;
     }
 
-    public void showTimeTableDialog() {
+    private void showTimeTableDialog() {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_add_timetable, null);

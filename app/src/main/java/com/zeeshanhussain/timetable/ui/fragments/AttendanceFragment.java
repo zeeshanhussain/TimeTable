@@ -40,26 +40,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttendanceFragment extends Fragment {
-    public static final String TARGET_ATTENDANCE = "target_attendance";
+    private static final String TARGET_ATTENDANCE = "target_attendance";
     public static final String ATTENDANCE_PREFS = "attendancePrefs";
-    public static final String DEF_TARGET_ATTENDANCE = "75";
+    private static final String DEF_TARGET_ATTENDANCE = "75";
 
     private int targetAttendance;
     private List<Subject> subjectsList = new ArrayList<>();
     private RecyclerView listSubjects;
     private AttendanceAdapter mAttendanceAdapter;
     private TextView placeholderText;
-    private View view;
     private List<Integer> progressList = new ArrayList<>();
     private Paint p = new Paint();
     private CharSequence options[] = new CharSequence[] {"Bunk Manager", "Update"};
-    int attended,total;
-    MainViewModel mainViewModel;
+    private int attended;
+    private int total;
+    private MainViewModel mainViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_attendance, container, false);
+        View view = inflater.inflate(R.layout.fragment_attendance, container, false);
         Context context = getContext();
 
         if (context != null) {
@@ -228,7 +228,7 @@ public class AttendanceFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(listSubjects);
     }
 
-    public void showAttendanceDialog(final Subject subject, final int position) {
+    private void showAttendanceDialog(final Subject subject, final int position) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_edit_attendance, null);

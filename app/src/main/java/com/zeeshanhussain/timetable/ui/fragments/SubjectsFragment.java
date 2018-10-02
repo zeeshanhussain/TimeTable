@@ -45,19 +45,16 @@ public class SubjectsFragment extends Fragment {
     private RecyclerView listSubjects;
     private SubjectsAdapter mSubjectsAdapter;
     private TextView placeholderText;
-    private View view;
-    private View dialogView;
     private Paint p = new Paint();
-    private AlertDialog.Builder alertDialog;
     private AutoCompleteTextView editSubject;
     private AutoCompleteTextView newSubjectName;
     private MainViewModel mainViewModel;
 
-    String[] sub;
+    private String[] sub;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_subjects, container, false);
+        View view = inflater.inflate(R.layout.activity_subjects, container, false);
         listSubjects = view.findViewById(R.id.listSubjects);
         placeholderText = view.findViewById(R.id.subjectsPlaceholderText);
         mSubjectsAdapter = new SubjectsAdapter(subjectsList);
@@ -91,7 +88,7 @@ public class SubjectsFragment extends Fragment {
         return view;
     }
 
-    public void showSubjectDialog() {
+    private void showSubjectDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_add_subject, null);
@@ -206,8 +203,8 @@ public class SubjectsFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(listSubjects);
     }
     private void initDialog(final int position){
-        alertDialog = new AlertDialog.Builder(getActivity());
-        dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_subject,null);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_subject, null);
         editSubject = dialogView.findViewById(R.id.edit_subject);
         sub = getResources().getStringArray(R.array.subjectNames);
         ArrayAdapter<String> adapte = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sub);
@@ -273,7 +270,7 @@ public class SubjectsFragment extends Fragment {
         mSubjectsAdapter.notifyDataSetChanged();
     }
 
-    public void deleteSwipe(final int position) {
+    private void deleteSwipe(final int position) {
         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getActivity());
         alertDialog.setTitle(getResources().getString(R.string.warning));
         alertDialog.setMessage(getResources().getString(R.string.subject_question));

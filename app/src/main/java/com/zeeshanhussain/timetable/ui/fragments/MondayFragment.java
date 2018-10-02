@@ -31,19 +31,17 @@ import java.util.List;
 public class MondayFragment extends Fragment {
 
     private List<Lecture> lecturesList = new ArrayList<>();
-    private RecyclerView recyclerLectures;
     private LecturesAdapter mLectureAdapter;
     private TextView placeholderText;
-    private View view;
     private AppDatabase appDatabase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_monday, container, false);
+        View view = inflater.inflate(R.layout.fragment_monday, container, false);
         placeholderText = view.findViewById(R.id.mondayPlaceholderText);
         appDatabase=AppDatabase.getsInstance(getActivity());
-        recyclerLectures = view.findViewById(R.id.listMonday);
+        RecyclerView recyclerLectures = view.findViewById(R.id.listMonday);
         mLectureAdapter = new LecturesAdapter(lecturesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerLectures.setLayoutManager(mLayoutManager);
@@ -72,7 +70,7 @@ public class MondayFragment extends Fragment {
         return view;
     }
 
-    public void showDeleteDialog(final Lecture lecture, final int position) {
+    private void showDeleteDialog(final Lecture lecture, final int position) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setTitle(getResources().getString(R.string.delete));
         dialogBuilder.setMessage(getResources().getString(R.string.delete_lecture));

@@ -25,7 +25,7 @@ public class MyReceiver extends BroadcastReceiver {
         showNotification(context, subjectName, startTime);
     }
 
-    public void showNotification(Context context, String subjectName, String startTime) {
+    private void showNotification(Context context, String subjectName, String startTime) {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)

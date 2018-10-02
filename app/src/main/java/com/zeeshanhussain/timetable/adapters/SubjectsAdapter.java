@@ -16,9 +16,9 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.MyView
     private List<Subject> subjectsList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView subjectName;
+        TextView subjectName;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             subjectName = view.findViewById(R.id.subjectName);
         }

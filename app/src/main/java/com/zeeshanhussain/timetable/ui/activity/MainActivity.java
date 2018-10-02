@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private final int TAB_FIRST = FragNavController.TAB1;
     private final int TAB_SECOND = FragNavController.TAB2;
     private final int TAB_THIRD = FragNavController.TAB3;
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
     private FragNavController fragNavController;
 
     @Override
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new AttendanceFragment());
         fragments.add(new SubjectsFragment());
         fragNavController = new FragNavController(savedInstanceState, getSupportFragmentManager(), R.id.contentContainer, fragments, TAB_FIRST);
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        BottomBar bottomBar = findViewById(R.id.bottomBar);
         bottomBar.setDefaultTabPosition(1);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override

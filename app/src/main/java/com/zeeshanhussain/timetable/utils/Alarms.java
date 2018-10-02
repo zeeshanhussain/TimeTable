@@ -8,8 +8,8 @@ import android.content.Context;
  */
 
 public class Alarms {
-    Context context;
-    PendingIntent pendingIntent;
+    private Context context;
+    private PendingIntent pendingIntent;
 
     public Context getContext() {
         return context;

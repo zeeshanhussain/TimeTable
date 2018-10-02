@@ -19,11 +19,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     private List<Integer> progressList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView subjectName;
-        public NumberProgressBar attendance;
+        TextView subjectName;
+        NumberProgressBar attendance;
 
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             subjectName = view.findViewById(R.id.subjectNameAttendance);
             attendance = view.findViewById(R.id.attendance_progress_bar);
