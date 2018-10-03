@@ -23,6 +23,7 @@ import com.zeeshanhussain.timetable.R;
 import com.zeeshanhussain.timetable.adapters.AttendanceAdapter;
 import com.zeeshanhussain.timetable.model.Subject;
 import com.zeeshanhussain.timetable.utils.AppExecutors;
+import com.zeeshanhussain.timetable.utils.AttendanceUtils;
 import com.zeeshanhussain.timetable.utils.DividerItemDecoration;
 import com.zeeshanhussain.timetable.utils.RecyclerItemClickListener;
 import com.zeeshanhussain.timetable.viewmodel.MainViewModel;
@@ -122,22 +123,27 @@ public class AttendanceFragment extends Fragment {
                         switch (which) {
                             case 0:
                                 //check if you can Bunk or not
-                                int targetOffset;
                                 int attendedLectures = subjectsList.get(position).getAttendedLectures();
                                 int totalLectures = subjectsList.get(position).getTotalLectures();
-                                if (attendedLectures == 0) {
-                                    Toast.makeText(getContext(), "Please update your attendance", Toast.LENGTH_SHORT).show();
+                                int targetOffset = AttendanceUtils.attendanceTargetOffset(
+                                        attendedLectures, totalLectures, targetAttendance);
+
+                                if (targetOffset == 0) {
+                                    Toast.makeText(getContext(),
+                                            "You are maintaining your target attendance",
+                                            Toast.LENGTH_SHORT).show();
+                                } else if (targetOffset > 0) {
+                                    String plural = targetOffset == 1 ? "" : "s";
+                                    Toast.makeText(getContext(),
+                                            "You need to attend " + targetOffset + " lecture"
+                                                    + plural, Toast.LENGTH_SHORT).show();
                                 } else {
-                                    targetOffset = attendedLectures - (totalLectures * targetAttendance / 100);
-                                    if (targetOffset == 0)
-                                        Toast.makeText(getContext(), "you can\'t bunk any lectures", Toast.LENGTH_SHORT).show();
-                                    else {
-                                        String plural = Math.abs(targetOffset) == 1 ? "" : "s";
-                                        if (targetOffset > 0)
-                                            Toast.makeText(getContext(), "you can bunk " + targetOffset + " lecture" + plural, Toast.LENGTH_SHORT).show();
-                                        if (targetOffset < 0)
-                                            Toast.makeText(getContext(), "you need to attend " + (-1 * targetOffset) + " lecture" + plural, Toast.LENGTH_SHORT).show();
-                                    }
+                                    targetOffset = -1 * targetOffset;
+                                    String plural = targetOffset == 1 ? "" : "s";
+
+                                    Toast.makeText(getContext(),
+                                            "You can bunk " + targetOffset + " lecture"
+                                                    + plural, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             case 1:
