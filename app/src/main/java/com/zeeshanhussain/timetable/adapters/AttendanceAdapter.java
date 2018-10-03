@@ -1,6 +1,5 @@
 package com.zeeshanhussain.timetable.adapters;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.TextView;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.zeeshanhussain.timetable.R;
 import com.zeeshanhussain.timetable.model.Subject;
-import com.zeeshanhussain.timetable.ui.fragments.AttendanceFragment;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder> {
@@ -25,15 +22,14 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     int targetAttendance;
 
     public AttendanceAdapter(List<Subject> subjectList, List<Integer> progress,
-                             @Nullable SharedPreferences prefs) {
+                             int targetAttendance) {
         this.subjectList = subjectList;
         this.progressList = progress;
-        if (prefs != null)
-            targetAttendance = Integer.parseInt(
-                    prefs.getString(AttendanceFragment.ATTENDANCE_PREFS,
-                            AttendanceFragment.DEF_TARGET_ATTENDANCE));
-        else
-            targetAttendance = Integer.parseInt(AttendanceFragment.DEF_TARGET_ATTENDANCE);
+        updateTargetAttendance(targetAttendance);
+    }
+
+    public void updateTargetAttendance(int targetAttendance) {
+        this.targetAttendance = targetAttendance;
     }
 
     @Override

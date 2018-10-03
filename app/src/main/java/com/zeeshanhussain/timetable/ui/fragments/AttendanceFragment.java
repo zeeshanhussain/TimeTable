@@ -46,6 +46,7 @@ public class AttendanceFragment extends Fragment {
     public static final String DEF_TARGET_ATTENDANCE = "75";
 
     private int targetAttendance;
+    private int oldTargetAttendance;
     private List<Subject> subjectsList = new ArrayList<>();
     private RecyclerView listSubjects;
     private AttendanceAdapter mAttendanceAdapter;
@@ -62,18 +63,12 @@ public class AttendanceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_attendance, container, false);
         Context context = getContext();
-        SharedPreferences prefs = null;
 
-        if (context != null) {
-            prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            targetAttendance = Integer.parseInt(
-                    prefs.getString(TARGET_ATTENDANCE, DEF_TARGET_ATTENDANCE));
-        } else
-            targetAttendance = Integer.parseInt(DEF_TARGET_ATTENDANCE);
+        oldTargetAttendance = targetAttendance = getTargetAttendance(context);
 
         listSubjects = view.findViewById(R.id.listAttendance);
         placeholderText = view.findViewById(R.id.attendancePlaceholderText);
-        mAttendanceAdapter = new AttendanceAdapter(subjectsList, progressList, prefs);
+        mAttendanceAdapter = new AttendanceAdapter(subjectsList, progressList, targetAttendance);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         listSubjects.setLayoutManager(mLayoutManager);
         listSubjects.setItemAnimator(new DefaultItemAnimator());
@@ -159,6 +154,17 @@ public class AttendanceFragment extends Fragment {
         }));
         initSwipe();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        targetAttendance = getTargetAttendance(getContext());
+        if (oldTargetAttendance != targetAttendance) {
+            oldTargetAttendance = targetAttendance;
+            mAttendanceAdapter.updateTargetAttendance(targetAttendance);
+            mAttendanceAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initSwipe() {
@@ -283,6 +289,15 @@ public class AttendanceFragment extends Fragment {
         dialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), null);
         AlertDialog b = dialogBuilder.create();
         b.show();
+    }
+
+    private int getTargetAttendance(@Nullable Context context) {
+        if (context != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            return Integer.parseInt(
+                    prefs.getString(TARGET_ATTENDANCE, DEF_TARGET_ATTENDANCE));
+        } else
+            return Integer.parseInt(DEF_TARGET_ATTENDANCE);
     }
 
 }
